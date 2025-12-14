@@ -1,0 +1,12 @@
+{
+  "total_files": 2,
+  "successful": 1,
+  "failed": 0,
+  "files": {
+    "cup\\reff1.wav": {
+      "shape": "(13, 112)",
+      "duration": 2.581360544217687,
+      "error": null
+    }
+  }
+}

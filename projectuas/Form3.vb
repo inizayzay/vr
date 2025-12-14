@@ -13,6 +13,11 @@ Public Class Form3
     Private _userId As Integer      ' Diterima dari Form2
     Private _questionId As Integer  ' Diterima dari Form2
     Private _scorePersen As Double  ' Skor tes saat ini (0.00 - 100.00)
+    
+    ' NEW: DTW Scoring
+    Private _userWavPath As String  ' Path to recorded audio
+    Private _dtwScore As Double     ' DTW similarity score (0-100)
+    Private _combinedScore As Double ' Combined score (DTW + Word accuracy)
 
     ' --- Deklarasi Komponen (Asumsi default names) ---
     ' Label1 = Your score (Kita akan gunakan ini untuk Total Kumulatif)
@@ -24,13 +29,15 @@ Public Class Form3
     ' =======================================================
     ' 1. CONSTRUCTOR
     ' =======================================================
-    Public Sub New(ByVal nama As String, ByVal target As String, ByVal diucapkan As String, ByVal userId As Integer, ByVal questionId As Integer)
+    Public Sub New(ByVal nama As String, ByVal target As String, ByVal diucapkan As String, 
+                   ByVal userId As Integer, ByVal questionId As Integer, ByVal wavPath As String)
         InitializeComponent()
         _namaPengguna = nama
         _teksTarget = target
         _teksDiucapkan = diucapkan
         _userId = userId
         _questionId = questionId
+        _userWavPath = wavPath ' NEW
     End Sub
 
     ' =======================================================
@@ -40,7 +47,7 @@ Public Class Form3
         Me.Text = "Hasil Tes Pengucapan"
         Me.StartPosition = FormStartPosition.CenterScreen
 
-        ' 1. HITUNG SKOR (Word Accuracy)
+        ' 1. HITUNG SKOR WORD ACCURACY
         _scorePersen = HitungAkurasi(_teksTarget, _teksDiucapkan)
 
         Dim recognizedTextDisplay As String = _teksDiucapkan
@@ -52,26 +59,32 @@ Public Class Form3
             recognizedTextDisplay = "ERROR/PENGECUALIAN: " & _teksDiucapkan
             displayColor = Color.LightPink
         End If
+        
+        ' 2. NEW: HITUNG DTW SIMILARITY SCORE
+        _dtwScore = CalculateDTWSimilarity()
+        
+        ' 3. NEW: HITUNG COMBINED SCORE (70% DTW + 30% Word Accuracy)
+        _combinedScore = (_dtwScore * 0.7) + (_scorePersen * 0.3)
 
-        ' 2. SIMPAN HASIL KE DATABASE
+        ' 4. SIMPAN HASIL KE DATABASE
         If _userId > 0 AndAlso Not _teksDiucapkan.StartsWith("[") Then
-            SaveResultToDatabase(_userId, _questionId, _scorePersen)
+            SaveResultToDatabase(_userId, _questionId, _combinedScore, _dtwScore, _scorePersen)
         End If
 
-        ' 3. TAMPILKAN SKOR TES SAAT INI (Label2)
-        Label2.Text = $"{_scorePersen:N2}%"
-        Label2.ForeColor = If(_scorePersen >= 80, Color.Green, Color.Red)
+        ' 5. TAMPILKAN SKOR COMBINED (Label2)
+        Label2.Text = $"{_combinedScore:N2}%"
+        Label2.ForeColor = If(_combinedScore >= 80, Color.Green, Color.Red)
 
-        ' 4. TAMPILKAN PESAN FEEDBACK (Label3)
-        If _scorePersen = 100.0 Then
+        ' 6. TAMPILKAN PESAN FEEDBACK (Label3)
+        If _combinedScore = 100.0 Then
             Label3.Text = "Perfect Score! Good Job!"
-        ElseIf _scorePersen >= 80.0 Then
-            Label3.Text = "Good Job! You are improving."
+        ElseIf _combinedScore >= 80.0 Then
+            Label3.Text = $"Good Job! (DTW: {_dtwScore:N1}%, Word: {_scorePersen:N1}%)"
         Else
-            Label3.Text = "Keep Practicing! Try Again."
+            Label3.Text = $"Keep Practicing! (DTW: {_dtwScore:N1}%, Word: {_scorePersen:N1}%)"
         End If
 
-        ' 5. TAMPILKAN TOTAL SKOR KUMULATIF (Label1)
+        ' 7. TAMPILKAN TOTAL SKOR KUMULATIF (Label1)
         Dim totalScoreText As String = GetCumulativeScore(_userId)
         Label1.Text = $"Your total score: {totalScoreText}" ' Total skor di sini (Label1)
     End Sub
@@ -79,21 +92,25 @@ Public Class Form3
     ' =======================================================
     ' 3. FUNGSI SIMPAN HASIL KE DATABASE (Tabel: results)
     ' =======================================================
-    Private Sub SaveResultToDatabase(ByVal userId As Integer, ByVal questionId As Integer, ByVal score As Double)
+    Private Sub SaveResultToDatabase(ByVal userId As Integer, ByVal questionId As Integer, 
+                                      ByVal finalScore As Double, ByVal dtwScore As Double, 
+                                      ByVal wordAccuracy As Double)
         Dim conn As MySqlConnection = Nothing
         Try
             conn = DatabaseModule.GetConnection()
             If conn Is Nothing Then Exit Sub
 
-            Dim sql As String = "INSERT INTO results (user_id, question_id, word_accuracy, phoneme_accuracy, final_score) " &
-                                "VALUES (@uid, @qid, @wordAcc, @phoneAcc, @finalScore)"
+            Dim sql As String = "INSERT INTO results (user_id, question_id, word_accuracy, phoneme_accuracy, final_score, dtw_score, audio_file_path) " &
+                                "VALUES (@uid, @qid, @wordAcc, @phoneAcc, @finalScore, @dtwScore, @audioPath)"
 
             Dim cmd As New MySqlCommand(sql, conn)
             cmd.Parameters.AddWithValue("@uid", userId)
             cmd.Parameters.AddWithValue("@qid", questionId)
-            cmd.Parameters.AddWithValue("@wordAcc", score)
-            cmd.Parameters.AddWithValue("@phoneAcc", 0.0) ' Set 0.0 karena kita hanya menghitung Word Accuracy
-            cmd.Parameters.AddWithValue("@finalScore", score)
+            cmd.Parameters.AddWithValue("@wordAcc", wordAccuracy)
+            cmd.Parameters.AddWithValue("@phoneAcc", 0.0) ' Placeholder
+            cmd.Parameters.AddWithValue("@finalScore", finalScore)
+            cmd.Parameters.AddWithValue("@dtwScore", dtwScore)
+            cmd.Parameters.AddWithValue("@audioPath", _userWavPath)
 
             cmd.ExecuteNonQuery()
 
@@ -143,6 +160,63 @@ Public Class Form3
             Return $"N/A (Error: {ex.Message})"
         Finally
             DatabaseModule.CloseConnection(conn)
+        End Try
+    End Function
+    
+    ' =======================================================
+    ' NEW: CALCULATE DTW SIMILARITY
+    ' =======================================================
+    Private Function CalculateDTWSimilarity() As Double
+        Try
+            ' Check if audio file exists
+            Debug.WriteLine("=== DTW Calculation Start ===")
+            Debug.WriteLine($"User WAV Path: {_userWavPath}")
+            
+            If String.IsNullOrEmpty(_userWavPath) OrElse Not System.IO.File.Exists(_userWavPath) Then
+                Debug.WriteLine("ERROR: No audio file recorded or file not found")
+                MessageBox.Show("Audio file tidak ditemukan. DTW score akan 0.", "Audio Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return 0.0
+            End If
+            
+            Debug.WriteLine("Audio file exists, extracting MFCC...")
+            
+            ' 1. Extract MFCC from user audio
+            Dim userMFCC As Double(,) = MFCCExtractor.ExtractMFCC(_userWavPath)
+            Debug.WriteLine($"User MFCC extracted: {userMFCC.GetLength(0)} x {userMFCC.GetLength(1)}")
+            
+            ' 2. Load reference MFCC
+            Dim refPath As String = System.IO.Path.Combine(Application.StartupPath, "references", $"{_teksTarget.ToLower()}_mfcc.json")
+            Debug.WriteLine($"Reference path: {refPath}")
+            Debug.WriteLine($"File exists: {System.IO.File.Exists(refPath)}")
+            
+            If Not System.IO.File.Exists(refPath) Then
+                Debug.WriteLine($"ERROR: Reference MFCC not found at: {refPath}")
+                MessageBox.Show($"Reference MFCC tidak ditemukan untuk '{_teksTarget}' di:{vbCrLf}{refPath}{vbCrLf}{vbCrLf}DTW score akan 0.", 
+                               "Reference Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return 0.0
+            End If
+            
+            Debug.WriteLine("Loading reference MFCC...")
+            Dim refMFCC As Double(,) = MFCCExtractor.LoadReferenceFromJson(refPath)
+            Debug.WriteLine($"Reference MFCC loaded: {refMFCC.GetLength(0)} x {refMFCC.GetLength(1)}")
+            
+            ' 3. Calculate DTW distance
+            Debug.WriteLine("Calculating DTW distance...")
+            Dim distance As Double = DTWComparator.CalculateDTWDistance(userMFCC, refMFCC)
+            Debug.WriteLine($"DTW Distance: {distance:F4}")
+            
+            ' 4. Convert to similarity score (0-100)
+            Dim similarity As Double = DTWComparator.DistanceToSimilarity(distance)
+            Debug.WriteLine($"DTW Similarity: {similarity:F2}%")
+            Debug.WriteLine("=== DTW Calculation End ===")
+            
+            Return similarity
+            
+        Catch ex As Exception
+            Debug.WriteLine($"EXCEPTION in CalculateDTWSimilarity: {ex.Message}")
+            Debug.WriteLine($"Stack trace: {ex.StackTrace}")
+            MessageBox.Show($"Error menghitung DTW similarity:{vbCrLf}{ex.Message}", "DTW Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return 0.0
         End Try
     End Function
 

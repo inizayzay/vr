@@ -13,6 +13,10 @@ Public Class Form2
     Private recognizer As SpeechRecognitionEngine
     Private currentQuestion As QuestionData ' Menggunakan Structure dari DatabaseModule
 
+    ' NEW: Audio Recording
+    Private audioRecorder As AudioRecorder
+    Private recordedWavPath As String = ""
+
     ' UI Component Names: Label3=Hi User, Label2=Teks Target, Button1=Tap to Speak, Button2=Next
 
     ' =======================================================
@@ -97,10 +101,19 @@ Public Class Form2
         Try
             ' Reset status
             _teksDiucapkan = ""
+            recordedWavPath = ""
+
+            ' NEW: Start audio recording
+            Try
+                audioRecorder = New AudioRecorder()
+                audioRecorder.StartRecording()
+            Catch recEx As Exception
+                MessageBox.Show($"Warning: Audio recording failed: {recEx.Message}", "Recording Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End Try
 
             Button1.Enabled = False
             Button2.Enabled = False
-            Label3.Text = "Mendengarkan... Ucapkan sekarang!"
+            Label3.Text = "🎙️ Recording and listening... Speak now!"
             Label3.ForeColor = Color.DarkOrange
 
             recognizer.RecognizeAsync(RecognizeMode.Single)
@@ -132,6 +145,16 @@ Public Class Form2
 
     ' Event saat proses pengenalan selesai
     Private Sub Recognizer_RecognizeCompleted(sender As Object, e As RecognizeCompletedEventArgs)
+        ' NEW: Stop audio recording
+        Try
+            If audioRecorder IsNot Nothing AndAlso audioRecorder.IsRecording Then
+                recordedWavPath = audioRecorder.StopRecording()
+                Debug.WriteLine($"Audio saved: {recordedWavPath}")
+            End If
+        Catch recEx As Exception
+            Debug.WriteLine($"Error stopping recording: {recEx.Message}")
+        End Try
+
         Button1.Enabled = True
         Button2.Enabled = True
 
@@ -171,8 +194,8 @@ Public Class Form2
         End If
 
         Me.Hide()
-        ' Kirim properti Text dan ID dari currentQuestion ke Form3
-        Dim frmScoring As New Form3(_namaPengguna, currentQuestion.Text, _teksDiucapkan, _userId, currentQuestion.ID)
+        ' NEW: Pass WAV path to Form3
+        Dim frmScoring As New Form3(_namaPengguna, currentQuestion.Text, _teksDiucapkan, _userId, currentQuestion.ID, recordedWavPath)
         frmScoring.Show()
     End Sub
 
