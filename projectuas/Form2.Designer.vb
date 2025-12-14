@@ -36,9 +36,9 @@ Partial Class Form2
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI", 27.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
-        Label2.Location = New Point(97, 144)
+        Label2.Location = New Point(243, 141)
         Label2.Name = "Label2"
-        Label2.Size = New Size(746, 62)
+        Label2.Size = New Size(472, 62)
         Label2.TabIndex = 1
         Label2.Text = "HI SAYANG NABILA EMUACH <3"
         ' 
@@ -98,7 +98,7 @@ Partial Class Form2
         Button1.FlatStyle = FlatStyle.Flat
         Button1.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(299, 248)
+        Button1.Location = New Point(80, 222)
         Button1.Margin = New Padding(3, 4, 3, 4)
         Button1.Name = "Button1"
         Button1.Size = New Size(286, 80)
