@@ -28,19 +28,24 @@ Partial Class Form2
         Label3 = New Label()
         Label1 = New Label()
         Button1 = New Button()
+        Panel2 = New Panel()
+        Panel3 = New Panel()
         Panel1.SuspendLayout()
+        Panel2.SuspendLayout()
+        Panel3.SuspendLayout()
         SuspendLayout()
         ' 
         ' Label2
         ' 
         Label2.AutoSize = True
+        Label2.BackColor = Color.Transparent
         Label2.Font = New Font("Segoe UI", 27.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label2.ForeColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
-        Label2.Location = New Point(243, 141)
+        Label2.ForeColor = Color.FromArgb(CByte(108), CByte(98), CByte(231))
+        Label2.Location = New Point(94, 27)
         Label2.Name = "Label2"
-        Label2.Size = New Size(472, 62)
+        Label2.Size = New Size(453, 50)
         Label2.TabIndex = 1
-        Label2.Text = "HI SAYANG NABILA EMUACH <3"
+        Label2.Text = "WELCOME TO TES VOICE"
         ' 
         ' Button2
         ' 
@@ -49,10 +54,9 @@ Partial Class Form2
         Button2.FlatStyle = FlatStyle.Flat
         Button2.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Button2.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Button2.Location = New Point(624, 460)
-        Button2.Margin = New Padding(3, 4, 3, 4)
+        Button2.Location = New Point(530, 224)
         Button2.Name = "Button2"
-        Button2.Size = New Size(86, 39)
+        Button2.Size = New Size(75, 29)
         Button2.TabIndex = 3
         Button2.Text = "Next"
         Button2.UseVisualStyleBackColor = False
@@ -64,9 +68,8 @@ Partial Class Form2
         Panel1.Controls.Add(Label1)
         Panel1.Dock = DockStyle.Top
         Panel1.Location = New Point(0, 0)
-        Panel1.Margin = New Padding(3, 4, 3, 4)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(914, 107)
+        Panel1.Size = New Size(800, 80)
         Panel1.TabIndex = 4
         ' 
         ' Label3
@@ -74,9 +77,9 @@ Partial Class Form2
         Label3.AutoSize = True
         Label3.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label3.ForeColor = Color.White
-        Label3.Location = New Point(809, 67)
+        Label3.Location = New Point(708, 50)
         Label3.Name = "Label3"
-        Label3.Size = New Size(86, 28)
+        Label3.Size = New Size(69, 21)
         Label3.TabIndex = 1
         Label3.Text = "HI, User"
         ' 
@@ -85,9 +88,9 @@ Partial Class Form2
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.White
-        Label1.Location = New Point(14, 35)
+        Label1.Location = New Point(12, 26)
         Label1.Name = "Label1"
-        Label1.Size = New Size(173, 32)
+        Label1.Size = New Size(135, 25)
         Label1.TabIndex = 0
         Label1.Text = "Voice Practice"
         ' 
@@ -98,32 +101,50 @@ Partial Class Form2
         Button1.FlatStyle = FlatStyle.Flat
         Button1.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(80, 222)
-        Button1.Margin = New Padding(3, 4, 3, 4)
+        Button1.Location = New Point(195, 131)
         Button1.Name = "Button1"
-        Button1.Size = New Size(286, 80)
+        Button1.Size = New Size(250, 60)
         Button1.TabIndex = 2
         Button1.Text = "🎤 Tap to Speak"
         Button1.UseVisualStyleBackColor = False
         ' 
+        ' Panel2
+        ' 
+        Panel2.BackColor = Color.White
+        Panel2.Controls.Add(Button1)
+        Panel2.Controls.Add(Label2)
+        Panel2.Controls.Add(Button2)
+        Panel2.Location = New Point(3, 3)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(631, 297)
+        Panel2.TabIndex = 5
+        ' 
+        ' Panel3
+        ' 
+        Panel3.BackColor = Color.FromArgb(CByte(50), CByte(40), CByte(100))
+        Panel3.Controls.Add(Panel2)
+        Panel3.Location = New Point(77, 83)
+        Panel3.Name = "Panel3"
+        Panel3.Size = New Size(644, 311)
+        Panel3.TabIndex = 4
+        ' 
         ' Form2
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.FromArgb(CByte(240), CByte(242), CByte(245))
-        ClientSize = New Size(914, 600)
-        Controls.Add(Button1)
+        BackColor = Color.FromArgb(CByte(108), CByte(98), CByte(231))
+        ClientSize = New Size(800, 450)
+        Controls.Add(Panel3)
         Controls.Add(Panel1)
-        Controls.Add(Button2)
-        Controls.Add(Label2)
         Cursor = Cursors.Hand
-        Margin = New Padding(3, 4, 3, 4)
         Name = "Form2"
-        Text = "ss"
+        Text = "Halaman Tes Voice"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
+        Panel2.ResumeLayout(False)
+        Panel2.PerformLayout()
+        Panel3.ResumeLayout(False)
         ResumeLayout(False)
-        PerformLayout()
     End Sub
     Friend WithEvents Label2 As Label
     Friend WithEvents Button2 As Button
@@ -131,4 +152,6 @@ Partial Class Form2
     Friend WithEvents Label3 As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents Button1 As Button
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents Panel3 As Panel
 End Class

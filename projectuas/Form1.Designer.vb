@@ -29,8 +29,15 @@ Partial Class Form1
         Button1 = New Button()
         Panel1 = New Panel()
         PictureBox1 = New PictureBox()
+        Label3 = New Label()
+        TextBox2 = New TextBox()
+        PictureBox2 = New PictureBox()
+        Panel2 = New Panel()
+        Panel3 = New Panel()
+        Label4 = New Label()
         Panel1.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
+        CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Label1
@@ -46,6 +53,8 @@ Partial Class Form1
         ' 
         ' TextBox1
         ' 
+        TextBox1.BackColor = Color.FromArgb(CByte(248), CByte(248), CByte(250))
+        TextBox1.BorderStyle = BorderStyle.None
         resources.ApplyResources(TextBox1, "TextBox1")
         TextBox1.Name = "TextBox1"
         ' 
@@ -61,6 +70,7 @@ Partial Class Form1
         ' Panel1
         ' 
         Panel1.BackColor = Color.White
+        Panel1.Controls.Add(PictureBox2)
         Panel1.Controls.Add(PictureBox1)
         Panel1.Controls.Add(Label1)
         resources.ApplyResources(Panel1, "Panel1")
@@ -73,11 +83,52 @@ Partial Class Form1
         PictureBox1.Name = "PictureBox1"
         PictureBox1.TabStop = False
         ' 
+        ' Label3
+        ' 
+        resources.ApplyResources(Label3, "Label3")
+        Label3.Name = "Label3"
+        ' 
+        ' TextBox2
+        ' 
+        TextBox2.BackColor = Color.FromArgb(CByte(248), CByte(248), CByte(250))
+        TextBox2.BorderStyle = BorderStyle.None
+        resources.ApplyResources(TextBox2, "TextBox2")
+        TextBox2.Name = "TextBox2"
+        ' 
+        ' PictureBox2
+        ' 
+        resources.ApplyResources(PictureBox2, "PictureBox2")
+        PictureBox2.Name = "PictureBox2"
+        PictureBox2.TabStop = False
+        ' 
+        ' Panel2
+        ' 
+        Panel2.BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
+        resources.ApplyResources(Panel2, "Panel2")
+        Panel2.Name = "Panel2"
+        ' 
+        ' Panel3
+        ' 
+        Panel3.BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
+        resources.ApplyResources(Panel3, "Panel3")
+        Panel3.Name = "Panel3"
+        ' 
+        ' Label4
+        ' 
+        resources.ApplyResources(Label4, "Label4")
+        Label4.ForeColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
+        Label4.Name = "Label4"
+        ' 
         ' Form1
         ' 
         resources.ApplyResources(Me, "$this")
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(248), CByte(248), CByte(250))
+        Controls.Add(Label4)
+        Controls.Add(Panel3)
+        Controls.Add(Panel2)
+        Controls.Add(TextBox2)
+        Controls.Add(Label3)
         Controls.Add(Panel1)
         Controls.Add(Button1)
         Controls.Add(TextBox1)
@@ -86,6 +137,7 @@ Partial Class Form1
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
+        CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -96,5 +148,11 @@ Partial Class Form1
     Friend WithEvents Button1 As Button
     Friend WithEvents Panel1 As Panel
     Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents PictureBox2 As PictureBox
+    Friend WithEvents Label3 As Label
+    Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents Panel3 As Panel
+    Friend WithEvents Label4 As Label
 
 End Class
