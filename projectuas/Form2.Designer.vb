@@ -69,7 +69,7 @@ Partial Class Form2
         Panel1.Dock = DockStyle.Top
         Panel1.Location = New Point(0, 0)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(800, 80)
+        Panel1.Size = New Size(1008, 80)
         Panel1.TabIndex = 4
         ' 
         ' Label3
@@ -110,6 +110,7 @@ Partial Class Form2
         ' 
         ' Panel2
         ' 
+        Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         Panel2.BackColor = Color.White
         Panel2.Controls.Add(Button1)
         Panel2.Controls.Add(Label2)
@@ -133,11 +134,12 @@ Partial Class Form2
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(108), CByte(98), CByte(231))
-        ClientSize = New Size(800, 450)
+        ClientSize = New Size(1008, 581)
         Controls.Add(Panel3)
         Controls.Add(Panel1)
         Cursor = Cursors.Hand
         Name = "Form2"
+        StartPosition = FormStartPosition.CenterScreen
         Text = "Halaman Tes Voice"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()

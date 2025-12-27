@@ -2,6 +2,16 @@
 Partial Class Form1
     Inherits System.Windows.Forms.Form
 
+    ' Mantra untuk Gradasi Background
+    Protected Overrides Sub OnPaintBackground(e As PaintEventArgs)
+        Using brush As New Drawing2D.LinearGradientBrush(ClientRectangle,
+                                                     Color.FromArgb(108, 92, 231), ' Ungu Utama
+                                                     Color.FromArgb(162, 155, 254), ' Ungu Muda/Pink
+                                                     90.0F) ' Sudut Miring
+            e.Graphics.FillRectangle(brush, ClientRectangle)
+        End Using
+    End Sub
+
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(disposing As Boolean)
@@ -28,16 +38,16 @@ Partial Class Form1
         TextBox1 = New TextBox()
         Button1 = New Button()
         Panel1 = New Panel()
+        PictureBox2 = New PictureBox()
         PictureBox1 = New PictureBox()
         Label3 = New Label()
         TextBox2 = New TextBox()
-        PictureBox2 = New PictureBox()
         Panel2 = New Panel()
         Panel3 = New Panel()
         Label4 = New Label()
         Panel1.SuspendLayout()
-        CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Label1
@@ -70,11 +80,17 @@ Partial Class Form1
         ' Panel1
         ' 
         Panel1.BackColor = Color.White
+        resources.ApplyResources(Panel1, "Panel1")
         Panel1.Controls.Add(PictureBox2)
         Panel1.Controls.Add(PictureBox1)
         Panel1.Controls.Add(Label1)
-        resources.ApplyResources(Panel1, "Panel1")
         Panel1.Name = "Panel1"
+        ' 
+        ' PictureBox2
+        ' 
+        resources.ApplyResources(PictureBox2, "PictureBox2")
+        PictureBox2.Name = "PictureBox2"
+        PictureBox2.TabStop = False
         ' 
         ' PictureBox1
         ' 
@@ -94,12 +110,6 @@ Partial Class Form1
         TextBox2.BorderStyle = BorderStyle.None
         resources.ApplyResources(TextBox2, "TextBox2")
         TextBox2.Name = "TextBox2"
-        ' 
-        ' PictureBox2
-        ' 
-        resources.ApplyResources(PictureBox2, "PictureBox2")
-        PictureBox2.Name = "PictureBox2"
-        PictureBox2.TabStop = False
         ' 
         ' Panel2
         ' 
@@ -136,8 +146,8 @@ Partial Class Form1
         Name = "Form1"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
-        CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub

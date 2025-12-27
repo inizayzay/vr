@@ -4,6 +4,16 @@ Imports System.Drawing
 
 Public Class Form2
 
+    ' Mantra untuk Gradasi Background
+    Protected Overrides Sub OnPaintBackground(e As PaintEventArgs)
+        Using brush As New Drawing2D.LinearGradientBrush(ClientRectangle,
+                                                     Color.FromArgb(108, 92, 231), ' Ungu Utama
+                                                     Color.FromArgb(162, 155, 254), ' Ungu Muda/Pink
+                                                     90.0F) ' Sudut Miring
+            e.Graphics.FillRectangle(brush, ClientRectangle)
+        End Using
+    End Sub
+
     ' =======================================================
     ' VARIABEL UTAMA
     ' =======================================================
@@ -197,6 +207,10 @@ Public Class Form2
         ' NEW: Pass WAV path to Form3
         Dim frmScoring As New Form3(_namaPengguna, currentQuestion.Text, _teksDiucapkan, _userId, currentQuestion.ID, recordedWavPath)
         frmScoring.Show()
+    End Sub
+
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
     End Sub
 
     ' CATATAN: HAPUS Protected Overrides Sub Dispose(disposing As Boolean) dari sini 
