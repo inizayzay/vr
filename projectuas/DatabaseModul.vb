@@ -50,15 +50,15 @@ Module DatabaseModule
             conn = GetConnection()
             If conn Is Nothing Then Return question
 
-            Dim sql As String = "SELECT id, text, level FROM questions WHERE id = 1 LIMIT 1"
+            Dim sql As String = "SELECT id, text, level FROM questions ORDER BY RAND() LIMIT 1"
             Dim cmd As New MySqlCommand(sql, conn)
 
             Dim reader As MySqlDataReader = cmd.ExecuteReader()
 
             If reader.Read() Then
                 question.ID = reader.GetInt32("id")
-                question.Text = reader.GetString("text")
-                question.Level = reader.GetString("level")
+                question.Text = reader.GetString("text").Trim()
+                question.Level = reader.GetString("level").Trim()
             End If
 
             reader.Close()

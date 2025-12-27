@@ -27,46 +27,51 @@ Partial Class Form3
         Label3 = New Label()
         Button1 = New Button()
         Button2 = New Button()
+
+        Label6 = New Label()
         Panel1 = New Panel()
-        Panel2 = New Panel()
-        Label4 = New Label()
         Label5 = New Label()
+        Label4 = New Label()
+        Panel2 = New Panel()
         Panel1.SuspendLayout()
         Panel2.SuspendLayout()
         SuspendLayout()
         ' 
         ' Label1
         ' 
-        Label1.AutoSize = True
+        Label1.AutoSize = False
         Label1.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = SystemColors.WindowFrame
-        Label1.Location = New Point(252, 16)
+        Label1.Location = New Point(0, 20)
         Label1.Name = "Label1"
-        Label1.Size = New Size(79, 25)
+        Label1.Size = New Size(666, 32)
         Label1.TabIndex = 0
         Label1.Text = "RESULT"
+        Label1.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' Label2
         ' 
-        Label2.AutoSize = True
+        Label2.AutoSize = False
         Label2.Font = New Font("Segoe UI", 72F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Label2.Location = New Point(179, 41)
+        Label2.Location = New Point(0, 55)
         Label2.Name = "Label2"
-        Label2.Size = New Size(219, 128)
+        Label2.Size = New Size(666, 159)
         Label2.TabIndex = 1
         Label2.Text = "100"
+        Label2.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' Label3
         ' 
-        Label3.AutoSize = True
+        Label3.AutoSize = False
         Label3.Font = New Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label3.ForeColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
-        Label3.Location = New Point(231, 162)
+        Label3.Location = New Point(0, 220)
         Label3.Name = "Label3"
-        Label3.Size = New Size(121, 30)
+        Label3.Size = New Size(666, 40)
         Label3.TabIndex = 2
         Label3.Text = "Good Job !"
+        Label3.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' Button1
         ' 
@@ -74,9 +79,10 @@ Partial Class Form3
         Button1.FlatAppearance.BorderSize = 0
         Button1.FlatStyle = FlatStyle.Flat
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(233, 212)
+        Button1.Location = New Point(266, 350)
+        Button1.Margin = New Padding(3, 4, 3, 4)
         Button1.Name = "Button1"
-        Button1.Size = New Size(118, 23)
+        Button1.Size = New Size(135, 31)
         Button1.TabIndex = 3
         Button1.Text = "Try Again ↺"
         Button1.UseVisualStyleBackColor = False
@@ -87,12 +93,26 @@ Partial Class Form3
         Button2.FlatAppearance.BorderColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
         Button2.FlatStyle = FlatStyle.Flat
         Button2.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Button2.Location = New Point(234, 243)
+        Button2.Location = New Point(266, 390)
+        Button2.Margin = New Padding(3, 4, 3, 4)
         Button2.Name = "Button2"
-        Button2.Size = New Size(118, 23)
+        Button2.Size = New Size(135, 31)
         Button2.TabIndex = 4
         Button2.Text = "History"
         Button2.UseVisualStyleBackColor = False
+        Button2.UseVisualStyleBackColor = False
+        ' 
+        ' Label6
+        ' 
+        Label6.AutoSize = False
+        Label6.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label6.ForeColor = Color.Black
+        Label6.Location = New Point(0, 270)
+        Label6.Name = "Label6"
+        Label6.Size = New Size(666, 70)
+        Label6.TabIndex = 7
+        Label6.Text = "Detail: ..."
+        Label6.TextAlign = ContentAlignment.TopCenter
         ' 
         ' Panel1
         ' 
@@ -101,9 +121,32 @@ Partial Class Form3
         Panel1.Controls.Add(Label4)
         Panel1.Dock = DockStyle.Top
         Panel1.Location = New Point(0, 0)
+        Panel1.Margin = New Padding(3, 4, 3, 4)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(800, 80)
+        Panel1.Size = New Size(914, 107)
         Panel1.TabIndex = 5
+        ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label5.ForeColor = Color.White
+        Label5.Location = New Point(733, 49)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(105, 32)
+        Label5.TabIndex = 6
+        Label5.Text = "HI, User"
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label4.ForeColor = Color.White
+        Label4.Location = New Point(31, 36)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(319, 32)
+        Label4.TabIndex = 5
+        Label4.Text = "ENGLISH VOICE LEARNING"
         ' 
         ' Panel2
         ' 
@@ -112,43 +155,26 @@ Partial Class Form3
         Panel2.Controls.Add(Label2)
         Panel2.Controls.Add(Button1)
         Panel2.Controls.Add(Button2)
+
         Panel2.Controls.Add(Label3)
-        Panel2.Location = New Point(109, 86)
+        Panel2.Controls.Add(Label6)
+        Panel2.Location = New Point(125, 115)
+        Panel2.Margin = New Padding(3, 4, 3, 4)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(583, 290)
+        Panel2.Size = New Size(666, 450)
         Panel2.TabIndex = 6
-        ' 
-        ' Label4
-        ' 
-        Label4.AutoSize = True
-        Label4.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label4.ForeColor = Color.White
-        Label4.Location = New Point(27, 27)
-        Label4.Name = "Label4"
-        Label4.Size = New Size(253, 25)
-        Label4.TabIndex = 5
-        Label4.Text = "ENGLISH VOICE LEARNING"
-        ' 
-        ' Label5
-        ' 
-        Label5.AutoSize = True
-        Label5.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label5.ForeColor = Color.White
-        Label5.Location = New Point(641, 37)
-        Label5.Name = "Label5"
-        Label5.Size = New Size(83, 25)
-        Label5.TabIndex = 6
-        Label5.Text = "HI, User"
         ' 
         ' Form3
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        ClientSize = New Size(800, 450)
+        ClientSize = New Size(914, 600)
         Controls.Add(Panel2)
         Controls.Add(Panel1)
+        Margin = New Padding(3, 4, 3, 4)
         Name = "Form3"
+        StartPosition = FormStartPosition.CenterScreen
         Text = "Halaman scoring"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
@@ -166,4 +192,5 @@ Partial Class Form3
     Friend WithEvents Panel2 As Panel
     Friend WithEvents Label4 As Label
     Friend WithEvents Label5 As Label
+    Friend WithEvents Label6 As Label
 End Class

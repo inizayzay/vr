@@ -87,6 +87,12 @@ Public Class Form3
         ' 7. TAMPILKAN TOTAL SKOR KUMULATIF (Label1)
         Dim totalScoreText As String = GetCumulativeScore(_userId)
         Label1.Text = $"Your total score: {totalScoreText}" ' Total skor di sini (Label1)
+
+        ' 8. TAMPILKAN DETAIL UCAPAN (Label6)
+        Label6.Text = $"Target: {_teksTarget}{vbCrLf}You said: {_teksDiucapkan}"
+
+        ' 9. UPDATE HEADER GREETING (Label5)
+        Label5.Text = $"HI, {_namaPengguna}"
     End Sub
 
     ' =======================================================
@@ -185,13 +191,33 @@ Public Class Form3
             Debug.WriteLine($"User MFCC extracted: {userMFCC.GetLength(0)} x {userMFCC.GetLength(1)}")
             
             ' 2. Load reference MFCC
-            Dim refPath As String = System.IO.Path.Combine(Application.StartupPath, "references", $"{_teksTarget.ToLower()}_mfcc.json")
+            ' Replace spaces with underscores and trim/lowercase (matching fetch_and_generate.py)
+            Dim safeTargetName As String = _teksTarget.Trim().ToLower().Replace(" ", "_")
+            Dim refPath As String = System.IO.Path.Combine(Application.StartupPath, "references", $"{safeTargetName}_mfcc.json")
+            
             Debug.WriteLine($"Reference path: {refPath}")
             Debug.WriteLine($"File exists: {System.IO.File.Exists(refPath)}")
             
             If Not System.IO.File.Exists(refPath) Then
                 Debug.WriteLine($"ERROR: Reference MFCC not found at: {refPath}")
-                MessageBox.Show($"Reference MFCC tidak ditemukan untuk '{_teksTarget}' di:{vbCrLf}{refPath}{vbCrLf}{vbCrLf}DTW score akan 0.", 
+                
+                ' Diagnostics: Check directory content
+                Dim refDir As String = System.IO.Path.Combine(Application.StartupPath, "references")
+                If System.IO.Directory.Exists(refDir) Then
+                    Dim files = System.IO.Directory.GetFiles(refDir)
+                    Debug.WriteLine($"Files in references folder ({files.Length}):")
+                    For Each f In files
+                        Debug.WriteLine($"  - {System.IO.Path.GetFileName(f)}")
+                    Next
+                Else
+                    Debug.WriteLine($"CRITICAL: Directory '{refDir}' does not exist!")
+                End If
+
+                MessageBox.Show($"Reference MFCC tidak ditemukan untuk '{_teksTarget}'." & vbCrLf &
+                               $"Teks Target: {_teksTarget}" & vbCrLf &
+                               $"Mencari file: {safeTargetName}_mfcc.json" & vbCrLf &
+                               $"Path: {refPath}" & vbCrLf & vbCrLf &
+                               "Pastikan file sudah ada di folder 'references' dan properti 'Copy to Output Directory' sudah diset ke 'Copy if newer'.", 
                                "Reference Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Return 0.0
             End If
@@ -225,6 +251,11 @@ Public Class Form3
     ' (Harus sama dengan yang Anda gunakan di project Anda)
     ' =======================================================
     Private Function HitungAkurasi(ByVal target As String, ByVal actual As String) As Double
+        ' DEBUG: Log input values
+        Debug.WriteLine("=== Word Accuracy Calculation ===")
+        Debug.WriteLine($"Target: '{target}'")
+        Debug.WriteLine($"Actual: '{actual}'")
+
         ' 1. Fungsi pembersihan string
         Dim CleanString = Function(s As String) As String
                               ' Hapus tanda baca dan ubah ke lowercase
@@ -235,9 +266,16 @@ Public Class Form3
         Dim targetWords As String() = CleanString(target).Split(New Char() {" "c}, StringSplitOptions.RemoveEmptyEntries)
         Dim actualWords As String() = CleanString(actual).Split(New Char() {" "c}, StringSplitOptions.RemoveEmptyEntries)
 
+        ' DEBUG: Log cleaned words
+        Debug.WriteLine($"Target words: [{String.Join(", ", targetWords)}]")
+        Debug.WriteLine($"Actual words: [{String.Join(", ", actualWords)}]")
+
         Dim targetLength As Integer = targetWords.Length
 
-        If targetLength = 0 Then Return 0
+        If targetLength = 0 Then
+            Debug.WriteLine("Target length is 0, returning 0")
+            Return 0
+        End If
 
         ' 3. Gunakan HashSet untuk menghitung kata-kata yang cocok (Word Intersection)
         Dim targetSet As New HashSet(Of String)(targetWords)
@@ -247,13 +285,20 @@ Public Class Form3
         For Each word In actualWords
             If targetSet.Contains(word) Then
                 correctCount += 1
+                Debug.WriteLine($"Match found: '{word}'")
                 ' Hapus kata yang sudah cocok dari targetSet untuk menghindari penghitungan ganda
                 targetSet.Remove(word)
+            Else
+                Debug.WriteLine($"No match: '{word}'")
             End If
         Next
 
         ' 5. Hitung skor
         Dim finalScore As Double = (CDbl(correctCount) / targetLength) * 100
+
+        Debug.WriteLine($"Correct count: {correctCount} / {targetLength}")
+        Debug.WriteLine($"Final score: {finalScore:N2}%")
+        Debug.WriteLine("=================================")
 
         Return Math.Min(100.0, finalScore)
     End Function
@@ -270,8 +315,10 @@ Public Class Form3
         frmUtama.Show()
     End Sub
 
-    ' Tombol Exit (Button2)
+    ' Tombol Exit (Button2) -> SEKARANG JADI Tombol History
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Application.Exit()
+        ' NEW: Buka Form4 (History) dengan userId
+        Dim frmHistory As New Form4(_userId)
+        frmHistory.ShowDialog() ' Gunakan ShowDialog agar fokus ke history
     End Sub
 End Class

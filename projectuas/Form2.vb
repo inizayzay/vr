@@ -47,7 +47,7 @@ Public Class Form2
         End If
 
         ' Set Judul "Hi, User" (Label3)
-        Label3.Text = $"Hi, {_namaPengguna} (Level: {currentQuestion.Level})"
+        UpdateStatus("Loading...")
         ' Set Teks Target (Label2) dari Database
         Label2.Text = currentQuestion.Text.ToUpper()
 
@@ -78,21 +78,59 @@ Public Class Form2
             AddHandler recognizer.SpeechRecognized, AddressOf Recognizer_SpeechRecognized
             AddHandler recognizer.RecognizeCompleted, AddressOf Recognizer_RecognizeCompleted
 
-            Label3.Text = "Recognizer siap. Tekan 'Tap to Speak'."
+            UpdateStatus("Recognizer siap. Tekan 'Tap to Speak'.")
             Label3.ForeColor = Color.Navy
 
         Catch ex As Exception
             MessageBox.Show($"Gagal inisialisasi Speech Recognizer: {ex.Message}", "Speech Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Button1.Enabled = False
-            Label3.Text = "ERROR: Pengenalan suara tidak tersedia."
+            UpdateStatus("ERROR: Pengenalan suara tidak tersedia.")
             Label3.ForeColor = Color.Red
         End Try
     End Sub
 
     ' =======================================================
-    ' 4. EVENT CLICK: TOMBOL MULAI (Button1 - Tap to Speak)
+    ' 4. EVENT CLICK: TOMBOL MULAI/STOP (Button1 - Start/Stop)
     ' =======================================================
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        ' Jika sedang merekam/mendengarkan, maka ini bertindak sebagai tombol STOP
+        If audioRecorder IsNot Nothing AndAlso audioRecorder.IsRecording Then
+            UpdateStatus("Stopping... Please wait.")
+            Label3.ForeColor = Color.Brown
+
+            ' NEW: Stop audio recording immediately
+            Try
+                If audioRecorder IsNot Nothing AndAlso audioRecorder.IsRecording Then
+                    recordedWavPath = audioRecorder.StopRecording()
+                    Debug.WriteLine($"Audio saved: {recordedWavPath}")
+                End If
+            Catch recEx As Exception
+                Debug.WriteLine($"Error stopping recording: {recEx.Message}")
+            End Try
+
+            ' Hentikan pengenalan suara (akan memicu RecognizeCompleted)
+            If recognizer IsNot Nothing Then
+                recognizer.RecognizeAsyncCancel()
+            End If
+
+            ' NEW: Enable Next button immediately and reset button appearance
+            Button1.Text = "TAP TO SPEAK"
+            Button1.BackColor = SystemColors.Control
+            Button1.ForeColor = SystemColors.ControlText
+            Button1.Enabled = True
+            Button2.Enabled = True
+
+            ' Set default text if nothing recognized yet
+            If String.IsNullOrEmpty(_teksDiucapkan) Then
+                _teksDiucapkan = "(Manual Stop)"
+            End If
+
+            UpdateStatus("Recording stopped. Click NEXT to proceed to scoring.")
+            Label3.ForeColor = Color.Blue
+
+            Exit Sub
+        End If
+
         If recognizer Is Nothing Then
             InitializeSpeechRecognizer()
             If recognizer Is Nothing Then Exit Sub
@@ -111,9 +149,12 @@ Public Class Form2
                 MessageBox.Show($"Warning: Audio recording failed: {recEx.Message}", "Recording Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End Try
 
-            Button1.Enabled = False
+            Button1.Text = "STOP" ' Ubah tombol jadi STOP
+            Button1.BackColor = Color.Red
+            Button1.ForeColor = Color.White
+
             Button2.Enabled = False
-            Label3.Text = "🎙️ Recording and listening... Speak now!"
+            UpdateStatus("Recording and listening... Speak now!")
             Label3.ForeColor = Color.DarkOrange
 
             recognizer.RecognizeAsync(RecognizeMode.Single)
@@ -121,7 +162,7 @@ Public Class Form2
         Catch ex As Exception
             MessageBox.Show($"Error saat memulai mendengarkan: {ex.Message}", "Recognition Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Button1.Enabled = True
-            Label3.Text = "Kesalahan saat mencoba mendengarkan."
+            UpdateStatus("Kesalahan saat mencoba mendengarkan.")
             Label3.ForeColor = Color.Red
         End Try
     End Sub
@@ -135,10 +176,10 @@ Public Class Form2
         _teksDiucapkan = e.Result.Text
 
         If e.Result.Confidence < 0.7 Then
-            Label3.Text = $"Recognized (Low Confidence: {e.Result.Confidence:P}): '{_teksDiucapkan}'"
+            UpdateStatus($"Recognized (Low Confidence: {e.Result.Confidence:P}): '{_teksDiucapkan}'")
             Label3.ForeColor = Color.DarkRed
         Else
-            Label3.Text = $"Recognized (High Confidence: {e.Result.Confidence:P}): '{_teksDiucapkan}'"
+            UpdateStatus($"Recognized (High Confidence: {e.Result.Confidence:P}): '{_teksDiucapkan}'")
             Label3.ForeColor = Color.Green
         End If
     End Sub
@@ -155,25 +196,33 @@ Public Class Form2
             Debug.WriteLine($"Error stopping recording: {recEx.Message}")
         End Try
 
+        ' Kembalikan tombol ke kondisi awal
+        Button1.Text = "TAP TO SPEAK"
+        Button1.BackColor = SystemColors.Control
+        Button1.ForeColor = SystemColors.ControlText
         Button1.Enabled = True
+
         Button2.Enabled = True
 
         If e.Error IsNot Nothing Then
             _teksDiucapkan = $"[ERROR SISTEM: {e.Error.Message}]"
-            Label3.Text = $"ERROR SISTEM: {e.Error.Message}"
+            UpdateStatus($"ERROR SISTEM: {e.Error.Message}")
             Label3.ForeColor = Color.Red
         ElseIf e.Cancelled Then
-            _teksDiucapkan = "[PENGECUALIAN: Dibatalkan]"
-            Label3.Text = "Pengenalan dibatalkan."
-            Label3.ForeColor = Color.Red
+            ' JIKA DIHENTIKAN MANUAL
+            If String.IsNullOrEmpty(_teksDiucapkan) Then
+                _teksDiucapkan = "(Manual Stop)"
+            End If
+            UpdateStatus("Pengenalan dihentikan manual. Klik NEXT untuk cek skor suara.")
+            Label3.ForeColor = Color.Blue
         ElseIf String.IsNullOrEmpty(_teksDiucapkan) OrElse e.Result Is Nothing Then
-            _teksDiucapkan = "[ERROR/PENGECUALIAN: Tidak ada suara dikenali]"
-            Label3.Text = "Tidak ada suara yang dikenali atau di bawah batas kepercayaan."
+            _teksDiucapkan = "(No Speech Detected)"
+            UpdateStatus("Suara tidak terdeteksi. Klik NEXT untuk tetap mencoba DTW.")
             Label3.ForeColor = Color.Gray
         End If
 
-        If Not _teksDiucapkan.StartsWith("[") Then
-            Label3.Text = $"Selesai. Teks Anda: '{_teksDiucapkan}'. Siap ke scoring."
+        If Not _teksDiucapkan.StartsWith("[") AndAlso Not _teksDiucapkan.StartsWith("(") Then
+            UpdateStatus($"Selesai. Teks Anda: '{_teksDiucapkan}'. Siap ke scoring.")
             Label3.ForeColor = Color.Blue
         End If
 
@@ -183,8 +232,9 @@ Public Class Form2
     ' 6. EVENT CLICK: TOMBOL NEXT/SCORING (Button2)
     ' =======================================================
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        If String.IsNullOrEmpty(_teksDiucapkan) OrElse _teksDiucapkan.StartsWith("[") Then
-            MessageBox.Show("Harap lakukan pengenalan suara yang sukses terlebih dahulu.", "Warning")
+        ' Izinkan lanjut jika minimal sudah ada file audio
+        If String.IsNullOrEmpty(recordedWavPath) OrElse Not System.IO.File.Exists(recordedWavPath) Then
+            MessageBox.Show("Harap rekam suara terlebih dahulu.", "Warning")
             Exit Sub
         End If
 
@@ -201,5 +251,10 @@ Public Class Form2
 
     ' CATATAN: HAPUS Protected Overrides Sub Dispose(disposing As Boolean) dari sini 
     ' karena kemungkinan sudah dideklarasikan di Form2.Designer.vb.
+
+    Private Sub UpdateStatus(ByVal message As String)
+        Dim level As String = If(currentQuestion.Level, "?")
+        Label3.Text = $"Hi, {_namaPengguna} ({level}) | {message}"
+    End Sub
 
 End Class
