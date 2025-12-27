@@ -42,7 +42,7 @@ Partial Class Form3
         Label1.AutoSize = False
         Label1.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = SystemColors.WindowFrame
-        Label1.Location = New Point(0, 20)
+        Label1.Location = New Point(300, 16)
         Label1.Name = "Label1"
         Label1.Size = New Size(666, 32)
         Label1.TabIndex = 0
@@ -54,7 +54,7 @@ Partial Class Form3
         Label2.AutoSize = False
         Label2.Font = New Font("Segoe UI", 72F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Label2.Location = New Point(0, 55)
+        Label2.Location = New Point(233, 41)
         Label2.Name = "Label2"
         Label2.Size = New Size(666, 159)
         Label2.TabIndex = 1
@@ -66,7 +66,7 @@ Partial Class Form3
         Label3.AutoSize = False
         Label3.Font = New Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label3.ForeColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
-        Label3.Location = New Point(0, 220)
+        Label3.Location = New Point(278, 162)
         Label3.Name = "Label3"
         Label3.Size = New Size(666, 40)
         Label3.TabIndex = 2
@@ -79,8 +79,7 @@ Partial Class Form3
         Button1.FlatAppearance.BorderSize = 0
         Button1.FlatStyle = FlatStyle.Flat
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(266, 350)
-        Button1.Margin = New Padding(3, 4, 3, 4)
+        Button1.Location = New Point(277, 214)
         Button1.Name = "Button1"
         Button1.Size = New Size(135, 31)
         Button1.TabIndex = 3
@@ -93,8 +92,7 @@ Partial Class Form3
         Button2.FlatAppearance.BorderColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
         Button2.FlatStyle = FlatStyle.Flat
         Button2.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Button2.Location = New Point(266, 390)
-        Button2.Margin = New Padding(3, 4, 3, 4)
+        Button2.Location = New Point(280, 255)
         Button2.Name = "Button2"
         Button2.Size = New Size(135, 31)
         Button2.TabIndex = 4
@@ -123,7 +121,7 @@ Partial Class Form3
         Panel1.Location = New Point(0, 0)
         Panel1.Margin = New Padding(3, 4, 3, 4)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(914, 107)
+        Panel1.Size = New Size(1008, 80)
         Panel1.TabIndex = 5
         ' 
         ' Label5
@@ -131,9 +129,9 @@ Partial Class Form3
         Label5.AutoSize = True
         Label5.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label5.ForeColor = Color.White
-        Label5.Location = New Point(733, 49)
+        Label5.Location = New Point(641, 37)
         Label5.Name = "Label5"
-        Label5.Size = New Size(105, 32)
+        Label5.Size = New Size(83, 25)
         Label5.TabIndex = 6
         Label5.Text = "HI, User"
         ' 
@@ -150,18 +148,16 @@ Partial Class Form3
         ' 
         ' Panel2
         ' 
+        Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         Panel2.BackColor = Color.White
         Panel2.Controls.Add(Label1)
         Panel2.Controls.Add(Label2)
         Panel2.Controls.Add(Button1)
         Panel2.Controls.Add(Button2)
-
         Panel2.Controls.Add(Label3)
-        Panel2.Controls.Add(Label6)
-        Panel2.Location = New Point(125, 115)
-        Panel2.Margin = New Padding(3, 4, 3, 4)
+        Panel2.Location = New Point(27, 86)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(666, 450)
+        Panel2.Size = New Size(724, 364)
         Panel2.TabIndex = 6
         ' 
         ' Form3
@@ -169,13 +165,13 @@ Partial Class Form3
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        ClientSize = New Size(914, 600)
+        ClientSize = New Size(1008, 601)
         Controls.Add(Panel2)
         Controls.Add(Panel1)
         Margin = New Padding(3, 4, 3, 4)
         Name = "Form3"
         StartPosition = FormStartPosition.CenterScreen
-        Text = "Halaman scoring"
+        Text = "Score Page Results"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         Panel2.ResumeLayout(False)

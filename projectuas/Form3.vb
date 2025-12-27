@@ -4,6 +4,15 @@ Imports System.Linq
 Imports MySql.Data.MySqlClient ' Diperlukan untuk interaksi DB
 
 Public Class Form3
+    ' Mantra untuk Gradasi Background
+    Protected Overrides Sub OnPaintBackground(e As PaintEventArgs)
+        Using brush As New Drawing2D.LinearGradientBrush(ClientRectangle,
+                                                     Color.FromArgb(108, 92, 231), ' Ungu Utama
+                                                     Color.FromArgb(162, 155, 254), ' Ungu Muda/Pink
+                                                     90.0F) ' Sudut Miring
+            e.Graphics.FillRectangle(brush, ClientRectangle)
+        End Using
+    End Sub
     ' =======================================================
     ' VARIABEL UTAMA
     ' =======================================================
@@ -13,7 +22,7 @@ Public Class Form3
     Private _userId As Integer      ' Diterima dari Form2
     Private _questionId As Integer  ' Diterima dari Form2
     Private _scorePersen As Double  ' Skor tes saat ini (0.00 - 100.00)
-    
+
     ' NEW: DTW Scoring
     Private _userWavPath As String  ' Path to recorded audio
     Private _dtwScore As Double     ' DTW similarity score (0-100)
@@ -29,7 +38,7 @@ Public Class Form3
     ' =======================================================
     ' 1. CONSTRUCTOR
     ' =======================================================
-    Public Sub New(ByVal nama As String, ByVal target As String, ByVal diucapkan As String, 
+    Public Sub New(ByVal nama As String, ByVal target As String, ByVal diucapkan As String,
                    ByVal userId As Integer, ByVal questionId As Integer, ByVal wavPath As String)
         InitializeComponent()
         _namaPengguna = nama
@@ -59,10 +68,10 @@ Public Class Form3
             recognizedTextDisplay = "ERROR/PENGECUALIAN: " & _teksDiucapkan
             displayColor = Color.LightPink
         End If
-        
+
         ' 2. NEW: HITUNG DTW SIMILARITY SCORE
         _dtwScore = CalculateDTWSimilarity()
-        
+
         ' 3. NEW: HITUNG COMBINED SCORE (70% DTW + 30% Word Accuracy)
         _combinedScore = (_dtwScore * 0.7) + (_scorePersen * 0.3)
 
@@ -98,8 +107,8 @@ Public Class Form3
     ' =======================================================
     ' 3. FUNGSI SIMPAN HASIL KE DATABASE (Tabel: results)
     ' =======================================================
-    Private Sub SaveResultToDatabase(ByVal userId As Integer, ByVal questionId As Integer, 
-                                      ByVal finalScore As Double, ByVal dtwScore As Double, 
+    Private Sub SaveResultToDatabase(ByVal userId As Integer, ByVal questionId As Integer,
+                                      ByVal finalScore As Double, ByVal dtwScore As Double,
                                       ByVal wordAccuracy As Double)
         Dim conn As MySqlConnection = Nothing
         Try
@@ -168,7 +177,7 @@ Public Class Form3
             DatabaseModule.CloseConnection(conn)
         End Try
     End Function
-    
+
     ' =======================================================
     ' NEW: CALCULATE DTW SIMILARITY
     ' =======================================================
@@ -177,19 +186,19 @@ Public Class Form3
             ' Check if audio file exists
             Debug.WriteLine("=== DTW Calculation Start ===")
             Debug.WriteLine($"User WAV Path: {_userWavPath}")
-            
+
             If String.IsNullOrEmpty(_userWavPath) OrElse Not System.IO.File.Exists(_userWavPath) Then
                 Debug.WriteLine("ERROR: No audio file recorded or file not found")
                 MessageBox.Show("Audio file tidak ditemukan. DTW score akan 0.", "Audio Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Return 0.0
             End If
-            
+
             Debug.WriteLine("Audio file exists, extracting MFCC...")
-            
+
             ' 1. Extract MFCC from user audio
             Dim userMFCC As Double(,) = MFCCExtractor.ExtractMFCC(_userWavPath)
             Debug.WriteLine($"User MFCC extracted: {userMFCC.GetLength(0)} x {userMFCC.GetLength(1)}")
-            
+
             ' 2. Load reference MFCC
             ' Replace spaces with underscores and trim/lowercase (matching fetch_and_generate.py)
             Dim safeTargetName As String = _teksTarget.Trim().ToLower().Replace(" ", "_")
@@ -197,7 +206,7 @@ Public Class Form3
             
             Debug.WriteLine($"Reference path: {refPath}")
             Debug.WriteLine($"File exists: {System.IO.File.Exists(refPath)}")
-            
+
             If Not System.IO.File.Exists(refPath) Then
                 Debug.WriteLine($"ERROR: Reference MFCC not found at: {refPath}")
                 
@@ -221,23 +230,23 @@ Public Class Form3
                                "Reference Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Return 0.0
             End If
-            
+
             Debug.WriteLine("Loading reference MFCC...")
             Dim refMFCC As Double(,) = MFCCExtractor.LoadReferenceFromJson(refPath)
             Debug.WriteLine($"Reference MFCC loaded: {refMFCC.GetLength(0)} x {refMFCC.GetLength(1)}")
-            
+
             ' 3. Calculate DTW distance
             Debug.WriteLine("Calculating DTW distance...")
             Dim distance As Double = DTWComparator.CalculateDTWDistance(userMFCC, refMFCC)
             Debug.WriteLine($"DTW Distance: {distance:F4}")
-            
+
             ' 4. Convert to similarity score (0-100)
             Dim similarity As Double = DTWComparator.DistanceToSimilarity(distance)
             Debug.WriteLine($"DTW Similarity: {similarity:F2}%")
             Debug.WriteLine("=== DTW Calculation End ===")
-            
+
             Return similarity
-            
+
         Catch ex As Exception
             Debug.WriteLine($"EXCEPTION in CalculateDTWSimilarity: {ex.Message}")
             Debug.WriteLine($"Stack trace: {ex.StackTrace}")

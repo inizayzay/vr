@@ -144,7 +144,7 @@ Partial Class Form4
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        ClientSize = New Size(914, 600)
+        ClientSize = New Size(1008, 601)
         Controls.Add(Panel1)
         Controls.Add(Panel2)
         Margin = New Padding(3, 4, 3, 4)
