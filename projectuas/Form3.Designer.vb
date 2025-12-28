@@ -51,9 +51,9 @@ Partial Class Form3
         ' 
         Label2.Font = New Font("Segoe UI", 72F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Label2.Location = New Point(197, 41)
+        Label2.Location = New Point(-37, 41)
         Label2.Name = "Label2"
-        Label2.Size = New Size(666, 159)
+        Label2.Size = New Size(1146, 159)
         Label2.TabIndex = 1
         Label2.Text = "100"
         Label2.TextAlign = ContentAlignment.MiddleCenter
@@ -101,7 +101,7 @@ Partial Class Form3
         Label6.ForeColor = Color.Black
         Label6.Location = New Point(197, 340)
         Label6.Name = "Label6"
-        Label6.Size = New Size(666, 200)
+        Label6.Size = New Size(666, 379)
         Label6.TabIndex = 7
         Label6.Text = "Detail: ..."
         Label6.TextAlign = ContentAlignment.TopCenter
@@ -115,7 +115,7 @@ Partial Class Form3
         Panel1.Location = New Point(0, 0)
         Panel1.Margin = New Padding(3, 4, 3, 4)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(1351, 80)
+        Panel1.Size = New Size(1359, 47)
         Panel1.TabIndex = 5
         ' 
         ' Label5
@@ -123,7 +123,7 @@ Partial Class Form3
         Label5.AutoSize = True
         Label5.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label5.ForeColor = Color.White
-        Label5.Location = New Point(641, 37)
+        Label5.Location = New Point(640, 9)
         Label5.Name = "Label5"
         Label5.Size = New Size(105, 32)
         Label5.TabIndex = 6
@@ -134,7 +134,7 @@ Partial Class Form3
         Label4.AutoSize = True
         Label4.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label4.ForeColor = Color.White
-        Label4.Location = New Point(31, 36)
+        Label4.Location = New Point(27, 9)
         Label4.Name = "Label4"
         Label4.Size = New Size(319, 32)
         Label4.TabIndex = 5
@@ -150,9 +150,9 @@ Partial Class Form3
         Panel2.Controls.Add(Button2)
         Panel2.Controls.Add(Label3)
         Panel2.Controls.Add(Label6)
-        Panel2.Location = New Point(27, 86)
+        Panel2.Location = New Point(27, 54)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(1067, 573)
+        Panel2.Size = New Size(1320, 719)
         Panel2.TabIndex = 6
         ' 
         ' Form3
@@ -160,7 +160,7 @@ Partial Class Form3
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        ClientSize = New Size(1351, 746)
+        ClientSize = New Size(1359, 794)
         Controls.Add(Panel2)
         Controls.Add(Panel1)
         Margin = New Padding(3, 4, 3, 4)

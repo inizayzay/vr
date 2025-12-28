@@ -61,9 +61,13 @@ Public Class Form3
         Me.Text = "Hasil Tes Pengucapan"
         Me.StartPosition = FormStartPosition.CenterScreen
         
+        ' 0. UPDATE HEADER GREETING (Label5) - SEGERA AGAR TIDAK MUNCUL "User"
+        Dim xpData = DatabaseModule.GetUserXPAndLevel(_userId)
+        Label5.Text = $"HI, {_namaPengguna} [Lv {xpData.Item1}]"
+
         ' Tampilkan status loading sementara (Opsional)
         Label2.Text = "Calculating..."
-        Label3.Text = "Please wait while Python analyzes your voice..."
+        Label3.Text = "Please wait while System analyzes your voice..."
 
         ' 1. HITUNG SKOR FORCE ALIGNMENT (ASYNC)
         ' Ini akan menghubungi Python API dan mengisi _scoreFA, _wordDetails, dan _duration
@@ -92,9 +96,6 @@ Public Class Form3
 
         ' 8. TAMPILKAN DETAIL EVALUASI (Label6)
         UpdateDetailedEvaluation()
-
-        ' 9. UPDATE HEADER GREETING (Label5)
-        Label5.Text = $"HI, {_namaPengguna}"
     End Sub
 
     Private Sub UpdateDetailedEvaluation()
@@ -133,25 +134,32 @@ Public Class Form3
                 Dim st = wordItem("status").ToString()
                 detail.AppendLine($"- {w.ToUpper().PadRight(12)}: {s}% ({st})")
                 
-                ' Tampilkan detail fonem (bunyi)
+                ' Tampilkan detail fonem (bunyi) - VERSI ANAK-ANAK
                 Dim phonemes = wordItem("phonemes")
                 If phonemes IsNot Nothing Then
                     Dim pList As New List(Of String)
                     For Each pItem In phonemes
-                        Dim p = pItem("phoneme").ToString()
+                        ' Bersihkan kode teknis (buang angka stress spt EY1 -> EY)
+                        Dim p = pItem("phoneme").ToString().Replace("0", "").Replace("1", "").Replace("2", "")
                         Dim pSt = pItem("status").ToString()
-                        ' Jika status bukan Good, beri tanda penekanan
-                        If pSt <> "Good" Then
-                            pList.Add($"[{p}]")
+                        
+                        If pSt = "Good" Then
+                            pList.Add(p & " ✅")
                         Else
-                            pList.Add(p)
+                            ' Versi "Needs Work" atau "Missing" diberi simbol bintang untuk menyemangati
+                            pList.Add(p & " ✨")
                         End If
                     Next
-                    detail.AppendLine($"  Bunyi: {String.Join(" ", pList)}")
+                    detail.AppendLine($"  Suara: {String.Join("  ", pList)}")
                 End If
                 detail.AppendLine("")
             Next
         End If
+
+        ' Tambahkan Legenda Sederhana untuk Anak
+        detail.AppendLine("Keterangan:")
+        detail.AppendLine("✅ = Suaramu sudah hebat!")
+        detail.AppendLine("✨ = Ayo kita coba bagian ini lagi agar lebih keren!")
         
         detail.AppendLine("")
         detail.AppendLine($"GRADE: {grade}")
