@@ -35,6 +35,7 @@ Partial Class Form4
         Panel2 = New Panel()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
+        Panel2.SuspendLayout()
         SuspendLayout()
         ' 
         ' DataGridView1
@@ -59,7 +60,7 @@ Partial Class Form4
         DataGridView1.Name = "DataGridView1"
         DataGridView1.RowHeadersVisible = False
         DataGridView1.RowHeadersWidth = 51
-        DataGridView1.Size = New Size(642, 313)
+        DataGridView1.Size = New Size(1066, 422)
         DataGridView1.TabIndex = 0
         ' 
         ' colNo
@@ -99,7 +100,7 @@ Partial Class Form4
         Button1.FlatStyle = FlatStyle.Flat
         Button1.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Button1.ForeColor = Color.Black
-        Button1.Location = New Point(536, 29)
+        Button1.Location = New Point(959, 61)
         Button1.Margin = New Padding(3, 4, 3, 4)
         Button1.Name = "Button1"
         Button1.Size = New Size(86, 31)
@@ -113,10 +114,10 @@ Partial Class Form4
         Panel1.Controls.Add(Button1)
         Panel1.Controls.Add(Label1)
         Panel1.Controls.Add(DataGridView1)
-        Panel1.Location = New Point(131, 84)
+        Panel1.Location = New Point(12, 4)
         Panel1.Margin = New Padding(3, 4, 3, 4)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(642, 436)
+        Panel1.Size = New Size(1066, 545)
         Panel1.TabIndex = 2
         ' 
         ' Label1
@@ -133,10 +134,11 @@ Partial Class Form4
         ' Panel2
         ' 
         Panel2.BackColor = Color.FromArgb(CByte(50), CByte(40), CByte(100))
-        Panel2.Location = New Point(127, 79)
+        Panel2.Controls.Add(Panel1)
+        Panel2.Location = New Point(155, 113)
         Panel2.Margin = New Padding(3, 4, 3, 4)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(657, 455)
+        Panel2.Size = New Size(1081, 553)
         Panel2.TabIndex = 3
         ' 
         ' Form4
@@ -144,8 +146,7 @@ Partial Class Form4
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        ClientSize = New Size(1008, 601)
-        Controls.Add(Panel1)
+        ClientSize = New Size(1345, 748)
         Controls.Add(Panel2)
         Margin = New Padding(3, 4, 3, 4)
         Name = "Form4"
@@ -154,6 +155,7 @@ Partial Class Form4
         CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
+        Panel2.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
 

@@ -25,6 +25,7 @@ Partial Class Form2
         Label2 = New Label()
         Button2 = New Button()
         Panel1 = New Panel()
+        btnHistory = New Button()
         Label3 = New Label()
         Label1 = New Label()
         Button1 = New Button()
@@ -41,7 +42,7 @@ Partial Class Form2
         Label2.BackColor = Color.Transparent
         Label2.Font = New Font("Segoe UI", 27.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.FromArgb(CByte(108), CByte(98), CByte(231))
-        Label2.Location = New Point(107, 36)
+        Label2.Location = New Point(87, 57)
         Label2.Name = "Label2"
         Label2.Size = New Size(572, 62)
         Label2.TabIndex = 1
@@ -49,7 +50,7 @@ Partial Class Form2
         ' 
         ' Button2
         ' 
-        Button2.BackColor = Color.Transparent
+        Button2.BackColor = Color.GreenYellow
         Button2.FlatAppearance.BorderSize = 0
         Button2.FlatStyle = FlatStyle.Flat
         Button2.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
@@ -62,16 +63,31 @@ Partial Class Form2
         Button2.Text = "Next"
         Button2.UseVisualStyleBackColor = False
         ' 
+        ' btnHistory
+        ' 
+        btnHistory.BackColor = Color.FromArgb(CByte(50), CByte(40), CByte(100))
+        btnHistory.FlatAppearance.BorderSize = 0
+        btnHistory.FlatStyle = FlatStyle.Flat
+        btnHistory.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold)
+        btnHistory.ForeColor = Color.White
+        btnHistory.Location = New Point(200, 35)
+        btnHistory.Name = "btnHistory"
+        btnHistory.Size = New Size(100, 32)
+        btnHistory.TabIndex = 2
+        btnHistory.Text = "📜 History"
+        btnHistory.UseVisualStyleBackColor = False
+        ' 
         ' Panel1
         ' 
         Panel1.BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
+        Panel1.Controls.Add(btnHistory)
         Panel1.Controls.Add(Label3)
         Panel1.Controls.Add(Label1)
         Panel1.Dock = DockStyle.Top
         Panel1.Location = New Point(0, 0)
         Panel1.Margin = New Padding(3, 4, 3, 4)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(1008, 80)
+        Panel1.Size = New Size(1355, 103)
         Panel1.TabIndex = 4
         ' 
         ' Label3
@@ -103,7 +119,7 @@ Partial Class Form2
         Button1.FlatStyle = FlatStyle.Flat
         Button1.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(223, 175)
+        Button1.Location = New Point(202, 167)
         Button1.Margin = New Padding(3, 4, 3, 4)
         Button1.Name = "Button1"
         Button1.Size = New Size(286, 80)
@@ -121,14 +137,14 @@ Partial Class Form2
         Panel2.Location = New Point(3, 4)
         Panel2.Margin = New Padding(3, 4, 3, 4)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(721, 396)
+        Panel2.Size = New Size(721, 430)
         Panel2.TabIndex = 5
         ' 
         ' Panel3
         ' 
         Panel3.BackColor = Color.FromArgb(CByte(50), CByte(40), CByte(100))
         Panel3.Controls.Add(Panel2)
-        Panel3.Location = New Point(88, 111)
+        Panel3.Location = New Point(324, 147)
         Panel3.Margin = New Padding(3, 4, 3, 4)
         Panel3.Name = "Panel3"
         Panel3.Size = New Size(736, 415)
@@ -139,7 +155,7 @@ Partial Class Form2
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(108), CByte(98), CByte(231))
-        ClientSize = New Size(1008, 581)
+        ClientSize = New Size(1355, 724)
         Controls.Add(Panel3)
         Controls.Add(Panel1)
         Cursor = Cursors.Hand
@@ -157,6 +173,7 @@ Partial Class Form2
     Friend WithEvents Label2 As Label
     Friend WithEvents Button2 As Button
     Friend WithEvents Panel1 As Panel
+    Friend WithEvents btnHistory As Button
     Friend WithEvents Label3 As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents Button1 As Button

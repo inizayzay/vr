@@ -263,6 +263,12 @@ Public Class Form2
 
     End Sub
 
+    ' Button History Click
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Dim frmHistory As New Form4(_userId)
+        frmHistory.ShowDialog()
+    End Sub
+
     ' CATATAN: HAPUS Protected Overrides Sub Dispose(disposing As Boolean) dari sini 
     ' karena kemungkinan sudah dideklarasikan di Form2.Designer.vb.
 
