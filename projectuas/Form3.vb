@@ -76,7 +76,7 @@ Public Class Form3
         ' 3. SIMPAN HASIL KE DATABASE
         If _userId > 0 AndAlso Not _teksDiucapkan.StartsWith("[") Then
             ' Map _scoreFA ke kolom dtw_score dan final_score untuk kompatibilitas data lama
-            SaveResultToDatabase(_userId, _questionId, _combinedScore, _scoreFA, _scorePersen)
+            SaveResultToDatabase(_userId, _questionId, _combinedScore, _scoreFA, _scorePersen, _teksDiucapkan)
         End If
 
         ' 4. TAMPILKAN SKOR (Label2)
@@ -200,18 +200,19 @@ Public Class Form3
     ' =======================================================
     Private Sub SaveResultToDatabase(ByVal userId As Integer, ByVal questionId As Integer,
                                       ByVal finalScore As Double, ByVal dtwScore As Double,
-                                      ByVal wordAccuracy As Double)
+                                      ByVal wordAccuracy As Double, ByVal spokenText As String)
         Dim conn As MySqlConnection = Nothing
         Try
             conn = DatabaseModule.GetConnection()
             If conn Is Nothing Then Exit Sub
 
-            Dim sql As String = "INSERT INTO results (user_id, question_id, word_accuracy, phoneme_accuracy, final_score, dtw_score, audio_file_path) " &
-                                "VALUES (@uid, @qid, @wordAcc, @phoneAcc, @finalScore, @dtwScore, @audioPath)"
+            Dim sql As String = "INSERT INTO results (user_id, question_id, spoken_text, word_accuracy, phoneme_accuracy, final_score, dtw_score, audio_file_path) " &
+                                "VALUES (@uid, @qid, @spokenText, @wordAcc, @phoneAcc, @finalScore, @dtwScore, @audioPath)"
 
             Dim cmd As New MySqlCommand(sql, conn)
             cmd.Parameters.AddWithValue("@uid", userId)
             cmd.Parameters.AddWithValue("@qid", questionId)
+            cmd.Parameters.AddWithValue("@spokenText", spokenText)
             cmd.Parameters.AddWithValue("@wordAcc", wordAccuracy)
             cmd.Parameters.AddWithValue("@phoneAcc", 0.0) ' Placeholder
             cmd.Parameters.AddWithValue("@finalScore", finalScore)

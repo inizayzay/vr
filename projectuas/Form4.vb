@@ -40,7 +40,7 @@ Public Class Form4
             ' Query Join antara table results (skor) dan users (nama/email)
             ' Filter hanya untuk user yang sedang login
             ' Urutkan berdasarkan waktu terbaru (asumsi id increment)
-            Dim sql As String = "SELECT r.created_at, u.name, u.email, r.final_score " &
+            Dim sql As String = "SELECT r.created_at, u.name, u.email, r.spoken_text, r.final_score " &
                                 "FROM results r " &
                                 "JOIN users u ON r.user_id = u.id " &
                                 "WHERE r.user_id = @userId " &
@@ -57,9 +57,17 @@ Public Class Form4
                 Dim tgl As String = reader.GetDateTime("created_at").ToString("yyyy-MM-dd HH:mm")
                 Dim nama As String = reader.GetString("name")
                 Dim email As String = reader.GetString("email")
+                
+                ' Ambil spoken_text, tangani NULL jika ada data lama
+                Dim ucapan As String = "-"
+                If Not reader.IsDBNull(reader.GetOrdinal("spoken_text")) Then
+                    ucapan = reader.GetString("spoken_text")
+                End If
+
                 Dim skor As Double = reader.GetDouble("final_score")
 
-                DataGridView1.Rows.Add(no, tgl, nama, email, $"{skor:N2}%")
+                ' Tambahkan baris sesuai urutan kolom baru {No, Tanggal, Nama, Email, Ucapan, Skor}
+                DataGridView1.Rows.Add(no, tgl, nama, email, ucapan, $"{skor:N2}%")
                 no += 1
             End While
 

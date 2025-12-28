@@ -28,6 +28,7 @@ Partial Class Form4
         colTanggal = New DataGridViewTextBoxColumn()
         colNama = New DataGridViewTextBoxColumn()
         colEmail = New DataGridViewTextBoxColumn()
+        colUcapan = New DataGridViewTextBoxColumn()
         colSkor = New DataGridViewTextBoxColumn()
         Button1 = New Button()
         Panel1 = New Panel()
@@ -53,7 +54,7 @@ Partial Class Form4
         DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
         DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {colNo, colTanggal, colNama, colEmail, colSkor})
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {colNo, colTanggal, colNama, colEmail, colUcapan, colSkor})
         DataGridView1.EnableHeadersVisualStyles = False
         DataGridView1.Location = New Point(0, 113)
         DataGridView1.Margin = New Padding(3, 4, 3, 4)
@@ -86,6 +87,12 @@ Partial Class Form4
         colEmail.HeaderText = "Email"
         colEmail.MinimumWidth = 6
         colEmail.Name = "colEmail"
+        ' 
+        ' colUcapan
+        ' 
+        colUcapan.HeaderText = "Anda Mengucap"
+        colUcapan.MinimumWidth = 6
+        colUcapan.Name = "colUcapan"
         ' 
         ' colSkor
         ' 
@@ -164,6 +171,7 @@ Partial Class Form4
     Friend WithEvents colTanggal As DataGridViewTextBoxColumn
     Friend WithEvents colNama As DataGridViewTextBoxColumn
     Friend WithEvents colEmail As DataGridViewTextBoxColumn
+    Friend WithEvents colUcapan As DataGridViewTextBoxColumn
     Friend WithEvents colSkor As DataGridViewTextBoxColumn
     Friend WithEvents Button1 As Button
     Friend WithEvents Panel1 As Panel
