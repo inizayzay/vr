@@ -10,9 +10,7 @@ Public Class Form4
             e.Graphics.FillRectangle(brush, ClientRectangle)
         End Using
     End Sub
-    Private Sub Form4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-    End Sub
     ' =======================================================
     ' VARIABEL UTAMA
     ' =======================================================
