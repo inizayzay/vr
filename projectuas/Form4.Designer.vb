@@ -33,6 +33,8 @@ Partial Class Form4
         Button1 = New Button()
         Panel1 = New Panel()
         Label1 = New Label()
+        lblXP = New Label()
+        picChart = New PictureBox()
         Panel2 = New Panel()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
@@ -61,8 +63,18 @@ Partial Class Form4
         DataGridView1.Name = "DataGridView1"
         DataGridView1.RowHeadersVisible = False
         DataGridView1.RowHeadersWidth = 51
-        DataGridView1.Size = New Size(1066, 422)
+        DataGridView1.Size = New Size(1066, 250)
         DataGridView1.TabIndex = 0
+        ' 
+        ' picChart
+        ' 
+        picChart.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        picChart.BackColor = Color.FromArgb(CByte(240), CByte(240), CByte(255))
+        picChart.Location = New Point(0, 370)
+        picChart.Name = "picChart"
+        picChart.Size = New Size(1066, 175)
+        picChart.TabIndex = 4
+        picChart.TabStop = False
         ' 
         ' colNo
         ' 
@@ -120,7 +132,9 @@ Partial Class Form4
         Panel1.BackColor = Color.White
         Panel1.Controls.Add(Button1)
         Panel1.Controls.Add(Label1)
+        Panel1.Controls.Add(lblXP)
         Panel1.Controls.Add(DataGridView1)
+        Panel1.Controls.Add(picChart)
         Panel1.Location = New Point(12, 4)
         Panel1.Margin = New Padding(3, 4, 3, 4)
         Panel1.Name = "Panel1"
@@ -137,6 +151,17 @@ Partial Class Form4
         Label1.Size = New Size(146, 41)
         Label1.TabIndex = 3
         Label1.Text = "HISTORY"
+        ' 
+        ' lblXP
+        ' 
+        lblXP.AutoSize = True
+        lblXP.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
+        lblXP.ForeColor = Color.IndianRed
+        lblXP.Location = New Point(180, 27)
+        lblXP.Name = "lblXP"
+        lblXP.Size = New Size(100, 28)
+        lblXP.TabIndex = 5
+        lblXP.Text = "Level 1 (0 XP)"
         ' 
         ' Panel2
         ' 
@@ -176,5 +201,7 @@ Partial Class Form4
     Friend WithEvents Button1 As Button
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Label1 As Label
+    Friend WithEvents lblXP As Label
+    Friend WithEvents picChart As PictureBox
     Friend WithEvents Panel2 As Panel
 End Class

@@ -24,8 +24,13 @@ Public Class Form2
     Private currentQuestion As QuestionData ' Menggunakan Structure dari DatabaseModule
 
     ' NEW: Audio Recording
-    Private audioRecorder As AudioRecorder
+    Private WithEvents audioRecorder As AudioRecorder
     Private recordedWavPath As String = ""
+
+    ' Waveform Visualization Variables
+    Private waveformBitmap As Bitmap
+    Private waveformGraphics As Graphics
+    Private waveformOffset As Integer = 0
 
     ' UI Component Names: Label3=Hi User, Label2=Teks Target, Button1=Tap to Speak, Button2=Next
 
@@ -56,7 +61,13 @@ Public Class Form2
             Button1.Enabled = False
         End If
 
-        ' Set Judul "Hi, User" (Label3)
+        ' Set Judul "Hi, User" (Label3) + LEVEL
+        Dim xpData = DatabaseModule.GetUserXPAndLevel(_userId)
+        Label3.Text = $"HI, {_namaPengguna} [Lv {xpData.Item1}]"
+
+        ' Inisialisasi PictureBox Waveform
+        InitializeWaveform()
+
         UpdateStatus("Loading...")
         ' Set Teks Target (Label2) dari Database
         Label2.Text = currentQuestion.Text.ToUpper()
@@ -301,6 +312,68 @@ Public Class Form2
             Throw New Exception($"Playback failed: {ex.Message}")
         End Try
     End Function
+
+    ' =======================================================
+    ' 7. WAVEFORM VISUALIZATION LOGIC
+    ' =======================================================
+    Private Sub InitializeWaveform()
+        If picWaveform.Width > 0 AndAlso picWaveform.Height > 0 Then
+            waveformBitmap = New Bitmap(picWaveform.Width, picWaveform.Height)
+            waveformGraphics = Graphics.FromImage(waveformBitmap)
+            ClearWaveform()
+        End If
+    End Sub
+
+    Private Sub ClearWaveform()
+        If waveformGraphics IsNot Nothing Then
+            waveformGraphics.Clear(Color.White)
+            waveformOffset = 0
+            picWaveform.Image = waveformBitmap
+        End If
+    End Sub
+
+    Private Sub audioRecorder_AudioDataAvailable(buffer() As Byte, bytesRecorded As Integer) Handles audioRecorder.AudioDataAvailable
+        If picWaveform.InvokeRequired Then
+            picWaveform.BeginInvoke(Sub() audioRecorder_AudioDataAvailable(buffer, bytesRecorded))
+            Return
+        End If
+
+        If waveformGraphics Is Nothing Then Return
+
+        ' Calculate Peak (Simplified)
+        Dim max As Single = 0
+        For i As Integer = 0 To bytesRecorded - 2 Step 2
+            Dim sample As Short = BitConverter.ToInt16(buffer, i)
+            Dim absSample As Single = Math.Abs(sample) / 32768.0F
+            If absSample > max Then max = absSample
+        Next
+
+        ' Draw on Bitmap
+        Dim h As Integer = waveformBitmap.Height
+        Dim w As Integer = waveformBitmap.Width
+        Dim barHeight As Integer = CInt(max * h * 0.8)
+        If barHeight < 2 Then barHeight = 2
+
+        ' Draw moving vertical line
+        Dim p As New Pen(Color.FromArgb(108, 92, 231), 2)
+        
+        ' Shift bitmap (simplified by drawing at offset)
+        ' Efficient rolling: draw at current offset and wrap or clear leading edge
+        If waveformOffset >= w Then
+            ClearWaveform()
+        End If
+
+        waveformGraphics.DrawLine(p, waveformOffset, h \ 2 - barHeight \ 2, waveformOffset, h \ 2 + barHeight \ 2)
+        waveformOffset += 2
+        
+        picWaveform.Invalidate()
+    End Sub
+
+    Private Sub picWaveform_Paint(sender As Object, e As PaintEventArgs) Handles picWaveform.Paint
+        If waveformBitmap IsNot Nothing Then
+            e.Graphics.DrawImage(waveformBitmap, 0, 0)
+        End If
+    End Sub
 
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
 

@@ -74,4 +74,36 @@ Module DatabaseModule
         Return question
     End Function
 
+    ' FUNGSI MENGHITUNG XP DAN LEVEL USER
+    Public Function GetUserXPAndLevel(ByVal userId As Integer) As Tuple(Of Integer, Double)
+        Dim conn As MySqlConnection = Nothing
+        Dim totalXP As Double = 0
+        Dim level As Integer = 1
+
+        Try
+            conn = GetConnection()
+            If conn Is Nothing Then Return Tuple.Create(1, 0.0)
+
+            Dim sql As String = "SELECT SUM(final_score) as total FROM results WHERE user_id = @uid"
+            Dim cmd As New MySqlCommand(sql, conn)
+            cmd.Parameters.AddWithValue("@uid", userId)
+
+            Dim result = cmd.ExecuteScalar()
+            If result IsNot DBNull.Value AndAlso result IsNot Nothing Then
+                totalXP = Convert.ToDouble(result)
+            End If
+
+            ' Logic: 1000 XP (10 perfect tests) = 1 Level
+            level = CInt(Math.Floor(totalXP / 1000)) + 1
+            If level < 1 Then level = 1
+
+        Catch ex As Exception
+            Debug.WriteLine($"Error calculating XP: {ex.Message}")
+        Finally
+            CloseConnection(conn)
+        End Try
+
+        Return Tuple.Create(level, totalXP)
+    End Function
+
 End Module

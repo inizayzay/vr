@@ -11,6 +11,11 @@ from g2p_en import G2p
 import pyttsx3
 import tempfile
 import threading
+import nltk
+
+# Ensure required NLTK data is downloaded
+nltk.download('averaged_perceptron_tagger_eng')
+nltk.download('cmudict')
 
 app = Flask(__name__)
 CORS(app)

@@ -23,6 +23,7 @@ Partial Class Form2
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Label2 = New Label()
+        picWaveform = New PictureBox()
         btnListen = New Button()
         Button2 = New Button()
         Panel1 = New Panel()
@@ -62,6 +63,15 @@ Partial Class Form2
         btnListen.TabIndex = 4
         btnListen.Text = "🔊 Listen"
         btnListen.UseVisualStyleBackColor = False
+        ' 
+        ' picWaveform
+        ' 
+        picWaveform.BackColor = Color.White
+        picWaveform.Location = New Point(420, 110)
+        picWaveform.Name = "picWaveform"
+        picWaveform.Size = New Size(500, 50)
+        picWaveform.TabIndex = 5
+        picWaveform.TabStop = False
         ' 
         ' Button2
         ' 
@@ -148,6 +158,7 @@ Partial Class Form2
         Panel2.BackColor = Color.White
         Panel2.Controls.Add(Button1)
         Panel2.Controls.Add(Label2)
+        Panel2.Controls.Add(picWaveform)
         Panel2.Controls.Add(btnListen)
         Panel2.Controls.Add(Button2)
         Panel2.Location = New Point(3, 4)
@@ -187,6 +198,7 @@ Partial Class Form2
         ResumeLayout(False)
     End Sub
     Friend WithEvents Label2 As Label
+    Friend WithEvents picWaveform As PictureBox
     Friend WithEvents btnListen As Button
     Friend WithEvents Button2 As Button
     Friend WithEvents Panel1 As Panel
