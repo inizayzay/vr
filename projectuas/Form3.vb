@@ -125,13 +125,31 @@ Public Class Form3
         detail.AppendLine($"Durasi Bicara   : {_duration:N2} detik")
         detail.AppendLine("")
         
-        detail.AppendLine("DETAIL PER KATA:")
+        detail.AppendLine("DETAIL PER KATA & BUNYI (PHONEMES):")
         If _wordDetails IsNot Nothing Then
-            For Each item In _wordDetails
-                Dim w = item("word").ToString()
-                Dim s = item("score").ToString()
-                Dim st = item("status").ToString()
-                detail.AppendLine($"- {w.PadRight(12)}: {s}% ({st})")
+            For Each wordItem In _wordDetails
+                Dim w = wordItem("word").ToString()
+                Dim s = wordItem("score").ToString()
+                Dim st = wordItem("status").ToString()
+                detail.AppendLine($"- {w.ToUpper().PadRight(12)}: {s}% ({st})")
+                
+                ' Tampilkan detail fonem (bunyi)
+                Dim phonemes = wordItem("phonemes")
+                If phonemes IsNot Nothing Then
+                    Dim pList As New List(Of String)
+                    For Each pItem In phonemes
+                        Dim p = pItem("phoneme").ToString()
+                        Dim pSt = pItem("status").ToString()
+                        ' Jika status bukan Good, beri tanda penekanan
+                        If pSt <> "Good" Then
+                            pList.Add($"[{p}]")
+                        Else
+                            pList.Add(p)
+                        End If
+                    Next
+                    detail.AppendLine($"  Bunyi: {String.Join(" ", pList)}")
+                End If
+                detail.AppendLine("")
             Next
         End If
         

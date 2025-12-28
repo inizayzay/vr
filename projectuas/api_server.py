@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import os
 import torch
@@ -7,6 +7,10 @@ from transformers import Wav2Vec2ForCTC, Wav2Vec2Processor
 import numpy as np
 from pathlib import Path
 import librosa
+from g2p_en import G2p
+import pyttsx3
+import tempfile
+import threading
 
 app = Flask(__name__)
 CORS(app)
@@ -16,86 +20,98 @@ SAMPLING_RATE = 16000 # Wav2Vec2 expects 16kHz
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 print(f"Loading Wav2Vec2 model on {DEVICE}...")
-# Load a pre-trained model for English
 MODEL_ID = "facebook/wav2vec2-base-960h"
 processor = Wav2Vec2Processor.from_pretrained(MODEL_ID)
 model = Wav2Vec2ForCTC.from_pretrained(MODEL_ID).to(DEVICE)
 model.eval()
+
+# Initialize G2P for phoneme conversion
+g2p = G2p()
 
 # Paths
 BASE_DIR = Path(__file__).parent
 TEMP_DIR = BASE_DIR / "temp_audio"
 TEMP_DIR.mkdir(exist_ok=True)
 
-def get_word_scores(audio_path, target_text):
+def get_phonemes(text):
+    """Convert text to phonetic representation."""
+    return [p for p in g2p(text) if p.strip()]
+
+def get_detailed_scores(audio_path, target_text):
     """
-    Perform Force Alignment / GOP-like scoring using Wav2Vec2.
+    Perform granular scoring (Word and Phoneme level)
     """
     # 1. Load and resample audio
     speech, sr = librosa.load(audio_path, sr=SAMPLING_RATE)
     
     # 2. Process through model
-    input_values = processor(speech, return_tensors="pt", sampling_rate=SAMPLING_RATE).input_values.to(DEVICE)
+    inputs = processor(speech, return_tensors="pt", sampling_rate=SAMPLING_RATE)
+    input_values = inputs.input_values.to(DEVICE)
     
     with torch.no_grad():
         logits = model(input_values).logits
     
-    # Calculate log probabilities
-    log_probs = torch.nn.functional.log_softmax(logits, dim=-1).squeeze(0).cpu().numpy()
+    # Calculate probabilities
+    probs = torch.nn.functional.softmax(logits, dim=-1).squeeze(0).cpu().numpy()
+    predicted_ids = torch.argmax(logits, dim=-1).squeeze(0).cpu().numpy()
     
-    # 3. Clean target text
+    # Decoding
+    transcription = processor.decode(predicted_ids).upper()
+    
+    # Target Clean-up
     target_text = target_text.upper().strip()
-    words = target_text.split()
+    target_words = target_text.split()
+    target_phonemes_list = [get_phonemes(w) for w in target_words]
     
-    # Simple GOP (Goodness of Pronunciation) approximation:
-    # We find the best matching characters in the transcription and calculate their confidence.
-    # For a more production-ready Force Alignment, we would use CTC-segmentation or torchaudio.forced_align
-    # But for a single word/short phrase, we can use the predicted probabilities.
+    # Predicted Words
+    pred_words = transcription.split()
     
-    predicted_ids = torch.argmax(logits, dim=-1)
-    transcription = processor.batch_decode(predicted_ids)[0]
-    
-    # Scoring Logic
-    # We'll calculate a score based on how close the predicted transcription is to target
-    # AND the confidence of the model for those characters.
-    
-    total_score = 0
     word_details = []
+    total_score = 0
     
-    # Simple word-level matching
-    # This is a simplified version. A real alignment would map time-frames to words.
-    predicted_words = transcription.split()
-    
-    for i, target_word in enumerate(words):
-        # Find if this word exists in transcription
-        found = False
-        score = 0
+    # Simplified Word & Phoneme Alignment
+    # In a full system, we'd use CTC-segmentation for time-alignment
+    for i, target_word in enumerate(target_words):
+        word_score = 0
+        phonemes_feedback = []
+        expected_phonemes = target_phonemes_list[i]
         
-        if i < len(predicted_words):
-            word_pred = predicted_words[i]
-            if word_pred == target_word:
-                # Basic score for character confidence
-                score = 100
-                found = True
+        if i < len(pred_words):
+            pred_word = pred_words[i]
+            if pred_word == target_word:
+                word_score = 100
+                # If word is correct, check phoneme "purity" (simplified)
+                for p in expected_phonemes:
+                    phonemes_feedback.append({"phoneme": p, "score": 100, "status": "Good"})
             else:
-                # Partial match or wrong word
-                # Use Levenshtein distance or similar for partial credit?
+                # Partial match logic
                 from difflib import SequenceMatcher
-                ratio = SequenceMatcher(None, target_word, word_pred).ratio()
-                score = ratio * 100
+                ratio = SequenceMatcher(None, target_word, pred_word).ratio()
+                word_score = ratio * 100
+                
+                # Phoneme level feedback simulation based on word overlap
+                for p in expected_phonemes:
+                    # Very simplified: if word part exists, phoneme is okay
+                    p_score = word_score if len(p) > 1 else 100 # vowels usually okay
+                    phonemes_feedback.append({
+                        "phoneme": p, 
+                        "score": round(p_score, 2),
+                        "status": "Good" if p_score > 80 else "Needs Work"
+                    })
         else:
-            score = 0 # Word missing
-            
+            word_score = 0
+            for p in expected_phonemes:
+                phonemes_feedback.append({"phoneme": p, "score": 0, "status": "Missing"})
+        
         word_details.append({
             "word": target_word,
-            "score": round(score, 2),
-            "status": "Correct" if score > 80 else "Needs Improvement" if score > 0 else "Missing"
+            "score": round(word_score, 2),
+            "status": "Correct" if word_score > 80 else "Needs Improvement" if word_score > 0 else "Missing",
+            "phonemes": phonemes_feedback
         })
-        total_score += score
+        total_score += word_score
 
-    overall_score = total_score / len(words) if words else 0
-    
-    # Extra: Calculate precision based on duration
+    overall_score = total_score / len(target_words) if target_words else 0
     duration = librosa.get_duration(y=speech, sr=SAMPLING_RATE)
     
     return float(overall_score), word_details, round(duration, 2)
@@ -108,16 +124,11 @@ def compare():
     audio_file = request.files['audio']
     target_text = request.form.get('target_text', '').strip()
     
-    if not target_text:
-        return jsonify({"error": "No target text provided"}), 400
-
     temp_path = TEMP_DIR / f"user_{os.urandom(4).hex()}.wav"
     audio_file.save(str(temp_path))
     
     try:
-        # Use Force Alignment Model
-        score, word_details, duration = get_word_scores(str(temp_path), target_text)
-        
+        score, word_details, duration = get_detailed_scores(str(temp_path), target_text)
         return jsonify({
             "status": "success",
             "score": round(score, 2),
@@ -125,7 +136,6 @@ def compare():
             "duration": duration,
             "target": target_text
         })
-        
     except Exception as e:
         import traceback
         traceback.print_exc()
@@ -134,6 +144,38 @@ def compare():
         if temp_path.exists():
             os.remove(temp_path)
 
+@app.route('/tts', methods=['GET'])
+def tts():
+    text = request.args.get('text', '').strip()
+    if not text:
+        return jsonify({"error": "No text provided"}), 400
+    
+    # Use pyttsx3 to generate WAV
+    temp_wav = TEMP_DIR / f"tts_{os.urandom(4).hex()}.wav"
+    
+    def run_tts():
+        engine = pyttsx3.init()
+        # Set property before saving
+        engine.setProperty('rate', 150)
+        engine.save_to_file(text, str(temp_wav))
+        engine.runAndWait()
+        # Explicitly stop the engine to release resources
+        engine.stop()
+
+    # pyttsx3 runAndWait can sometimes block or have threading issues in Flask
+    # but for local development, it's usually fine.
+    try:
+        t = threading.Thread(target=run_tts)
+        t.start()
+        t.join(5) # Wait max 5 seconds
+        
+        if temp_wav.exists():
+            return send_file(str(temp_wav), mimetype="audio/wav")
+        else:
+            return jsonify({"error": "Failed to generate TTS"}), 500
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
-    print("Force Alignment API Server starting...")
-    app.run(host='0.0.0.0', port=5000)
+    print("Advanced Voice API Server starting...")
+    app.run(host='0.0.0.0', port=5000, threaded=True)

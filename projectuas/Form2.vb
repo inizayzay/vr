@@ -259,6 +259,49 @@ Public Class Form2
         frmScoring.Show()
     End Sub
 
+    ' Button Listen Click (TTS)
+    Private Async Sub btnListen_Click(sender As Object, e As EventArgs) Handles btnListen.Click
+        Try
+            btnListen.Enabled = False
+            btnListen.Text = "⌛..."
+            Await PlayReferenceAudioAsync(currentQuestion.Text)
+        Catch ex As Exception
+            MessageBox.Show($"Gagal memutar contoh suara: {ex.Message}", "TTS Error")
+        Finally
+            btnListen.Enabled = True
+            btnListen.Text = "🔊 Listen"
+        End Try
+    End Sub
+
+    Private Async Function PlayReferenceAudioAsync(ByVal text As String) As Task
+        Try
+            Using client As New System.Net.Http.HttpClient()
+                ' Encode text for URL
+                Dim encodedText As String = System.Web.HttpUtility.UrlEncode(text)
+                Dim url As String = $"http://localhost:5000/tts?text={encodedText}"
+                
+                Dim audioData As Byte() = Await client.GetByteArrayAsync(url)
+                
+                ' Simpan ke file temp lokal untuk diputar
+                Dim tempPath As String = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "tts_ref.wav")
+                System.IO.File.WriteAllBytes(tempPath, audioData)
+                
+                ' Putar menggunakan NAudio
+                Using reader As New NAudio.Wave.WaveFileReader(tempPath)
+                    Using outputDevice As New NAudio.Wave.WaveOutEvent()
+                        outputDevice.Init(reader)
+                        outputDevice.Play()
+                        While outputDevice.PlaybackState = NAudio.Wave.PlaybackState.Playing
+                            Await Task.Delay(100)
+                        End While
+                    End Using
+                End Using
+            End Using
+        Catch ex As Exception
+            Throw New Exception($"Playback failed: {ex.Message}")
+        End Try
+    End Function
+
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
 
     End Sub

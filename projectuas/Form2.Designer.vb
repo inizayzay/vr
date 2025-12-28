@@ -23,6 +23,7 @@ Partial Class Form2
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Label2 = New Label()
+        btnListen = New Button()
         Button2 = New Button()
         Panel1 = New Panel()
         btnHistory = New Button()
@@ -47,6 +48,20 @@ Partial Class Form2
         Label2.Size = New Size(572, 62)
         Label2.TabIndex = 1
         Label2.Text = "WELCOME TO TES VOICE"
+        ' 
+        ' btnListen
+        ' 
+        btnListen.BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
+        btnListen.FlatAppearance.BorderSize = 0
+        btnListen.FlatStyle = FlatStyle.Flat
+        btnListen.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold)
+        btnListen.ForeColor = Color.White
+        btnListen.Location = New Point(320, 120)
+        btnListen.Name = "btnListen"
+        btnListen.Size = New Size(80, 30)
+        btnListen.TabIndex = 4
+        btnListen.Text = "🔊 Listen"
+        btnListen.UseVisualStyleBackColor = False
         ' 
         ' Button2
         ' 
@@ -133,6 +148,7 @@ Partial Class Form2
         Panel2.BackColor = Color.White
         Panel2.Controls.Add(Button1)
         Panel2.Controls.Add(Label2)
+        Panel2.Controls.Add(btnListen)
         Panel2.Controls.Add(Button2)
         Panel2.Location = New Point(3, 4)
         Panel2.Margin = New Padding(3, 4, 3, 4)
@@ -171,6 +187,7 @@ Partial Class Form2
         ResumeLayout(False)
     End Sub
     Friend WithEvents Label2 As Label
+    Friend WithEvents btnListen As Button
     Friend WithEvents Button2 As Button
     Friend WithEvents Panel1 As Panel
     Friend WithEvents btnHistory As Button
