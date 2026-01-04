@@ -34,20 +34,25 @@ Partial Class Form1
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Label1 = New Label()
-        Label2 = New Label()
-        TextBox1 = New TextBox()
         Button1 = New Button()
-        Panel1 = New Panel()
         PictureBox2 = New PictureBox()
         PictureBox1 = New PictureBox()
+        Label4 = New Label()
+        TextBox1 = New TextBox()
         Label3 = New Label()
         TextBox2 = New TextBox()
-        Panel2 = New Panel()
+        Label2 = New Label()
         Panel3 = New Panel()
-        Label4 = New Label()
-        Panel1.SuspendLayout()
+        PictureBox3 = New PictureBox()
+        PictureBox4 = New PictureBox()
+        Panel6 = New Panel()
+        Panel1 = New Panel()
+        Panel2 = New Panel()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
+        CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
+        CType(PictureBox4, ComponentModel.ISupportInitialize).BeginInit()
+        Panel1.SuspendLayout()
         SuspendLayout()
         ' 
         ' Label1
@@ -55,18 +60,6 @@ Partial Class Form1
         resources.ApplyResources(Label1, "Label1")
         Label1.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
         Label1.Name = "Label1"
-        ' 
-        ' Label2
-        ' 
-        resources.ApplyResources(Label2, "Label2")
-        Label2.Name = "Label2"
-        ' 
-        ' TextBox1
-        ' 
-        TextBox1.BackColor = Color.FromArgb(CByte(248), CByte(248), CByte(250))
-        TextBox1.BorderStyle = BorderStyle.None
-        resources.ApplyResources(TextBox1, "TextBox1")
-        TextBox1.Name = "TextBox1"
         ' 
         ' Button1
         ' 
@@ -76,15 +69,6 @@ Partial Class Form1
         Button1.ForeColor = Color.White
         Button1.Name = "Button1"
         Button1.UseVisualStyleBackColor = False
-        ' 
-        ' Panel1
-        ' 
-        Panel1.BackColor = Color.White
-        resources.ApplyResources(Panel1, "Panel1")
-        Panel1.Controls.Add(PictureBox2)
-        Panel1.Controls.Add(PictureBox1)
-        Panel1.Controls.Add(Label1)
-        Panel1.Name = "Panel1"
         ' 
         ' PictureBox2
         ' 
@@ -99,9 +83,25 @@ Partial Class Form1
         PictureBox1.Name = "PictureBox1"
         PictureBox1.TabStop = False
         ' 
+        ' Label4
+        ' 
+        resources.ApplyResources(Label4, "Label4")
+        Label4.BackColor = Color.White
+        Label4.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
+        Label4.Name = "Label4"
+        ' 
+        ' TextBox1
+        ' 
+        TextBox1.BackColor = Color.FromArgb(CByte(248), CByte(248), CByte(250))
+        TextBox1.BorderStyle = BorderStyle.None
+        resources.ApplyResources(TextBox1, "TextBox1")
+        TextBox1.Name = "TextBox1"
+        ' 
         ' Label3
         ' 
         resources.ApplyResources(Label3, "Label3")
+        Label3.BackColor = Color.Transparent
+        Label3.ForeColor = Color.DimGray
         Label3.Name = "Label3"
         ' 
         ' TextBox2
@@ -111,11 +111,12 @@ Partial Class Form1
         resources.ApplyResources(TextBox2, "TextBox2")
         TextBox2.Name = "TextBox2"
         ' 
-        ' Panel2
+        ' Label2
         ' 
-        Panel2.BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        resources.ApplyResources(Panel2, "Panel2")
-        Panel2.Name = "Panel2"
+        resources.ApplyResources(Label2, "Label2")
+        Label2.BackColor = Color.Transparent
+        Label2.ForeColor = Color.DimGray
+        Label2.Name = "Label2"
         ' 
         ' Panel3
         ' 
@@ -123,46 +124,82 @@ Partial Class Form1
         resources.ApplyResources(Panel3, "Panel3")
         Panel3.Name = "Panel3"
         ' 
-        ' Label4
+        ' PictureBox3
         ' 
-        resources.ApplyResources(Label4, "Label4")
-        Label4.ForeColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
-        Label4.Name = "Label4"
+        PictureBox3.BackColor = Color.Transparent
+        resources.ApplyResources(PictureBox3, "PictureBox3")
+        PictureBox3.Name = "PictureBox3"
+        PictureBox3.TabStop = False
+        ' 
+        ' PictureBox4
+        ' 
+        PictureBox4.BackColor = Color.Transparent
+        resources.ApplyResources(PictureBox4, "PictureBox4")
+        PictureBox4.Name = "PictureBox4"
+        PictureBox4.TabStop = False
+        ' 
+        ' Panel6
+        ' 
+        Panel6.BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
+        resources.ApplyResources(Panel6, "Panel6")
+        Panel6.Name = "Panel6"
+        ' 
+        ' Panel1
+        ' 
+        Panel1.BackColor = Color.White
+        Panel1.Controls.Add(Panel2)
+        Panel1.Controls.Add(Panel6)
+        Panel1.Controls.Add(Label4)
+        Panel1.Controls.Add(Panel3)
+        Panel1.Controls.Add(Label1)
+        Panel1.Controls.Add(PictureBox4)
+        Panel1.Controls.Add(PictureBox3)
+        Panel1.Controls.Add(PictureBox2)
+        Panel1.Controls.Add(Button1)
+        Panel1.Controls.Add(Label3)
+        Panel1.Controls.Add(Label2)
+        Panel1.Controls.Add(TextBox1)
+        Panel1.Controls.Add(TextBox2)
+        Panel1.Controls.Add(PictureBox1)
+        resources.ApplyResources(Panel1, "Panel1")
+        Panel1.Name = "Panel1"
+        ' 
+        ' Panel2
+        ' 
+        Panel2.BackColor = Color.WhiteSmoke
+        resources.ApplyResources(Panel2, "Panel2")
+        Panel2.Name = "Panel2"
         ' 
         ' Form1
         ' 
         resources.ApplyResources(Me, "$this")
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.FromArgb(CByte(248), CByte(248), CByte(250))
-        Controls.Add(Label4)
-        Controls.Add(Panel3)
-        Controls.Add(Panel2)
-        Controls.Add(TextBox2)
-        Controls.Add(Label3)
+        BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
         Controls.Add(Panel1)
-        Controls.Add(Button1)
-        Controls.Add(TextBox1)
-        Controls.Add(Label2)
         Name = "Form1"
-        Panel1.ResumeLayout(False)
-        Panel1.PerformLayout()
         CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
+        CType(PictureBox3, ComponentModel.ISupportInitialize).EndInit()
+        CType(PictureBox4, ComponentModel.ISupportInitialize).EndInit()
+        Panel1.ResumeLayout(False)
+        Panel1.PerformLayout()
         ResumeLayout(False)
-        PerformLayout()
     End Sub
 
     Friend WithEvents Label1 As Label
-    Friend WithEvents Label2 As Label
-    Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Button1 As Button
-    Friend WithEvents Panel1 As Panel
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents PictureBox2 As PictureBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Label3 As Label
     Friend WithEvents TextBox2 As TextBox
-    Friend WithEvents Panel2 As Panel
+    Friend WithEvents Label2 As Label
     Friend WithEvents Panel3 As Panel
-    Friend WithEvents Label4 As Label
+    Friend WithEvents PictureBox3 As PictureBox
+    Friend WithEvents PictureBox4 As PictureBox
+    Friend WithEvents Panel6 As Panel
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents Panel2 As Panel
 
 End Class

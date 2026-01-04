@@ -22,17 +22,22 @@ Partial Class Form3
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        components = New ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form3))
         Label1 = New Label()
         Label2 = New Label()
         Label3 = New Label()
         Button1 = New Button()
+        ImageList1 = New ImageList(components)
         Button2 = New Button()
         Panel1 = New Panel()
         Label5 = New Label()
         Label4 = New Label()
         Panel2 = New Panel()
+        PictureBox1 = New PictureBox()
         Panel1.SuspendLayout()
         Panel2.SuspendLayout()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Label1
@@ -40,7 +45,7 @@ Partial Class Form3
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = SystemColors.WindowFrame
-        Label1.Location = New Point(300, 16)
+        Label1.Location = New Point(330, 30)
         Label1.Name = "Label1"
         Label1.Size = New Size(79, 25)
         Label1.TabIndex = 0
@@ -51,7 +56,7 @@ Partial Class Form3
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI", 72F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Label2.Location = New Point(233, 41)
+        Label2.Location = New Point(256, 126)
         Label2.Name = "Label2"
         Label2.Size = New Size(219, 128)
         Label2.TabIndex = 1
@@ -60,11 +65,11 @@ Partial Class Form3
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Font = New Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label3.ForeColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
-        Label3.Location = New Point(278, 162)
+        Label3.Font = New Font("Segoe UI Semibold", 15.75F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
+        Label3.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
+        Label3.Location = New Point(309, 254)
         Label3.Name = "Label3"
-        Label3.Size = New Size(121, 30)
+        Label3.Size = New Size(115, 30)
         Label3.TabIndex = 2
         Label3.Text = "Good Job !"
         ' 
@@ -74,12 +79,25 @@ Partial Class Form3
         Button1.FlatAppearance.BorderSize = 0
         Button1.FlatStyle = FlatStyle.Flat
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(277, 214)
+        Button1.ImageAlign = ContentAlignment.MiddleLeft
+        Button1.ImageIndex = 1
+        Button1.ImageList = ImageList1
+        Button1.Location = New Point(235, 299)
         Button1.Name = "Button1"
         Button1.Size = New Size(118, 23)
         Button1.TabIndex = 3
-        Button1.Text = "Try Again ↺"
+        Button1.Text = "Try Again "
+        Button1.TextAlign = ContentAlignment.MiddleRight
+        Button1.TextImageRelation = TextImageRelation.TextBeforeImage
         Button1.UseVisualStyleBackColor = False
+        ' 
+        ' ImageList1
+        ' 
+        ImageList1.ColorDepth = ColorDepth.Depth32Bit
+        ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), ImageListStreamer)
+        ImageList1.TransparentColor = Color.Transparent
+        ImageList1.Images.SetKeyName(0, "clock.png")
+        ImageList1.Images.SetKeyName(1, "refresh.png")
         ' 
         ' Button2
         ' 
@@ -87,11 +105,16 @@ Partial Class Form3
         Button2.FlatAppearance.BorderColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
         Button2.FlatStyle = FlatStyle.Flat
         Button2.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Button2.Location = New Point(280, 255)
+        Button2.ImageAlign = ContentAlignment.MiddleLeft
+        Button2.ImageIndex = 0
+        Button2.ImageList = ImageList1
+        Button2.Location = New Point(393, 299)
         Button2.Name = "Button2"
-        Button2.Size = New Size(118, 23)
+        Button2.Size = New Size(97, 23)
         Button2.TabIndex = 4
         Button2.Text = "History"
+        Button2.TextAlign = ContentAlignment.MiddleRight
+        Button2.TextImageRelation = TextImageRelation.ImageBeforeText
         Button2.UseVisualStyleBackColor = False
         ' 
         ' Panel1
@@ -131,15 +154,26 @@ Partial Class Form3
         ' 
         Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         Panel2.BackColor = Color.White
+        Panel2.Controls.Add(PictureBox1)
         Panel2.Controls.Add(Label1)
         Panel2.Controls.Add(Label2)
         Panel2.Controls.Add(Button1)
         Panel2.Controls.Add(Button2)
         Panel2.Controls.Add(Label3)
-        Panel2.Location = New Point(27, 86)
+        Panel2.Location = New Point(91, 86)
         Panel2.Name = "Panel2"
         Panel2.Size = New Size(724, 364)
         Panel2.TabIndex = 6
+        ' 
+        ' PictureBox1
+        ' 
+        PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), Image)
+        PictureBox1.Location = New Point(319, 67)
+        PictureBox1.Name = "PictureBox1"
+        PictureBox1.Size = New Size(100, 83)
+        PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox1.TabIndex = 5
+        PictureBox1.TabStop = False
         ' 
         ' Form3
         ' 
@@ -156,6 +190,7 @@ Partial Class Form3
         Panel1.PerformLayout()
         Panel2.ResumeLayout(False)
         Panel2.PerformLayout()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
@@ -168,4 +203,6 @@ Partial Class Form3
     Friend WithEvents Panel2 As Panel
     Friend WithEvents Label4 As Label
     Friend WithEvents Label5 As Label
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents ImageList1 As ImageList
 End Class

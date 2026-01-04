@@ -109,12 +109,14 @@ Public Class Form2
         End If
 
         Try
+
             ' Reset status
             _teksDiucapkan = ""
             recordedWavPath = ""
 
             ' NEW: Start audio recording
             Try
+
                 audioRecorder = New AudioRecorder()
                 audioRecorder.StartRecording()
             Catch recEx As Exception
@@ -134,6 +136,7 @@ Public Class Form2
             Label3.Text = "Kesalahan saat mencoba mendengarkan."
             Label3.ForeColor = Color.Red
         End Try
+
     End Sub
 
     ' =======================================================

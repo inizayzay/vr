@@ -22,15 +22,21 @@ Partial Class Form2
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        components = New ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form2))
         Label2 = New Label()
         Button2 = New Button()
+        ImageList1 = New ImageList(components)
         Panel1 = New Panel()
+        PictureBox1 = New PictureBox()
         Label3 = New Label()
         Label1 = New Label()
         Button1 = New Button()
         Panel2 = New Panel()
         Panel3 = New Panel()
+        Label5 = New Label()
         Panel1.SuspendLayout()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         Panel2.SuspendLayout()
         Panel3.SuspendLayout()
         SuspendLayout()
@@ -41,11 +47,11 @@ Partial Class Form2
         Label2.BackColor = Color.Transparent
         Label2.Font = New Font("Segoe UI", 27.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.FromArgb(CByte(108), CByte(98), CByte(231))
-        Label2.Location = New Point(94, 27)
+        Label2.Location = New Point(80, 27)
         Label2.Name = "Label2"
-        Label2.Size = New Size(453, 50)
+        Label2.Size = New Size(531, 50)
         Label2.TabIndex = 1
-        Label2.Text = "WELCOME TO TES VOICE"
+        Label2.Text = "READ THE SENTENCE BELOW"
         ' 
         ' Button2
         ' 
@@ -54,16 +60,34 @@ Partial Class Form2
         Button2.FlatStyle = FlatStyle.Flat
         Button2.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Button2.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Button2.Location = New Point(530, 224)
+        Button2.ImageAlign = ContentAlignment.MiddleLeft
+        Button2.ImageIndex = 0
+        Button2.ImageList = ImageList1
+        Button2.Location = New Point(498, 224)
         Button2.Name = "Button2"
-        Button2.Size = New Size(75, 29)
+        Button2.Padding = New Padding(10, 0, 10, 0)
+        Button2.Size = New Size(102, 29)
         Button2.TabIndex = 3
         Button2.Text = "Next"
+        Button2.TextAlign = ContentAlignment.MiddleRight
+        Button2.TextImageRelation = TextImageRelation.TextBeforeImage
         Button2.UseVisualStyleBackColor = False
+        ' 
+        ' ImageList1
+        ' 
+        ImageList1.ColorDepth = ColorDepth.Depth32Bit
+        ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), ImageListStreamer)
+        ImageList1.TransparentColor = Color.Transparent
+        ImageList1.Images.SetKeyName(0, "arrow-right.png")
+        ImageList1.Images.SetKeyName(1, "list.png")
+        ImageList1.Images.SetKeyName(2, "clock.png")
+        ImageList1.Images.SetKeyName(3, "microphone.png")
+        ImageList1.Images.SetKeyName(4, "arrow-left.png")
         ' 
         ' Panel1
         ' 
         Panel1.BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
+        Panel1.Controls.Add(PictureBox1)
         Panel1.Controls.Add(Label3)
         Panel1.Controls.Add(Label1)
         Panel1.Dock = DockStyle.Top
@@ -71,6 +95,17 @@ Partial Class Form2
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(1008, 80)
         Panel1.TabIndex = 4
+        ' 
+        ' PictureBox1
+        ' 
+        PictureBox1.BackColor = Color.Transparent
+        PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), Image)
+        PictureBox1.Location = New Point(662, 41)
+        PictureBox1.Name = "PictureBox1"
+        PictureBox1.Size = New Size(49, 30)
+        PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox1.TabIndex = 2
+        PictureBox1.TabStop = False
         ' 
         ' Label3
         ' 
@@ -101,17 +136,18 @@ Partial Class Form2
         Button1.FlatStyle = FlatStyle.Flat
         Button1.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(195, 131)
+        Button1.Location = New Point(184, 118)
         Button1.Name = "Button1"
         Button1.Size = New Size(250, 60)
         Button1.TabIndex = 2
-        Button1.Text = "🎤 Tap to Speak"
+        Button1.Text = "🎤 "
         Button1.UseVisualStyleBackColor = False
         ' 
         ' Panel2
         ' 
         Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         Panel2.BackColor = Color.White
+        Panel2.Controls.Add(Label5)
         Panel2.Controls.Add(Button1)
         Panel2.Controls.Add(Label2)
         Panel2.Controls.Add(Button2)
@@ -129,6 +165,18 @@ Partial Class Form2
         Panel3.Size = New Size(644, 311)
         Panel3.TabIndex = 4
         ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
+        Label5.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label5.ForeColor = Color.White
+        Label5.Location = New Point(244, 195)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(131, 25)
+        Label5.TabIndex = 4
+        Label5.Text = "Tap to record"
+        ' 
         ' Form2
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -143,6 +191,7 @@ Partial Class Form2
         Text = "Halaman Tes Voice"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         Panel2.ResumeLayout(False)
         Panel2.PerformLayout()
         Panel3.ResumeLayout(False)
@@ -156,4 +205,7 @@ Partial Class Form2
     Friend WithEvents Button1 As Button
     Friend WithEvents Panel2 As Panel
     Friend WithEvents Panel3 As Panel
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents ImageList1 As ImageList
+    Friend WithEvents Label5 As Label
 End Class

@@ -132,4 +132,21 @@
   <metadata name="colSkor.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="ImageList1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="ImageList1.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
+        LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
+        SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAArgEAAAJNU0Z0AUkBTAMBAQAB
+        EAEAARABAAEQAQABEAEABP8BIQEACP8BQgFNATYHAAE2AwABKAMAAUADAAEQAwABAQEAASAGAAEQ/wD/
+        AP8AIQADFwEfBAH0AAM1AVcDBgH7AykBPfAAAzQBVQMGAfsDRAGP8AADMgFQAwYB+wNFAZEEAfAAAyAB
+        5wMOAfYDRAGrA0MBqgNDAaoDQwGqA0MBqgNDAaoDQwGqA0MBqgNDAaoDQwGqA0MBqgNDAaoDQwGqA0UB
+        ksAAAx0B6gMRAfQDQwGqA0MBqgNDAaoDQwGqA0MBqgNDAaoDQwGqA0MBqgNDAaoDQwGqA0MBqgNDAaoD
+        QwGqA0UBksAAAzUBVwMEAfwDQwGI+AADNgFaAwQB/ANDAYj4AAM2AVkDBAH8AycBOvgAAxcBHwQB/wD/
+        AP8A7wABQgFNAT4HAAE+AwABKAMAAUADAAEQAwABAQEAAQEFAAGAFwAD/wEAAv8GAAL/BgAC/wYAAecB
+        /wYAAccB/wYAAY8B/wYAAQ8B/xYAAR8B/wYAAY8B/wYAAccB/wYAAecB/wYAAv8GAAL/BgAC/wYACw==
+</value>
+  </data>
 </root>

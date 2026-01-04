@@ -22,7 +22,9 @@ Partial Class Form4
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        components = New ComponentModel.Container()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form4))
         DataGridView1 = New DataGridView()
         colNo = New DataGridViewTextBoxColumn()
         colTanggal = New DataGridViewTextBoxColumn()
@@ -33,6 +35,7 @@ Partial Class Form4
         Panel1 = New Panel()
         Label1 = New Label()
         Panel2 = New Panel()
+        ImageList1 = New ImageList(components)
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
         SuspendLayout()
@@ -43,14 +46,14 @@ Partial Class Form4
         DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DataGridView1.BackgroundColor = Color.White
         DataGridView1.BorderStyle = BorderStyle.None
-        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        DataGridViewCellStyle1.ForeColor = Color.White
-        DataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
-        DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle2.ForeColor = Color.White
+        DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
+        DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridView1.Columns.AddRange(New DataGridViewColumn() {colNo, colTanggal, colNama, colEmail, colSkor})
         DataGridView1.EnableHeadersVisualStyles = False
@@ -87,16 +90,19 @@ Partial Class Form4
         ' 
         ' Button1
         ' 
-        Button1.BackColor = Color.IndianRed
+        Button1.BackColor = Color.Transparent
         Button1.FlatAppearance.BorderSize = 0
         Button1.FlatStyle = FlatStyle.Flat
         Button1.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Button1.ForeColor = Color.Black
-        Button1.Location = New Point(469, 22)
+        Button1.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
+        Button1.ImageIndex = 0
+        Button1.ImageList = ImageList1
+        Button1.Location = New Point(22, 56)
         Button1.Name = "Button1"
         Button1.Size = New Size(75, 23)
         Button1.TabIndex = 1
         Button1.Text = "Back"
+        Button1.TextImageRelation = TextImageRelation.ImageBeforeText
         Button1.UseVisualStyleBackColor = False
         ' 
         ' Panel1
@@ -115,7 +121,7 @@ Partial Class Form4
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Label1.Location = New Point(12, 13)
+        Label1.Location = New Point(221, 23)
         Label1.Name = "Label1"
         Label1.Size = New Size(115, 32)
         Label1.TabIndex = 3
@@ -124,10 +130,17 @@ Partial Class Form4
         ' Panel2
         ' 
         Panel2.BackColor = Color.FromArgb(CByte(50), CByte(40), CByte(100))
-        Panel2.Location = New Point(111, 59)
+        Panel2.Location = New Point(110, 59)
         Panel2.Name = "Panel2"
         Panel2.Size = New Size(575, 341)
         Panel2.TabIndex = 3
+        ' 
+        ' ImageList1
+        ' 
+        ImageList1.ColorDepth = ColorDepth.Depth32Bit
+        ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), ImageListStreamer)
+        ImageList1.TransparentColor = Color.Transparent
+        ImageList1.Images.SetKeyName(0, "arrow-left.png")
         ' 
         ' Form4
         ' 
@@ -156,4 +169,5 @@ Partial Class Form4
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Label1 As Label
     Friend WithEvents Panel2 As Panel
+    Friend WithEvents ImageList1 As ImageList
 End Class
