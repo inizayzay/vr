@@ -12,6 +12,9 @@ Public Class AudioRecorder
     Private outputFilePath As String
     Private isCurrentlyRecording As Boolean = False
     
+    ' New event for visualization
+    Public Event AudioDataAvailable(ByVal buffer() As Byte, ByVal bytesRecorded As Integer)
+    
     ' ===================================================
     ' PROPERTIES
     ' ===================================================
@@ -70,6 +73,8 @@ Public Class AudioRecorder
     Private Sub OnDataAvailable(sender As Object, e As WaveInEventArgs)
         If writer IsNot Nothing Then
             writer.Write(e.Buffer, 0, e.BytesRecorded)
+            ' Raise event for visualization
+            RaiseEvent AudioDataAvailable(e.Buffer, e.BytesRecorded)
         End If
     End Sub
     

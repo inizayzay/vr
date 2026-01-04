@@ -3,6 +3,8 @@ Imports NAudio.Wave
 Imports Newtonsoft.Json.Linq
 Imports System.IO
 Imports System.Math
+Imports System.Net.Http
+Imports System.Threading.Tasks
 
 Public Class MFCCExtractor
 
@@ -157,6 +159,36 @@ Public Class MFCCExtractor
 
         Catch ex As Exception
             Throw New Exception($"Error loading reference JSON: {ex.Message}", ex)
+        End Try
+    End Function
+
+    ' ===================================================
+    ' NEW: GET DTW DATA FROM PYTHON API (NON-BLOCKING)
+    ' ===================================================
+    Public Shared Async Function GetAPIResultAsync(wavPath As String, targetText As String) As Task(Of JObject)
+        Try
+            Using client As New HttpClient()
+                Using form As New MultipartFormDataContent()
+                    Dim fileBytes As Byte() = File.ReadAllBytes(wavPath)
+                    Dim fileContent As New ByteArrayContent(fileBytes)
+                    fileContent.Headers.ContentType = Net.Http.Headers.MediaTypeHeaderValue.Parse("audio/wav")
+                    
+                    form.Add(fileContent, "audio", Path.GetFileName(wavPath))
+                    form.Add(New StringContent(targetText), "target_text")
+
+                    Dim response = Await client.PostAsync("http://localhost:5000/compare", form)
+                    
+                    If response.IsSuccessStatusCode Then
+                        Dim jsonResult As String = Await response.Content.ReadAsStringAsync()
+                        Return JObject.Parse(jsonResult)
+                    Else
+                        Dim errorResult As String = Await response.Content.ReadAsStringAsync()
+                        Throw New Exception($"API Error: {response.StatusCode} - {errorResult}")
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            Throw New Exception($"Gagal menghubungi Python API: {ex.Message}", ex)
         End Try
     End Function
 

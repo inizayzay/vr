@@ -9,11 +9,183 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="references\baby_mfcc.json" />
+    <None Remove="references\backpack_mfcc.json" />
+    <None Remove="references\bag_mfcc.json" />
+    <None Remove="references\beach_mfcc.json" />
+    <None Remove="references\bed_mfcc.json" />
+    <None Remove="references\brother_mfcc.json" />
+    <None Remove="references\candy_mfcc.json" />
+    <None Remove="references\chicken_mfcc.json" />
+    <None Remove="references\chocolate_mfcc.json" />
+    <None Remove="references\clock_mfcc.json" />
+    <None Remove="references\cookie_mfcc.json" />
+    <None Remove="references\crayon_mfcc.json" />
+    <None Remove="references\cry_mfcc.json" />
+    <None Remove="references\cupcake_mfcc.json" />
     <None Remove="references\cup_mfcc.json" />
+    <None Remove="references\dance_mfcc.json" />
+    <None Remove="references\door_mfcc.json" />
+    <None Remove="references\drink_mfcc.json" />
+    <None Remove="references\duck_mfcc.json" />
+    <None Remove="references\eat_mfcc.json" />
+    <None Remove="references\forest_mfcc.json" />
+    <None Remove="references\fork_mfcc.json" />
+    <None Remove="references\frog_mfcc.json" />
+    <None Remove="references\hat_mfcc.json" />
+    <None Remove="references\honey_mfcc.json" />
+    <None Remove="references\horse_mfcc.json" />
+    <None Remove="references\jump_mfcc.json" />
+    <None Remove="references\lamp_mfcc.json" />
+    <None Remove="references\mother_mfcc.json" />
+    <None Remove="references\mountain_mfcc.json" />
+    <None Remove="references\notebook_mfcc.json" />
+    <None Remove="references\pants_mfcc.json" />
+    <None Remove="references\park_mfcc.json" />
+    <None Remove="references\pencil_mfcc.json" />
+    <None Remove="references\plate_mfcc.json" />
+    <None Remove="references\play_mfcc.json" />
+    <None Remove="references\river_mfcc.json" />
+    <None Remove="references\run_mfcc.json" />
+    <None Remove="references\sing_mfcc.json" />
+    <None Remove="references\sister_mfcc.json" />
+    <None Remove="references\sleep_mfcc.json" />
+    <None Remove="references\smile_mfcc.json" />
+    <None Remove="references\spoon_mfcc.json" />
+    <None Remove="references\window_mfcc.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="references\baby_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\backpack_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\bag_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\beach_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\bed_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\brother_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\candy_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\chicken_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\chocolate_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\clock_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\cookie_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\crayon_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\cry_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\cupcake_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="references\cup_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\dance_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\door_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\drink_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\duck_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\eat_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\forest_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\fork_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\frog_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\hat_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\honey_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\horse_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\jump_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\lamp_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\mother_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\mountain_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\notebook_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\pants_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\park_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\pencil_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\plate_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\play_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\river_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\run_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\sing_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\sister_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\sleep_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\smile_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\spoon_mfcc.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="references\window_mfcc.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
