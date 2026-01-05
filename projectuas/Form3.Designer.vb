@@ -35,6 +35,8 @@ Partial Class Form3
         Label4 = New Label()
         Panel2 = New Panel()
         PictureBox1 = New PictureBox()
+        Label6 = New Label()
+        lblXP = New Label()
         Panel1.SuspendLayout()
         Panel2.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
@@ -45,7 +47,7 @@ Partial Class Form3
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = SystemColors.WindowFrame
-        Label1.Location = New Point(330, 30)
+        Label1.Location = New Point(318, 10)
         Label1.Name = "Label1"
         Label1.Size = New Size(79, 25)
         Label1.TabIndex = 0
@@ -56,7 +58,7 @@ Partial Class Form3
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI", 72F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Label2.Location = New Point(256, 126)
+        Label2.Location = New Point(252, 97)
         Label2.Name = "Label2"
         Label2.Size = New Size(219, 128)
         Label2.TabIndex = 1
@@ -67,7 +69,7 @@ Partial Class Form3
         Label3.AutoSize = True
         Label3.Font = New Font("Segoe UI Semibold", 15.75F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
         Label3.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Label3.Location = New Point(309, 254)
+        Label3.Location = New Point(309, 225)
         Label3.Name = "Label3"
         Label3.Size = New Size(115, 30)
         Label3.TabIndex = 2
@@ -82,7 +84,7 @@ Partial Class Form3
         Button1.ImageAlign = ContentAlignment.MiddleLeft
         Button1.ImageIndex = 1
         Button1.ImageList = ImageList1
-        Button1.Location = New Point(235, 299)
+        Button1.Location = New Point(233, 297)
         Button1.Name = "Button1"
         Button1.Size = New Size(118, 23)
         Button1.TabIndex = 3
@@ -108,7 +110,7 @@ Partial Class Form3
         Button2.ImageAlign = ContentAlignment.MiddleLeft
         Button2.ImageIndex = 0
         Button2.ImageList = ImageList1
-        Button2.Location = New Point(393, 299)
+        Button2.Location = New Point(386, 297)
         Button2.Name = "Button2"
         Button2.Size = New Size(97, 23)
         Button2.TabIndex = 4
@@ -154,6 +156,8 @@ Partial Class Form3
         ' 
         Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         Panel2.BackColor = Color.White
+        Panel2.Controls.Add(lblXP)
+        Panel2.Controls.Add(Label6)
         Panel2.Controls.Add(PictureBox1)
         Panel2.Controls.Add(Label1)
         Panel2.Controls.Add(Label2)
@@ -168,12 +172,34 @@ Partial Class Form3
         ' PictureBox1
         ' 
         PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), Image)
-        PictureBox1.Location = New Point(319, 67)
+        PictureBox1.Location = New Point(309, 38)
         PictureBox1.Name = "PictureBox1"
         PictureBox1.Size = New Size(100, 83)
         PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox1.TabIndex = 5
         PictureBox1.TabStop = False
+        ' 
+        ' Label6
+        ' 
+        Label6.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label6.ForeColor = Color.DimGray
+        Label6.Location = New Point(49, 255)
+        Label6.Name = "Label6"
+        Label6.Size = New Size(636, 23)
+        Label6.TabIndex = 6
+        Label6.Text = "Pronunciation is clear and perfect"
+        Label6.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' lblXP
+        ' 
+        lblXP.AutoSize = True
+        lblXP.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblXP.ForeColor = Color.DarkOrange
+        lblXP.Location = New Point(318, 332)
+        lblXP.Name = "lblXP"
+        lblXP.Size = New Size(104, 21)
+        lblXP.TabIndex = 7
+        lblXP.Text = "Level 1 & 1 XP"
         ' 
         ' Form3
         ' 
@@ -205,4 +231,6 @@ Partial Class Form3
     Friend WithEvents Label5 As Label
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents ImageList1 As ImageList
+    Friend WithEvents lblXP As Label
+    Friend WithEvents Label6 As Label
 End Class
