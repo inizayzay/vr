@@ -32,12 +32,14 @@ Partial Class Form4
         colEmail = New DataGridViewTextBoxColumn()
         colSkor = New DataGridViewTextBoxColumn()
         Button1 = New Button()
+        ImageList1 = New ImageList(components)
         Panel1 = New Panel()
         Label1 = New Label()
         Panel2 = New Panel()
-        ImageList1 = New ImageList(components)
+        picChart = New PictureBox()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
+        CType(picChart, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' DataGridView1
@@ -57,10 +59,10 @@ Partial Class Form4
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridView1.Columns.AddRange(New DataGridViewColumn() {colNo, colTanggal, colNama, colEmail, colSkor})
         DataGridView1.EnableHeadersVisualStyles = False
-        DataGridView1.Location = New Point(0, 85)
+        DataGridView1.Location = New Point(0, 148)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.RowHeadersVisible = False
-        DataGridView1.Size = New Size(562, 235)
+        DataGridView1.Size = New Size(680, 172)
         DataGridView1.TabIndex = 0
         ' 
         ' colNo
@@ -105,15 +107,23 @@ Partial Class Form4
         Button1.TextImageRelation = TextImageRelation.ImageBeforeText
         Button1.UseVisualStyleBackColor = False
         ' 
+        ' ImageList1
+        ' 
+        ImageList1.ColorDepth = ColorDepth.Depth32Bit
+        ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), ImageListStreamer)
+        ImageList1.TransparentColor = Color.Transparent
+        ImageList1.Images.SetKeyName(0, "arrow-left.png")
+        ' 
         ' Panel1
         ' 
         Panel1.BackColor = Color.White
+        Panel1.Controls.Add(picChart)
         Panel1.Controls.Add(Button1)
         Panel1.Controls.Add(Label1)
         Panel1.Controls.Add(DataGridView1)
         Panel1.Location = New Point(115, 63)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(562, 327)
+        Panel1.Size = New Size(680, 327)
         Panel1.TabIndex = 2
         ' 
         ' Label1
@@ -121,7 +131,7 @@ Partial Class Form4
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Label1.Location = New Point(221, 23)
+        Label1.Location = New Point(270, 25)
         Label1.Name = "Label1"
         Label1.Size = New Size(115, 32)
         Label1.TabIndex = 3
@@ -132,15 +142,16 @@ Partial Class Form4
         Panel2.BackColor = Color.FromArgb(CByte(50), CByte(40), CByte(100))
         Panel2.Location = New Point(110, 59)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(575, 341)
+        Panel2.Size = New Size(697, 341)
         Panel2.TabIndex = 3
         ' 
-        ' ImageList1
+        ' picChart
         ' 
-        ImageList1.ColorDepth = ColorDepth.Depth32Bit
-        ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), ImageListStreamer)
-        ImageList1.TransparentColor = Color.Transparent
-        ImageList1.Images.SetKeyName(0, "arrow-left.png")
+        picChart.Location = New Point(-5, 95)
+        picChart.Name = "picChart"
+        picChart.Size = New Size(682, 50)
+        picChart.TabIndex = 4
+        picChart.TabStop = False
         ' 
         ' Form4
         ' 
@@ -156,6 +167,7 @@ Partial Class Form4
         CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
+        CType(picChart, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
@@ -170,4 +182,5 @@ Partial Class Form4
     Friend WithEvents Label1 As Label
     Friend WithEvents Panel2 As Panel
     Friend WithEvents ImageList1 As ImageList
+    Friend WithEvents picChart As PictureBox
 End Class

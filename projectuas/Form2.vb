@@ -293,13 +293,13 @@ Public Class Form2
                 ' Encode text for URL
                 Dim encodedText As String = System.Web.HttpUtility.UrlEncode(text)
                 Dim url As String = $"http://localhost:5000/tts?text={encodedText}"
-                
+
                 Dim audioData As Byte() = Await client.GetByteArrayAsync(url)
-                
+
                 ' Simpan ke file temp lokal untuk diputar
                 Dim tempPath As String = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "tts_ref.wav")
                 System.IO.File.WriteAllBytes(tempPath, audioData)
-                
+
                 ' Putar menggunakan NAudio
                 Using reader As New NAudio.Wave.WaveFileReader(tempPath)
                     Using outputDevice As New NAudio.Wave.WaveOutEvent()
@@ -359,7 +359,7 @@ Public Class Form2
 
         ' Draw moving vertical line
         Dim p As New Pen(Color.FromArgb(108, 92, 231), 2)
-        
+
         ' Shift bitmap (simplified by drawing at offset)
         ' Efficient rolling: draw at current offset and wrap or clear leading edge
         If waveformOffset >= w Then
@@ -368,7 +368,7 @@ Public Class Form2
 
         waveformGraphics.DrawLine(p, waveformOffset, h \ 2 - barHeight \ 2, waveformOffset, h \ 2 + barHeight \ 2)
         waveformOffset += 2
-        
+
         picWaveform.Invalidate()
     End Sub
 
@@ -396,4 +396,7 @@ Public Class Form2
         Label3.Text = $"Hi, {_namaPengguna} ({level}) | {message}"
     End Sub
 
+    Private Sub btnHistory_Click_1(sender As Object, e As EventArgs) Handles btnHistory.Click
+
+    End Sub
 End Class
