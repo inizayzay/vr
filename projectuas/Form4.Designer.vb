@@ -37,6 +37,7 @@ Partial Class Form4
         picChart = New PictureBox()
         Label1 = New Label()
         Panel2 = New Panel()
+        lblXP = New Label()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
         CType(picChart, ComponentModel.ISupportInitialize).BeginInit()
@@ -59,35 +60,42 @@ Partial Class Form4
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridView1.Columns.AddRange(New DataGridViewColumn() {colNo, colTanggal, colNama, colEmail, colSkor})
         DataGridView1.EnableHeadersVisualStyles = False
-        DataGridView1.Location = New Point(0, 148)
+        DataGridView1.Location = New Point(0, 197)
+        DataGridView1.Margin = New Padding(3, 4, 3, 4)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.RowHeadersVisible = False
-        DataGridView1.Size = New Size(680, 172)
+        DataGridView1.RowHeadersWidth = 51
+        DataGridView1.Size = New Size(777, 229)
         DataGridView1.TabIndex = 0
         ' 
         ' colNo
         ' 
         colNo.HeaderText = "No"
+        colNo.MinimumWidth = 6
         colNo.Name = "colNo"
         ' 
         ' colTanggal
         ' 
         colTanggal.HeaderText = "Tanggal"
+        colTanggal.MinimumWidth = 6
         colTanggal.Name = "colTanggal"
         ' 
         ' colNama
         ' 
         colNama.HeaderText = "Nama User"
+        colNama.MinimumWidth = 6
         colNama.Name = "colNama"
         ' 
         ' colEmail
         ' 
         colEmail.HeaderText = "Email"
+        colEmail.MinimumWidth = 6
         colEmail.Name = "colEmail"
         ' 
         ' colSkor
         ' 
         colSkor.HeaderText = "Skor"
+        colSkor.MinimumWidth = 6
         colSkor.Name = "colSkor"
         ' 
         ' Button1
@@ -99,9 +107,10 @@ Partial Class Form4
         Button1.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
         Button1.ImageIndex = 0
         Button1.ImageList = ImageList1
-        Button1.Location = New Point(22, 56)
+        Button1.Location = New Point(25, 75)
+        Button1.Margin = New Padding(3, 4, 3, 4)
         Button1.Name = "Button1"
-        Button1.Size = New Size(75, 23)
+        Button1.Size = New Size(86, 31)
         Button1.TabIndex = 1
         Button1.Text = "Back"
         Button1.TextImageRelation = TextImageRelation.ImageBeforeText
@@ -117,20 +126,23 @@ Partial Class Form4
         ' Panel1
         ' 
         Panel1.BackColor = Color.White
+        Panel1.Controls.Add(lblXP)
         Panel1.Controls.Add(picChart)
         Panel1.Controls.Add(Button1)
         Panel1.Controls.Add(Label1)
         Panel1.Controls.Add(DataGridView1)
-        Panel1.Location = New Point(115, 63)
+        Panel1.Location = New Point(131, 84)
+        Panel1.Margin = New Padding(3, 4, 3, 4)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(680, 327)
+        Panel1.Size = New Size(777, 436)
         Panel1.TabIndex = 2
         ' 
         ' picChart
         ' 
-        picChart.Location = New Point(-5, 95)
+        picChart.Location = New Point(-6, 127)
+        picChart.Margin = New Padding(3, 4, 3, 4)
         picChart.Name = "picChart"
-        picChart.Size = New Size(682, 50)
+        picChart.Size = New Size(779, 67)
         picChart.TabIndex = 4
         picChart.TabStop = False
         ' 
@@ -139,28 +151,41 @@ Partial Class Form4
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Label1.Location = New Point(270, 25)
+        Label1.Location = New Point(309, 33)
         Label1.Name = "Label1"
-        Label1.Size = New Size(115, 32)
+        Label1.Size = New Size(146, 41)
         Label1.TabIndex = 3
         Label1.Text = "HISTORY"
         ' 
         ' Panel2
         ' 
         Panel2.BackColor = Color.FromArgb(CByte(50), CByte(40), CByte(100))
-        Panel2.Location = New Point(110, 59)
+        Panel2.Location = New Point(126, 79)
+        Panel2.Margin = New Padding(3, 4, 3, 4)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(697, 341)
+        Panel2.Size = New Size(797, 455)
         Panel2.TabIndex = 3
+        ' 
+        ' lblXP
+        ' 
+        lblXP.AutoSize = True
+        lblXP.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblXP.ForeColor = Color.DarkOrange
+        lblXP.Location = New Point(309, 78)
+        lblXP.Name = "lblXP"
+        lblXP.Size = New Size(134, 28)
+        lblXP.TabIndex = 8
+        lblXP.Text = "Level 1 & 1 XP"
         ' 
         ' Form4
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        ClientSize = New Size(1008, 601)
+        ClientSize = New Size(1152, 801)
         Controls.Add(Panel1)
         Controls.Add(Panel2)
+        Margin = New Padding(3, 4, 3, 4)
         Name = "Form4"
         StartPosition = FormStartPosition.CenterScreen
         Text = "History Page"
@@ -183,4 +208,5 @@ Partial Class Form4
     Friend WithEvents Panel2 As Panel
     Friend WithEvents ImageList1 As ImageList
     Friend WithEvents picChart As PictureBox
+    Friend WithEvents lblXP As Label
 End Class
