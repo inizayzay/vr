@@ -33,16 +33,16 @@ Partial Class Form2
         Label1 = New Label()
         Button1 = New Button()
         Panel2 = New Panel()
+        picWaveform = New PictureBox()
+        btnListen = New Button()
+        btnHistory = New Button()
         Label5 = New Label()
         Panel3 = New Panel()
-        btnHistory = New Button()
-        btnListen = New Button()
-        PictureBox2 = New PictureBox()
         Panel1.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         Panel2.SuspendLayout()
+        CType(picWaveform, ComponentModel.ISupportInitialize).BeginInit()
         Panel3.SuspendLayout()
-        CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Label2
@@ -114,7 +114,7 @@ Partial Class Form2
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label3.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label3.ForeColor = Color.White
         Label3.Location = New Point(708, 50)
         Label3.Name = "Label3"
@@ -151,7 +151,7 @@ Partial Class Form2
         ' 
         Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         Panel2.BackColor = Color.White
-        Panel2.Controls.Add(PictureBox2)
+        Panel2.Controls.Add(picWaveform)
         Panel2.Controls.Add(btnListen)
         Panel2.Controls.Add(btnHistory)
         Panel2.Controls.Add(Label5)
@@ -162,6 +162,36 @@ Partial Class Form2
         Panel2.Name = "Panel2"
         Panel2.Size = New Size(790, 297)
         Panel2.TabIndex = 5
+        ' 
+        ' picWaveform
+        ' 
+        picWaveform.BackColor = Color.Black
+        picWaveform.Dock = DockStyle.Bottom
+        picWaveform.Location = New Point(0, 247)
+        picWaveform.Name = "picWaveform"
+        picWaveform.Size = New Size(790, 50)
+        picWaveform.TabIndex = 7
+        picWaveform.TabStop = False
+        ' 
+        ' btnListen
+        ' 
+        btnListen.Location = New Point(673, 93)
+        btnListen.Name = "btnListen"
+        btnListen.Size = New Size(75, 35)
+        btnListen.TabIndex = 6
+        btnListen.Text = "🔊"
+        btnListen.UseVisualStyleBackColor = True
+        ' 
+        ' btnHistory
+        ' 
+        btnHistory.FlatStyle = FlatStyle.Flat
+        btnHistory.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
+        btnHistory.Location = New Point(673, 25)
+        btnHistory.Name = "btnHistory"
+        btnHistory.Size = New Size(75, 23)
+        btnHistory.TabIndex = 5
+        btnHistory.Text = "History"
+        btnHistory.UseVisualStyleBackColor = True
         ' 
         ' Label5
         ' 
@@ -184,39 +214,9 @@ Partial Class Form2
         Panel3.Size = New Size(803, 311)
         Panel3.TabIndex = 4
         ' 
-        ' btnHistory
-        ' 
-        btnHistory.FlatStyle = FlatStyle.Flat
-        btnHistory.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        btnHistory.Location = New Point(673, 25)
-        btnHistory.Name = "btnHistory"
-        btnHistory.Size = New Size(75, 23)
-        btnHistory.TabIndex = 5
-        btnHistory.Text = "History"
-        btnHistory.UseVisualStyleBackColor = True
-        ' 
-        ' btnListen
-        ' 
-        btnListen.Location = New Point(673, 93)
-        btnListen.Name = "btnListen"
-        btnListen.Size = New Size(75, 35)
-        btnListen.TabIndex = 6
-        btnListen.Text = "🔊"
-        btnListen.UseVisualStyleBackColor = True
-        ' 
-        ' PictureBox2
-        ' 
-        PictureBox2.BackColor = Color.Black
-        PictureBox2.Dock = DockStyle.Bottom
-        PictureBox2.Location = New Point(0, 247)
-        PictureBox2.Name = "PictureBox2"
-        PictureBox2.Size = New Size(790, 50)
-        PictureBox2.TabIndex = 7
-        PictureBox2.TabStop = False
-        ' 
         ' Form2
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(108), CByte(98), CByte(231))
         ClientSize = New Size(1008, 581)
@@ -225,14 +225,14 @@ Partial Class Form2
         Cursor = Cursors.Hand
         Name = "Form2"
         StartPosition = FormStartPosition.CenterScreen
-        Text = "Halaman Tes Voice"
+        Text = "Tes Voice Page"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         Panel2.ResumeLayout(False)
         Panel2.PerformLayout()
+        CType(picWaveform, ComponentModel.ISupportInitialize).EndInit()
         Panel3.ResumeLayout(False)
-        CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
     Friend WithEvents Label2 As Label
@@ -248,5 +248,5 @@ Partial Class Form2
     Friend WithEvents Label5 As Label
     Friend WithEvents btnHistory As Button
     Friend WithEvents btnListen As Button
-    Friend WithEvents PictureBox2 As PictureBox
+    Friend WithEvents picWaveform As PictureBox
 End Class

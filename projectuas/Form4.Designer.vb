@@ -23,7 +23,7 @@ Partial Class Form4
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
-        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form4))
         DataGridView1 = New DataGridView()
         colNo = New DataGridViewTextBoxColumn()
@@ -34,9 +34,9 @@ Partial Class Form4
         Button1 = New Button()
         ImageList1 = New ImageList(components)
         Panel1 = New Panel()
+        picChart = New PictureBox()
         Label1 = New Label()
         Panel2 = New Panel()
-        picChart = New PictureBox()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
         CType(picChart, ComponentModel.ISupportInitialize).BeginInit()
@@ -48,14 +48,14 @@ Partial Class Form4
         DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DataGridView1.BackgroundColor = Color.White
         DataGridView1.BorderStyle = BorderStyle.None
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        DataGridViewCellStyle2.ForeColor = Color.White
-        DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
-        DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle1.ForeColor = Color.White
+        DataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+        DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridView1.Columns.AddRange(New DataGridViewColumn() {colNo, colTanggal, colNama, colEmail, colSkor})
         DataGridView1.EnableHeadersVisualStyles = False
@@ -126,6 +126,14 @@ Partial Class Form4
         Panel1.Size = New Size(680, 327)
         Panel1.TabIndex = 2
         ' 
+        ' picChart
+        ' 
+        picChart.Location = New Point(-5, 95)
+        picChart.Name = "picChart"
+        picChart.Size = New Size(682, 50)
+        picChart.TabIndex = 4
+        picChart.TabStop = False
+        ' 
         ' Label1
         ' 
         Label1.AutoSize = True
@@ -145,14 +153,6 @@ Partial Class Form4
         Panel2.Size = New Size(697, 341)
         Panel2.TabIndex = 3
         ' 
-        ' picChart
-        ' 
-        picChart.Location = New Point(-5, 95)
-        picChart.Name = "picChart"
-        picChart.Size = New Size(682, 50)
-        picChart.TabIndex = 4
-        picChart.TabStop = False
-        ' 
         ' Form4
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -163,7 +163,7 @@ Partial Class Form4
         Controls.Add(Panel2)
         Name = "Form4"
         StartPosition = FormStartPosition.CenterScreen
-        Text = "Halaman History"
+        Text = "History Page"
         CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()

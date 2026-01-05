@@ -183,7 +183,7 @@
   <data name="PictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAwAAAAMACAYAAACTgQCOAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vQAADr0BR/uQrQAA/7JJREFUeF7snQlQVGfW96dSqamp1NTU1NS8+WbNZJLMDH2bGLObTLbJvscshgfU
+        vAAADrwBlbxySQAA/7JJREFUeF7snQlQVGfW96dSqamp1NTU1NS8+WbNZJLMDH2bGLObTLbJvscshgfU
         aIwas5rFRGPUuGtcosY9LrhxLyruIiKugCAgm4ggiCyyKDsiIi45X/0fbNPe2910Q3fTwPlVnXrnjfTt
         prn3ec45zzn/86tfMQzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzD
         MAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzD
@@ -7072,7 +7072,7 @@
   <data name="PictureBox3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vwAADr8BOAVTJAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAC/dSURBVHhe7d0J
+        vgAADr4B6kKxwAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAC/dSURBVHhe7d0J
         +Kdj2f/xzxh7jKXslLKTLS2WIlvJP5KtCKGyhL+KJ55UljYU0i6tUkqWisqW7Osge0jZ92EwwwzG8xzn
         4x7G6Zzf/Jbvcl739X4dx+c4Wpi5r/t73ud3ua/7uiQAJZtb0oqSNpH0CUkHSTpG0gmS/iLpSkk3SbpT
         0qOSnpT0P0Gek/S4pIebf/YWSZdKOrP5s46V9CVJO0t6n6SVJM3jDwYAAHTOrJJWl/RRSQdL+o2ksZLG
@@ -7310,7 +7310,7 @@
   <data name="PictureBox4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wAAADsABataJCQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAACWRSURBVHhe7d0J
+        vwAADr8BOAVTJAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAACWRSURBVHhe7d0J
         lG1ZXd/xH3SDDII0c5gEGmQS4rBiQBCjkhUhATUGkKmFRlGMK5iBgFkxUaMyBJRJEZEYQRNlkJmFMmMD
         ToAk0IAKKDTNPAgNAg0ka9Pn2dW79nuv6tXd9+5zzuez1nctVtXrevecupz//1XdIQEAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANiAqye5ZZI7Jvm+JD+c5D8leWSSxyZ5ytRvJ3mm
@@ -7577,7 +7577,7 @@
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Halaman Input Nama</value>
+    <value>Name Input Page</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Form1</value>
