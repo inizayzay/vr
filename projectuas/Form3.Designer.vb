@@ -34,9 +34,9 @@ Partial Class Form3
         Label5 = New Label()
         Label4 = New Label()
         Panel2 = New Panel()
-        PictureBox1 = New PictureBox()
-        Label6 = New Label()
         lblXP = New Label()
+        Label6 = New Label()
+        PictureBox1 = New PictureBox()
         Panel1.SuspendLayout()
         Panel2.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
@@ -164,31 +164,10 @@ Partial Class Form3
         Panel2.Controls.Add(Button1)
         Panel2.Controls.Add(Button2)
         Panel2.Controls.Add(Label3)
-        Panel2.Location = New Point(91, 86)
+        Panel2.Location = New Point(27, 86)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(724, 364)
+        Panel2.Size = New Size(818, 493)
         Panel2.TabIndex = 6
-        ' 
-        ' PictureBox1
-        ' 
-        PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), Image)
-        PictureBox1.Location = New Point(309, 38)
-        PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(100, 83)
-        PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
-        PictureBox1.TabIndex = 5
-        PictureBox1.TabStop = False
-        ' 
-        ' Label6
-        ' 
-        Label6.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label6.ForeColor = Color.DimGray
-        Label6.Location = New Point(49, 255)
-        Label6.Name = "Label6"
-        Label6.Size = New Size(636, 23)
-        Label6.TabIndex = 6
-        Label6.Text = "Pronunciation is clear and perfect"
-        Label6.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' lblXP
         ' 
@@ -201,12 +180,33 @@ Partial Class Form3
         lblXP.TabIndex = 7
         lblXP.Text = "Level 1 & 1 XP"
         ' 
+        ' Label6
+        ' 
+        Label6.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label6.ForeColor = Color.DimGray
+        Label6.Location = New Point(49, 255)
+        Label6.Name = "Label6"
+        Label6.Size = New Size(636, 23)
+        Label6.TabIndex = 6
+        Label6.Text = "Pronunciation is clear and perfect"
+        Label6.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' PictureBox1
+        ' 
+        PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), Image)
+        PictureBox1.Location = New Point(309, 38)
+        PictureBox1.Name = "PictureBox1"
+        PictureBox1.Size = New Size(100, 83)
+        PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox1.TabIndex = 5
+        PictureBox1.TabStop = False
+        ' 
         ' Form3
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        ClientSize = New Size(1008, 601)
+        ClientSize = New Size(1008, 662)
         Controls.Add(Panel2)
         Controls.Add(Panel1)
         Name = "Form3"

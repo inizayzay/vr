@@ -60,10 +60,13 @@ Public Class Form3
     Private Async Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = "Hasil Tes Pengucapan"
         Me.StartPosition = FormStartPosition.CenterScreen
-        
+
         ' 0. UPDATE HEADER GREETING (Label5) - SEGERA AGAR TIDAK MUNCUL "User"
         Dim xpData = DatabaseModule.GetUserXPAndLevel(_userId)
-        Label5.Text = $"HI, {_namaPengguna} [Lv {xpData.Item1}]"
+        Dim category = DatabaseModule.GetUserCategory(xpData.Item1)
+        Label5.Text = $"HI, {_namaPengguna} ({category}) [Lv {xpData.Item1}]"
+
+        CenterCard() ' Posisi awal
 
         ' Tampilkan status loading sementara (Opsional)
         Label2.Text = "Calculating..."
@@ -101,73 +104,123 @@ Public Class Form3
     Private Sub UpdateDetailedEvaluation()
         ' Tentukan Grade berdasarkan Combined Score
         Dim grade As String = "D"
-        Dim gradeColor As Color = Color.Red
         Dim saran As String = ""
 
         If _combinedScore >= 95 Then
-            grade = "A+" : gradeColor = Color.Gold : saran = "Luar biasa! Pengucapan Anda sangat sempurna."
+            grade = "A+" : saran = "LUAR BIASA! Pengucapan Anda sangat sempurna."
         ElseIf _combinedScore >= 85 Then
-            grade = "A" : gradeColor = Color.Green : saran = "Sangat bagus! Pertahankan kelancaran Anda."
+            grade = "A" : saran = "SANGAT BAGUS! Pertahankan kelancaran Anda."
         ElseIf _combinedScore >= 70 Then
-            grade = "B" : gradeColor = Color.Blue : saran = "Bagus, tapi coba perhatikan lagi penekanan suaranya."
+            grade = "B" : saran = "BAGUS! Coba perhatikan lagi penekanan suaranya."
         ElseIf _combinedScore >= 50 Then
-            grade = "C" : gradeColor = Color.Orange : saran = "Cukup. Anda perlu lebih banyak berlatih artikulasi."
+            grade = "C" : saran = "CUKUP. Teruslah berlatih artikulasi perlahan."
         Else
-            grade = "D" : gradeColor = Color.Red : saran = "Jangan menyerah! Coba dengarkan referensi lebih teliti."
+            grade = "D" : saran = "JANGAN MENYERAH! Ayo coba lagi pelan-pelan."
         End If
 
-        ' Bangun string detail evaluasi
+        ' --- RESTRUKTURISASI TATA LETAK AGAR TOMBOL TETAP TERLIHAT ---
+        ' Kita pastikan Label6 ada di dalam Panel khusus yang bisa scroll
+        Dim scrollPanel As Panel = Panel2.Controls.OfType(Of Panel).FirstOrDefault(Function(p) p.Name = "pnlDetailScroll")
+        
+        If scrollPanel Is Nothing Then
+            scrollPanel = New Panel()
+            scrollPanel.Name = "pnlDetailScroll"
+            scrollPanel.AutoScroll = True
+            scrollPanel.BackColor = Color.FromArgb(245, 245, 250)
+            ' Posisikan di bawah Feedback Label3
+            scrollPanel.Location = New Point(20, Label3.Bottom + 10)
+            ' Beri ruang di bawah untuk tombol (misal 80 pixel dari bawah)
+            scrollPanel.Size = New Size(Panel2.Width - 40, Panel2.Height - Label3.Bottom - 100)
+            scrollPanel.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right Or AnchorStyles.Bottom
+            Panel2.Controls.Add(scrollPanel)
+            
+            ' Pindahkan Label6 ke dalam scrollPanel
+            Panel2.Controls.Remove(Label6)
+            scrollPanel.Controls.Add(Label6)
+            Label6.Location = New Point(5, 5)
+            Label6.Width = scrollPanel.Width - 30 ' Sisakan ruang untuk scrollbar
+        End If
+
+        CenterCard() ' Pastikan panel & tombol di posisi yang benar
+
+        ' Atur Posisi Tombol & XP agar Fixed di Bawah Panel2
+        Button1.Top = Panel2.Height - 65
+        Button2.Top = Panel2.Height - 65
+        lblXP.Top = Panel2.Height - 35
+        
+        ' Update lblXP dengan data asli
+        Dim xpData = DatabaseModule.GetUserXPAndLevel(_userId)
+        lblXP.Text = $"Level {xpData.Item1} | {xpData.Item2:N0} XP"
+        lblXP.Left = (Panel2.Width - lblXP.Width) \ 2 ' Center it below buttons
+        
+        ' Pastikan tombol & XP ada di depan (Z-Order)
+        Button1.BringToFront()
+        Button2.BringToFront()
+        lblXP.BringToFront()
+
+
+        ' Bangun string detail evaluasi yang LEBIH RAPI & DETAIL
         Dim detail As New System.Text.StringBuilder()
-        detail.AppendLine("--- DETAIL EVALUASI (FORCE ALIGNMENT) ---")
-        detail.AppendLine($"Target: {_teksTarget.ToUpper()}")
+        detail.AppendLine("========================================")
+        detail.AppendLine("   🔍 DETAIL EVALUASI PENGUCAPAN 🔍")
+        detail.AppendLine("========================================")
+        detail.AppendLine(String.Format("Target Kalimat:  ""{0}""", _teksTarget.ToUpper()))
+        detail.AppendLine(String.Format("Durasi Bicara :  {0:N2} detik", _duration))
+        detail.AppendLine("----------------------------------------")
         detail.AppendLine("")
         
-        detail.AppendLine($"SKOR KESELURUHAN: {_scoreFA:N2}%")
-        detail.AppendLine($"Durasi Bicara   : {_duration:N2} detik")
+        detail.AppendLine("📊 ANALISIS PER KATA:")
         detail.AppendLine("")
-        
-        detail.AppendLine("DETAIL PER KATA & BUNYI (PHONEMES):")
+
         If _wordDetails IsNot Nothing Then
             For Each wordItem In _wordDetails
-                Dim w = wordItem("word").ToString()
-                Dim s = wordItem("score").ToString()
-                Dim st = wordItem("status").ToString()
-                detail.AppendLine($"- {w.ToUpper().PadRight(12)}: {s}% ({st})")
+                Dim wordText As String = wordItem("word").ToString().ToUpper()
+                Dim wordScore As Double = CDbl(wordItem("score"))
+                Dim wordStatus As String = wordItem("status").ToString()
                 
-                ' Tampilkan detail fonem (bunyi) - VERSI ANAK-ANAK
+                ' Format Baris Kata
+                detail.AppendLine(String.Format("▶ {0,-15} | Skor: {1:N1}%", wordText, wordScore))
+                detail.AppendLine(String.Format("  Status: {0}", wordStatus))
+                
+                ' Detail Fonem (Bunyi)
                 Dim phonemes = wordItem("phonemes")
                 If phonemes IsNot Nothing Then
                     Dim pList As New List(Of String)
                     For Each pItem In phonemes
-                        ' Bersihkan kode teknis (buang angka stress spt EY1 -> EY)
                         Dim p = pItem("phoneme").ToString().Replace("0", "").Replace("1", "").Replace("2", "")
                         Dim pSt = pItem("status").ToString()
                         
                         If pSt = "Good" Then
-                            pList.Add(p & " ✅")
+                            pList.Add("[" & p & " ✅]")
+                        ElseIf pSt = "Missing" Then
+                            pList.Add("[" & p & " ❌]")
                         Else
-                            ' Versi "Needs Work" atau "Missing" diberi simbol bintang untuk menyemangati
-                            pList.Add(p & " ✨")
+                            pList.Add("[" & p & " ✨]")
                         End If
                     Next
-                    detail.AppendLine($"  Suara: {String.Join("  ", pList)}")
+                    detail.AppendLine("  Suara: " & String.Join("  ", pList))
                 End If
-                detail.AppendLine("")
+                detail.AppendLine("----------------------------------------")
             Next
         End If
 
-        ' Tambahkan Legenda Sederhana untuk Anak
-        detail.AppendLine("Keterangan:")
-        detail.AppendLine("✅ = Suaramu sudah hebat!")
-        detail.AppendLine("✨ = Ayo kita coba bagian ini lagi agar lebih keren!")
-        
         detail.AppendLine("")
-        detail.AppendLine($"GRADE: {grade}")
-        detail.AppendLine($"SARAN: {saran}")
+        detail.AppendLine("🏆 GRADE AKHIR: " & grade)
+        detail.AppendLine("📝 SARAN      : " & saran)
+        detail.AppendLine("")
+        detail.AppendLine("Keterangan Simbol:")
+        detail.AppendLine("✅ = Sangat Bagus!")
+        detail.AppendLine("✨ = Perlu Sedikit Perbaikan")
+        detail.AppendLine("❌ = Tidak Terdengar/Salah")
+        detail.AppendLine("========================================")
 
+        ' Update Label dengan Penyesuaian Visual
         Label6.Text = detail.ToString()
-        Label6.Font = New Font("Segoe UI", 10, FontStyle.Regular)
-        Label6.TextAlign = ContentAlignment.TopLeft
+        Label6.Font = New Font("Consolas", 9, FontStyle.Bold)
+        Label6.ForeColor = Color.DarkSlateBlue
+        Label6.BackColor = Color.FromArgb(240, 240, 240) ' Latar belakang terang agar kontras
+        Label6.AutoSize = True
+        Label6.MaximumSize = New Size(scrollPanel.Width - 30, 0)
     End Sub
 
     Private Sub UpdateFeedbackMessage()
@@ -188,7 +241,7 @@ Public Class Form3
     Private Async Function CalculateFASimilarityAsync() As Task(Of Double)
         Try
             Debug.WriteLine("=== FA Calculation Start (API Async) ===") ' Diperbarui
-            
+
             If String.IsNullOrEmpty(_userWavPath) OrElse Not System.IO.File.Exists(_userWavPath) Then
                 Debug.WriteLine("ERROR: No audio file recorded or file not found")
                 MessageBox.Show("Audio file tidak ditemukan. FA score akan 0.", "Audio Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning) ' Diperbarui
@@ -197,11 +250,11 @@ Public Class Form3
 
             ' CALL THE PYTHON API (Force Alignment)
             Dim resultObj As JObject = Await MFCCExtractor.GetAPIResultAsync(_userWavPath, _teksTarget)
-            
+
             _scoreFA = CDbl(resultObj("score"))
             _wordDetails = CType(resultObj("word_details"), JArray)
             _duration = CDbl(resultObj("duration"))
-            
+
             Debug.WriteLine($"FA Score: {_scoreFA:F2}%")
             Debug.WriteLine($"Duration: {_duration:F2}")
             Debug.WriteLine("=== Force Alignment End ===")
@@ -210,13 +263,13 @@ Public Class Form3
 
         Catch ex As Exception
             Debug.WriteLine($"EXCEPTION in CalculateDTWSimilarity (API): {ex.Message}")
-            
+
             ' Tampilkan pesan error jika server tidak jalan
             MessageBox.Show($"Gagal menghubungi Python API untuk scoring.{vbCrLf}" &
                            $"Pastikan 'api_server.py' sudah berjalan.{vbCrLf}{vbCrLf}" &
-                           $"Detail Error: {ex.Message}", "API Connection Error", 
+                           $"Detail Error: {ex.Message}", "API Connection Error",
                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            
+
             Return 0.0
         End Try
     End Function
@@ -351,10 +404,35 @@ Public Class Form3
         frmUtama.Show()
     End Sub
 
-    ' Tombol Exit (Button2) -> SEKARANG JADI Tombol History
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+    ' Tombol Exit (Button2) -> SEKARANG
+    ' =======================================================
+    ' NEW: RESPONSIVE CENTERING LOGIC
+    ' =======================================================
+    Private Sub Form3_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+        CenterCard()
+        Me.Invalidate()
+    End Sub
+
+    Private Sub CenterCard()
+        If Panel2 IsNot Nothing Then
+            ' Center Panel2 horizontally and vertically
+            Panel2.Left = (Me.ClientSize.Width - Panel2.Width) \ 2
+            Panel2.Top = (Me.ClientSize.Height - Panel2.Height) \ 2 + 40
+        End If
+
+        ' Greeting Label5 tetap di kanan atas
+        Label5.Left = Me.ClientSize.Width - Label5.Width - 30
+        Label5.Top = 30
+    End Sub
+
+    ' Button History Click
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles Button2.Click
         ' NEW: Buka Form4 (History) dengan userId
         Dim frmHistory As New Form4(_userId)
         frmHistory.ShowDialog() ' Gunakan ShowDialog agar fokus ke history
+    End Sub
+
+    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
+
     End Sub
 End Class

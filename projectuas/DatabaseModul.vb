@@ -38,33 +38,29 @@ Module DatabaseModule
         End If
     End Sub
 
-    ' FUNGSI MENGAMBIL PERTANYAAN ACAK
-    Public Function GetRandomQuestion() As QuestionData
+    ' FUNGSI MENGAMBIL PERTANYAAN ACAK BERDASARKAN KATEGORI
+    Public Function GetRandomQuestion(Optional ByVal category As String = "kids") As QuestionData
         Dim conn As MySqlConnection = Nothing
         Dim question As New QuestionData()
-
-        ' Set ID ke 0 sebagai default aman
         question.ID = 0
 
         Try
             conn = GetConnection()
             If conn Is Nothing Then Return question
 
-            Dim sql As String = "SELECT id, text, level FROM questions ORDER BY RAND() LIMIT 1"
+            ' Filter berdasarkan level (kids/teen/expert)
+            Dim sql As String = "SELECT id, text, level FROM questions WHERE level = @cat ORDER BY RAND() LIMIT 1"
             Dim cmd As New MySqlCommand(sql, conn)
+            cmd.Parameters.AddWithValue("@cat", category.ToLower())
 
             Dim reader As MySqlDataReader = cmd.ExecuteReader()
-
             If reader.Read() Then
                 question.ID = reader.GetInt32("id")
                 question.Text = reader.GetString("text").Trim()
                 question.Level = reader.GetString("level").Trim()
             End If
-
             reader.Close()
-
         Catch ex As Exception
-            ' Perbaikan: Menggunakan Debug.WriteLine untuk logging
             Debug.WriteLine($"Error retrieving random question: {ex.Message}")
             question.ID = -1
         Finally
@@ -104,6 +100,17 @@ Module DatabaseModule
         End Try
 
         Return Tuple.Create(level, totalXP)
+    End Function
+
+    ' FUNGSI MENENTUKAN KATEGORI BERDASARKAN LEVEL
+    Public Function GetUserCategory(ByVal level As Integer) As String
+        If level >= 11 Then
+            Return "EXPERT"
+        ElseIf level >= 6 Then
+            Return "TEEN"
+        Else
+            Return "KIDS"
+        End If
     End Function
 
 End Module

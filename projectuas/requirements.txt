@@ -1,0 +1,13 @@
+
+flask
+flask-cors
+torch
+torchaudio
+transformers
+numpy
+librosa
+g2p_en
+pyttsx3
+nltk
+requests
+matplotlib
