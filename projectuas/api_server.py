@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, send_file
-from flask_cors import CORS
+# from flask_cors import CORS
 import os
 import torch
 import torchaudio
@@ -12,13 +12,14 @@ import pyttsx3
 import tempfile
 import threading
 import nltk
+from scipy.io import wavfile
 
 # Ensure required NLTK data is downloaded
 nltk.download('averaged_perceptron_tagger_eng')
 nltk.download('cmudict')
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
 
 # Configuration
 SAMPLING_RATE = 16000 # Wav2Vec2 expects 16kHz
@@ -46,8 +47,44 @@ def get_detailed_scores(audio_path, target_text):
     """
     Perform granular scoring (Word and Phoneme level)
     """
+    # 0. Check file info
+    if not os.path.exists(audio_path):
+        raise FileNotFoundError(f"Audio file not found at {audio_path}")
+    
+    file_size = os.path.getsize(audio_path)
+    print(f"Loading audio: {audio_path} ({file_size} bytes)")
+    
+    if file_size == 0:
+        raise ValueError("Audio file is empty (0 bytes).")
+
     # 1. Load and resample audio
-    speech, sr = librosa.load(audio_path, sr=SAMPLING_RATE)
+    try:
+        speech, sr = librosa.load(audio_path, sr=SAMPLING_RATE)
+    except Exception as e:
+        print(f"librosa.load failed: {e}. Trying scipy.io.wavfile fallback...")
+        try:
+            # Fallback for standard WAV files if libsndfile/ffmpeg are having issues
+            sr_orig, data = wavfile.read(audio_path)
+            # Convert to float32 and normalize
+            if data.dtype == np.int16:
+                speech = data.astype(np.float32) / 32768.0
+            elif data.dtype == np.int32:
+                speech = data.astype(np.float32) / 2147483648.0
+            else:
+                speech = data.astype(np.float32)
+            
+            # Convert to mono if stereo
+            if len(speech.shape) > 1:
+                speech = np.mean(speech, axis=1)
+                
+            # Resample if needed
+            if sr_orig != SAMPLING_RATE:
+                speech = librosa.resample(speech, orig_sr=sr_orig, target_sr=SAMPLING_RATE)
+            sr = SAMPLING_RATE
+            print("scipy.io.wavfile fallback successful.")
+        except Exception as e2:
+            print(f"All audio loading methods failed. e2: {e2}")
+            raise RuntimeError(f"Could not load audio file. Librosa error: {e}. Scipy error: {e2}")
     
     # 2. Process through model
     inputs = processor(speech, return_tensors="pt", sampling_rate=SAMPLING_RATE)
@@ -119,7 +156,7 @@ def get_detailed_scores(audio_path, target_text):
     overall_score = total_score / len(target_words) if target_words else 0
     duration = librosa.get_duration(y=speech, sr=SAMPLING_RATE)
     
-    return float(overall_score), word_details, round(duration, 2)
+    return float(overall_score), word_details, round(duration, 2), transcription
 
 @app.route('/compare', methods=['POST'])
 def compare():
@@ -133,10 +170,11 @@ def compare():
     audio_file.save(str(temp_path))
     
     try:
-        score, word_details, duration = get_detailed_scores(str(temp_path), target_text)
+        score, word_details, duration, transcription = get_detailed_scores(str(temp_path), target_text)
         return jsonify({
             "status": "success",
             "score": round(score, 2),
+            "transcription": transcription,
             "word_details": word_details,
             "duration": duration,
             "target": target_text

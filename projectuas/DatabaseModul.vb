@@ -23,9 +23,9 @@ Module DatabaseModule
             Return conn
         Catch ex As Exception
             ' Menggunakan Debug.WriteLine untuk logging ke Output Window
-            Debug.WriteLine($"Koneksi DB GAGAL: {ex.Message}")
-            MessageBox.Show($"Koneksi Database Gagal! Pastikan XAMPP (MySQL) berjalan. Error: {ex.Message}",
-                            "Koneksi DB Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Debug.WriteLine($"DB Connection FAILED: {ex.Message}")
+            MessageBox.Show($"Database Connection Failed! Make sure XAMPP (MySQL) is running. Error: {ex.Message}",
+                            "DB Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return Nothing
         End Try
     End Function

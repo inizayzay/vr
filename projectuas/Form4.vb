@@ -73,8 +73,8 @@ Public Class Form4
                 Dim skor As Double = reader.GetDouble("final_score")
                 _historyScores.Add(skor)
 
-                ' Tambahkan baris sesuai urutan kolom baru {No, Tanggal, Nama, Email, Ucapan, Skor}
-                DataGridView1.Rows.Add(no, tgl, nama, email, ucapan, $"{skor:N2}%")
+                ' Tambahkan baris sesuai urutan kolom baru {No, Tanggal, Nama, Email, Skor}
+                DataGridView1.Rows.Add(no, tgl, nama, email, $"{skor:N2}%")
                 no += 1
             End While
 
@@ -84,7 +84,7 @@ Public Class Form4
             DrawProgressChart()
 
         Catch ex As Exception
-            MessageBox.Show($"Gagal memuat data history: {ex.Message}", "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show($"Failed to load history data: {ex.Message}", "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
             DatabaseModule.CloseConnection(conn)
         End Try

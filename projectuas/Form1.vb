@@ -51,7 +51,7 @@ Public Class Form1
         Dim namaPengguna As String = TextBox1.Text.Trim()
 
         If String.IsNullOrEmpty(namaPengguna) Then
-            MessageBox.Show("Nama pengguna tidak boleh kosong.", "Input Required", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBox.Show("Username cannot be empty.", "Input Required", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
@@ -63,7 +63,7 @@ Public Class Form1
             Dim frmUtama As New Form2(namaPengguna, userId)
             frmUtama.Show()
         Else
-            MessageBox.Show("Gagal terhubung ke database atau membuat User ID.", "System Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Failed to connect to database or create User ID.", "System Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -71,7 +71,7 @@ Public Class Form1
     ' 3. EVENT FORM LOAD
     ' =======================================================
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Text = "Halaman Input Nama"
+        Me.Text = "Login Page"
         TextBox1.Focus()
     End Sub
 

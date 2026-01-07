@@ -32,6 +32,7 @@ Public Class Form3
     Private _combinedScore As Double ' Final score
     Private _missingWords As New List(Of String)
     Private _extraWords As New List(Of String)
+    Private _transcriptionAI As String = "" ' NEW: Transcription from AI
 
     ' --- Deklarasi Komponen (Asumsi default names) ---
     ' Label1 = Your score (Kita akan gunakan ini untuk Total Kumulatif)
@@ -58,9 +59,9 @@ Public Class Form3
     ' 2. FORM LOAD (UPDATED TO ASYNC)
     ' =======================================================
     Private Async Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Text = "Hasil Tes Pengucapan"
+        Me.Text = "Pronunciation Test Results"
         Me.StartPosition = FormStartPosition.CenterScreen
-        
+
         ' 0. UPDATE HEADER GREETING (Label5) - SEGERA AGAR TIDAK MUNCUL "User"
         Dim xpData = DatabaseModule.GetUserXPAndLevel(_userId)
         Label5.Text = $"HI, {_namaPengguna} [Lv {xpData.Item1}]"
@@ -105,35 +106,37 @@ Public Class Form3
         Dim saran As String = ""
 
         If _combinedScore >= 95 Then
-            grade = "A+" : gradeColor = Color.Gold : saran = "Luar biasa! Pengucapan Anda sangat sempurna."
+            grade = "A+" : gradeColor = Color.Gold : saran = "Excellent! Your pronunciation is nearly perfect."
         ElseIf _combinedScore >= 85 Then
-            grade = "A" : gradeColor = Color.Green : saran = "Sangat bagus! Pertahankan kelancaran Anda."
+            grade = "A" : gradeColor = Color.Green : saran = "Very good! Maintain your fluency."
         ElseIf _combinedScore >= 70 Then
-            grade = "B" : gradeColor = Color.Blue : saran = "Bagus, tapi coba perhatikan lagi penekanan suaranya."
+            grade = "B" : gradeColor = Color.Blue : saran = "Good, but pay closer attention to your intonation."
         ElseIf _combinedScore >= 50 Then
-            grade = "C" : gradeColor = Color.Orange : saran = "Cukup. Anda perlu lebih banyak berlatih artikulasi."
+            grade = "C" : gradeColor = Color.Orange : saran = "Fair. You need more practice with articulation."
         Else
-            grade = "D" : gradeColor = Color.Red : saran = "Jangan menyerah! Coba dengarkan referensi lebih teliti."
+            grade = "D" : gradeColor = Color.Red : saran = "Don't give up! Try listening to the reference more carefully."
         End If
 
         ' Bangun string detail evaluasi
         Dim detail As New System.Text.StringBuilder()
-        detail.AppendLine("--- DETAIL EVALUASI (FORCE ALIGNMENT) ---")
+        detail.AppendLine("--- EVALUATION DETAIL (FORCE ALIGNMENT) ---")
         detail.AppendLine($"Target: {_teksTarget.ToUpper()}")
+        detail.AppendLine($"Heard : {If(String.IsNullOrEmpty(_transcriptionAI), _teksDiucapkan, _transcriptionAI).ToUpper()}")
         detail.AppendLine("")
-        
-        detail.AppendLine($"SKOR KESELURUHAN: {_scoreFA:N2}%")
-        detail.AppendLine($"Durasi Bicara   : {_duration:N2} detik")
+
+        detail.AppendLine($"OVERALL SCORE: {_scoreFA:N2}%")
+        detail.AppendLine($"Speech Duration   : {_duration:N2} seconds")
         detail.AppendLine("")
-        
-        detail.AppendLine("DETAIL PER KATA & BUNYI (PHONEMES):")
+
+        detail.AppendLine("DETAIL PER WORD & PHONEMES:")
         If _wordDetails IsNot Nothing Then
             For Each wordItem In _wordDetails
                 Dim w = wordItem("word").ToString()
                 Dim s = wordItem("score").ToString()
                 Dim st = wordItem("status").ToString()
+                ' Translate status if needed (though API returns English)
                 detail.AppendLine($"- {w.ToUpper().PadRight(12)}: {s}% ({st})")
-                
+
                 ' Tampilkan detail fonem (bunyi) - VERSI ANAK-ANAK
                 Dim phonemes = wordItem("phonemes")
                 If phonemes IsNot Nothing Then
@@ -142,7 +145,7 @@ Public Class Form3
                         ' Bersihkan kode teknis (buang angka stress spt EY1 -> EY)
                         Dim p = pItem("phoneme").ToString().Replace("0", "").Replace("1", "").Replace("2", "")
                         Dim pSt = pItem("status").ToString()
-                        
+
                         If pSt = "Good" Then
                             pList.Add(p & " ✅")
                         Else
@@ -150,20 +153,20 @@ Public Class Form3
                             pList.Add(p & " ✨")
                         End If
                     Next
-                    detail.AppendLine($"  Suara: {String.Join("  ", pList)}")
+                    detail.AppendLine($"  Audio: {String.Join("  ", pList)}")
                 End If
                 detail.AppendLine("")
             Next
         End If
 
         ' Tambahkan Legenda Sederhana untuk Anak
-        detail.AppendLine("Keterangan:")
-        detail.AppendLine("✅ = Suaramu sudah hebat!")
-        detail.AppendLine("✨ = Ayo kita coba bagian ini lagi agar lebih keren!")
-        
+        detail.AppendLine("Legend:")
+        detail.AppendLine("✅ = Your voice is great!")
+        detail.AppendLine("✨ = Let's try this part again to make it even better!")
+
         detail.AppendLine("")
         detail.AppendLine($"GRADE: {grade}")
-        detail.AppendLine($"SARAN: {saran}")
+        detail.AppendLine($"ADVICE: {saran}")
 
         Label6.Text = detail.ToString()
         Label6.Font = New Font("Segoe UI", 10, FontStyle.Regular)
@@ -172,13 +175,13 @@ Public Class Form3
 
     Private Sub UpdateFeedbackMessage()
         If _combinedScore >= 95.0 Then
-            Label3.Text = "Luar Biasa! Pengucapan Anda sangat akurat."
+            Label3.Text = "Excellent! Your pronunciation is very accurate."
         ElseIf _combinedScore >= 80.0 Then
-            Label3.Text = "Bagus! Terus pertahankan pengucapan Anda."
+            Label3.Text = "Great! Keep maintaining your pronunciation."
         ElseIf _combinedScore >= 60.0 Then
-            Label3.Text = "Cukup baik, tapi masih perlu banyak latihan."
+            Label3.Text = "Good, but still needs a lot of practice."
         Else
-            Label3.Text = "Jangan menyerah! Coba dengarkan lagi contohnya."
+            Label3.Text = "Don't give up! Try listening to the sample again."
         End If
     End Sub
 
@@ -188,20 +191,21 @@ Public Class Form3
     Private Async Function CalculateFASimilarityAsync() As Task(Of Double)
         Try
             Debug.WriteLine("=== FA Calculation Start (API Async) ===") ' Diperbarui
-            
+
             If String.IsNullOrEmpty(_userWavPath) OrElse Not System.IO.File.Exists(_userWavPath) Then
                 Debug.WriteLine("ERROR: No audio file recorded or file not found")
-                MessageBox.Show("Audio file tidak ditemukan. FA score akan 0.", "Audio Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning) ' Diperbarui
+                MessageBox.Show("Audio file not found. FA score will be 0.", "Audio Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning) ' Diperbarui
                 Return 0.0
             End If
 
             ' CALL THE PYTHON API (Force Alignment)
             Dim resultObj As JObject = Await MFCCExtractor.GetAPIResultAsync(_userWavPath, _teksTarget)
-            
+
             _scoreFA = CDbl(resultObj("score"))
             _wordDetails = CType(resultObj("word_details"), JArray)
             _duration = CDbl(resultObj("duration"))
-            
+            _transcriptionAI = resultObj("transcription").ToString() ' NEW
+
             Debug.WriteLine($"FA Score: {_scoreFA:F2}%")
             Debug.WriteLine($"Duration: {_duration:F2}")
             Debug.WriteLine("=== Force Alignment End ===")
@@ -210,13 +214,13 @@ Public Class Form3
 
         Catch ex As Exception
             Debug.WriteLine($"EXCEPTION in CalculateDTWSimilarity (API): {ex.Message}")
-            
+
             ' Tampilkan pesan error jika server tidak jalan
-            MessageBox.Show($"Gagal menghubungi Python API untuk scoring.{vbCrLf}" &
-                           $"Pastikan 'api_server.py' sudah berjalan.{vbCrLf}{vbCrLf}" &
-                           $"Detail Error: {ex.Message}", "API Connection Error", 
+            MessageBox.Show($"Failed to connect to Python API for scoring.{vbCrLf}" &
+                           $"Make sure 'api_server.py' is running.{vbCrLf}{vbCrLf}" &
+                           $"Error Details: {ex.Message}", "API Connection Error",
                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            
+
             Return 0.0
         End Try
     End Function
@@ -248,7 +252,7 @@ Public Class Form3
             cmd.ExecuteNonQuery()
 
         Catch ex As Exception
-            MessageBox.Show($"Gagal menyimpan hasil ke database: {ex.Message}", "DB Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show($"Failed to save results to database: {ex.Message}", "DB Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
             DatabaseModule.CloseConnection(conn)
         End Try
@@ -356,5 +360,28 @@ Public Class Form3
         ' NEW: Buka Form4 (History) dengan userId
         Dim frmHistory As New Form4(_userId)
         frmHistory.ShowDialog() ' Gunakan ShowDialog agar fokus ke history
+    End Sub
+
+    ' Tombol Play Recording (NEW: Diperlukan tombol di Designer)
+    ' Saya asumsikan kita akan menambahkannya nanti atau menggunakan tombol baru
+    Private Sub btnPlayMyVoice_Click(sender As Object, e As EventArgs) Handles btnPlayMyVoice.Click
+        If String.IsNullOrEmpty(_userWavPath) OrElse Not System.IO.File.Exists(_userWavPath) Then
+            MessageBox.Show("Recording file not found.", "Error")
+            Return
+        End If
+
+        Try
+            Using reader As New NAudio.Wave.WaveFileReader(_userWavPath)
+                Using outputDevice As New NAudio.Wave.WaveOutEvent()
+                    outputDevice.Init(reader)
+                    outputDevice.Play()
+                    While outputDevice.PlaybackState = NAudio.Wave.PlaybackState.Playing
+                        Application.DoEvents()
+                    End While
+                End Using
+            End Using
+        Catch ex As Exception
+            MessageBox.Show($"Failed to play recording: {ex.Message}", "Playback Error")
+        End Try
     End Sub
 End Class

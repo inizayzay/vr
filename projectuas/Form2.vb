@@ -52,7 +52,7 @@ Public Class Form2
         currentQuestion = DatabaseModule.GetRandomQuestion()
 
         If currentQuestion.ID <= 0 OrElse String.IsNullOrEmpty(currentQuestion.Text) Then
-            MessageBox.Show("Gagal mengambil pertanyaan dari database. Pastikan tabel 'questions' sudah terisi!", "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Failed to retrieve questions from the database. Make sure the 'questions' table is filled!", "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
 
             ' Tetapkan nilai default aman jika DB gagal atau kosong
             currentQuestion.Text = "Cup"
@@ -96,16 +96,17 @@ Public Class Form2
             recognizer.SetInputToDefaultAudioDevice()
 
             ' Memasangkan Event Handlers
+            ' Attach Event Handlers
             AddHandler recognizer.SpeechRecognized, AddressOf Recognizer_SpeechRecognized
             AddHandler recognizer.RecognizeCompleted, AddressOf Recognizer_RecognizeCompleted
 
-            UpdateStatus("Recognizer siap. Tekan 'Tap to Speak'.")
+            UpdateStatus("Recognizer ready. Press 'Tap to Speak'.")
             Label3.ForeColor = Color.Navy
 
         Catch ex As Exception
-            MessageBox.Show($"Gagal inisialisasi Speech Recognizer: {ex.Message}", "Speech Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show($"Failed to initialize Speech Recognizer: {ex.Message}", "Speech Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Button1.Enabled = False
-            UpdateStatus("ERROR: Pengenalan suara tidak tersedia.")
+            UpdateStatus("ERROR: Speech recognition is unavailable.")
             Label3.ForeColor = Color.Red
         End Try
     End Sub
@@ -185,7 +186,7 @@ Public Class Form2
         Catch ex As Exception
             MessageBox.Show($"Error saat memulai mendengarkan: {ex.Message}", "Recognition Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Button1.Enabled = True
-            UpdateStatus("Kesalahan saat mencoba mendengarkan.")
+            UpdateStatus("Error while trying to listen.")
             Label3.ForeColor = Color.Red
         End Try
 
@@ -237,16 +238,16 @@ Public Class Form2
             If String.IsNullOrEmpty(_teksDiucapkan) Then
                 _teksDiucapkan = "(Manual Stop)"
             End If
-            UpdateStatus("Pengenalan dihentikan manual. Klik NEXT untuk cek skor suara.")
+            UpdateStatus("Recognition stopped manually. Click NEXT to check score.")
             Label3.ForeColor = Color.Blue
         ElseIf String.IsNullOrEmpty(_teksDiucapkan) OrElse e.Result Is Nothing Then
             _teksDiucapkan = "(No Speech Detected)"
-            UpdateStatus("Suara tidak terdeteksi. Klik NEXT untuk tetap mencoba DTW.")
+            UpdateStatus("No speech detected. Click NEXT to try DTW anyway.")
             Label3.ForeColor = Color.Gray
         End If
 
         If Not _teksDiucapkan.StartsWith("[") AndAlso Not _teksDiucapkan.StartsWith("(") Then
-            UpdateStatus($"Selesai. Teks Anda: '{_teksDiucapkan}'. Siap ke scoring.")
+            UpdateStatus($"Finished. Your text: '{_teksDiucapkan}'. Ready for scoring.")
             Label3.ForeColor = Color.Blue
         End If
 
@@ -258,7 +259,7 @@ Public Class Form2
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         ' Izinkan lanjut jika minimal sudah ada file audio
         If String.IsNullOrEmpty(recordedWavPath) OrElse Not System.IO.File.Exists(recordedWavPath) Then
-            MessageBox.Show("Harap rekam suara terlebih dahulu.", "Warning")
+            MessageBox.Show("Please record your voice first.", "Warning")
             Exit Sub
         End If
 
@@ -280,7 +281,7 @@ Public Class Form2
             btnListen.Text = "⌛..."
             Await PlayReferenceAudioAsync(currentQuestion.Text)
         Catch ex As Exception
-            MessageBox.Show($"Gagal memutar contoh suara: {ex.Message}", "TTS Error")
+            MessageBox.Show($"Failed to play sample audio: {ex.Message}", "TTS Error")
         Finally
             btnListen.Enabled = True
             btnListen.Text = "🔊 Listen"

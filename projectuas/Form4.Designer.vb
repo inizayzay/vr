@@ -76,13 +76,13 @@ Partial Class Form4
         ' 
         ' colTanggal
         ' 
-        colTanggal.HeaderText = "Tanggal"
+        colTanggal.HeaderText = "Date"
         colTanggal.MinimumWidth = 6
         colTanggal.Name = "colTanggal"
         ' 
         ' colNama
         ' 
-        colNama.HeaderText = "Nama User"
+        colNama.HeaderText = "User Name"
         colNama.MinimumWidth = 6
         colNama.Name = "colNama"
         ' 
@@ -94,7 +94,7 @@ Partial Class Form4
         ' 
         ' colSkor
         ' 
-        colSkor.HeaderText = "Skor"
+        colSkor.HeaderText = "Score"
         colSkor.MinimumWidth = 6
         colSkor.Name = "colSkor"
         ' 

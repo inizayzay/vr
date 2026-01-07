@@ -1,0 +1,10 @@
+Flask
+flask-cors
+torch
+torchaudio
+transformers
+numpy
+librosa
+g2p-en
+pyttsx3
+nltk

@@ -34,9 +34,10 @@ Partial Class Form3
         Label5 = New Label()
         Label4 = New Label()
         Panel2 = New Panel()
-        PictureBox1 = New PictureBox()
-        Label6 = New Label()
+        btnPlayMyVoice = New Button()
         lblXP = New Label()
+        Label6 = New Label()
+        PictureBox1 = New PictureBox()
         Panel1.SuspendLayout()
         Panel2.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
@@ -44,36 +45,36 @@ Partial Class Form3
         ' 
         ' Label1
         ' 
-        Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = SystemColors.WindowFrame
-        Label1.Location = New Point(318, 10)
+        Label1.Location = New Point(16, 13)
         Label1.Name = "Label1"
-        Label1.Size = New Size(79, 25)
+        Label1.Size = New Size(797, 32)
         Label1.TabIndex = 0
         Label1.Text = "RESULT"
+        Label1.TextAlign = ContentAlignment.TopCenter
         ' 
         ' Label2
         ' 
-        Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI", 72F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Label2.Location = New Point(252, 97)
+        Label2.Location = New Point(0, 129)
         Label2.Name = "Label2"
-        Label2.Size = New Size(219, 128)
+        Label2.Size = New Size(827, 171)
         Label2.TabIndex = 1
         Label2.Text = "100"
+        Label2.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' Label3
         ' 
-        Label3.AutoSize = True
         Label3.Font = New Font("Segoe UI Semibold", 15.75F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
         Label3.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Label3.Location = New Point(309, 225)
+        Label3.Location = New Point(0, 300)
         Label3.Name = "Label3"
-        Label3.Size = New Size(115, 30)
+        Label3.Size = New Size(827, 40)
         Label3.TabIndex = 2
         Label3.Text = "Good Job !"
+        Label3.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' Button1
         ' 
@@ -84,9 +85,10 @@ Partial Class Form3
         Button1.ImageAlign = ContentAlignment.MiddleLeft
         Button1.ImageIndex = 1
         Button1.ImageList = ImageList1
-        Button1.Location = New Point(233, 297)
+        Button1.Location = New Point(265, 518)
+        Button1.Margin = New Padding(3, 4, 3, 4)
         Button1.Name = "Button1"
-        Button1.Size = New Size(118, 23)
+        Button1.Size = New Size(135, 31)
         Button1.TabIndex = 3
         Button1.Text = "Try Again "
         Button1.TextAlign = ContentAlignment.MiddleRight
@@ -110,9 +112,10 @@ Partial Class Form3
         Button2.ImageAlign = ContentAlignment.MiddleLeft
         Button2.ImageIndex = 0
         Button2.ImageList = ImageList1
-        Button2.Location = New Point(386, 297)
+        Button2.Location = New Point(440, 518)
+        Button2.Margin = New Padding(3, 4, 3, 4)
         Button2.Name = "Button2"
-        Button2.Size = New Size(97, 23)
+        Button2.Size = New Size(111, 31)
         Button2.TabIndex = 4
         Button2.Text = "History"
         Button2.TextAlign = ContentAlignment.MiddleRight
@@ -126,8 +129,9 @@ Partial Class Form3
         Panel1.Controls.Add(Label4)
         Panel1.Dock = DockStyle.Top
         Panel1.Location = New Point(0, 0)
+        Panel1.Margin = New Padding(3, 4, 3, 4)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(1008, 80)
+        Panel1.Size = New Size(1152, 107)
         Panel1.TabIndex = 5
         ' 
         ' Label5
@@ -135,9 +139,9 @@ Partial Class Form3
         Label5.AutoSize = True
         Label5.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label5.ForeColor = Color.White
-        Label5.Location = New Point(641, 37)
+        Label5.Location = New Point(733, 49)
         Label5.Name = "Label5"
-        Label5.Size = New Size(83, 25)
+        Label5.Size = New Size(105, 32)
         Label5.TabIndex = 6
         Label5.Text = "HI, User"
         ' 
@@ -146,9 +150,9 @@ Partial Class Form3
         Label4.AutoSize = True
         Label4.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label4.ForeColor = Color.White
-        Label4.Location = New Point(27, 27)
+        Label4.Location = New Point(31, 36)
         Label4.Name = "Label4"
-        Label4.Size = New Size(253, 25)
+        Label4.Size = New Size(319, 32)
         Label4.TabIndex = 5
         Label4.Text = "ENGLISH VOICE LEARNING"
         ' 
@@ -156,6 +160,7 @@ Partial Class Form3
         ' 
         Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         Panel2.BackColor = Color.White
+        Panel2.Controls.Add(btnPlayMyVoice)
         Panel2.Controls.Add(lblXP)
         Panel2.Controls.Add(Label6)
         Panel2.Controls.Add(PictureBox1)
@@ -164,58 +169,73 @@ Partial Class Form3
         Panel2.Controls.Add(Button1)
         Panel2.Controls.Add(Button2)
         Panel2.Controls.Add(Label3)
-        Panel2.Location = New Point(91, 86)
+        Panel2.Location = New Point(104, 115)
+        Panel2.Margin = New Padding(3, 4, 3, 4)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(724, 364)
+        Panel2.Size = New Size(827, 625)
         Panel2.TabIndex = 6
         ' 
-        ' PictureBox1
+        ' btnPlayMyVoice
         ' 
-        PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), Image)
-        PictureBox1.Location = New Point(309, 38)
-        PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(100, 83)
-        PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
-        PictureBox1.TabIndex = 5
-        PictureBox1.TabStop = False
+        btnPlayMyVoice.BackColor = Color.Ivory
+        btnPlayMyVoice.FlatStyle = FlatStyle.Flat
+        btnPlayMyVoice.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        btnPlayMyVoice.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
+        btnPlayMyVoice.Location = New Point(345, 472)
+        btnPlayMyVoice.Name = "btnPlayMyVoice"
+        btnPlayMyVoice.Size = New Size(140, 35)
+        btnPlayMyVoice.TabIndex = 8
+        btnPlayMyVoice.Text = "🔊 Play My Voice"
+        btnPlayMyVoice.UseVisualStyleBackColor = False
+        ' 
+        ' lblXP
+        ' 
+        lblXP.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblXP.ForeColor = Color.DarkOrange
+        lblXP.Location = New Point(-1, 565)
+        lblXP.Name = "lblXP"
+        lblXP.Size = New Size(827, 37)
+        lblXP.TabIndex = 7
+        lblXP.Text = "Level 1 & 1 XP"
+        lblXP.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' Label6
         ' 
         Label6.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label6.ForeColor = Color.DimGray
-        Label6.Location = New Point(49, 255)
+        Label6.Location = New Point(0, 338)
         Label6.Name = "Label6"
-        Label6.Size = New Size(636, 23)
+        Label6.Size = New Size(827, 131)
         Label6.TabIndex = 6
         Label6.Text = "Pronunciation is clear and perfect"
         Label6.TextAlign = ContentAlignment.MiddleCenter
         ' 
-        ' lblXP
+        ' PictureBox1
         ' 
-        lblXP.AutoSize = True
-        lblXP.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblXP.ForeColor = Color.DarkOrange
-        lblXP.Location = New Point(318, 332)
-        lblXP.Name = "lblXP"
-        lblXP.Size = New Size(104, 21)
-        lblXP.TabIndex = 7
-        lblXP.Text = "Level 1 & 1 XP"
+        PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), Image)
+        PictureBox1.Location = New Point(353, 51)
+        PictureBox1.Margin = New Padding(3, 4, 3, 4)
+        PictureBox1.Name = "PictureBox1"
+        PictureBox1.Size = New Size(114, 111)
+        PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox1.TabIndex = 5
+        PictureBox1.TabStop = False
         ' 
         ' Form3
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        ClientSize = New Size(1008, 601)
+        ClientSize = New Size(1152, 801)
         Controls.Add(Panel2)
         Controls.Add(Panel1)
+        Margin = New Padding(3, 4, 3, 4)
         Name = "Form3"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Score Page Results"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         Panel2.ResumeLayout(False)
-        Panel2.PerformLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
@@ -233,4 +253,5 @@ Partial Class Form3
     Friend WithEvents ImageList1 As ImageList
     Friend WithEvents lblXP As Label
     Friend WithEvents Label6 As Label
+    Friend WithEvents btnPlayMyVoice As Button
 End Class
