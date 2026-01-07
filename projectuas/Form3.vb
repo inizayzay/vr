@@ -107,6 +107,8 @@ Public Class Form3
         ' Tentukan Grade berdasarkan Combined Score
         Dim grade As String = "D"
         Dim saran As String = ""
+        Dim gradeColor As Color
+
 
         If _combinedScore >= 95 Then
             grade = "A+" : gradeColor = Color.Gold : saran = "Excellent! Your pronunciation is nearly perfect."
@@ -123,15 +125,15 @@ Public Class Form3
         CenterCard() ' Pastikan panel & tombol di posisi yang benar
 
         ' Atur Posisi Tombol & XP agar Fixed di Bawah Panel2
-        Button1.Top = Panel2.Height - 65
-        Button2.Top = Panel2.Height - 65
-        lblXP.Top = Panel2.Height - 35
-        
+        Button1.Top = scrollPanel.Height - 65
+        Button2.Top = scrollPanel.Height - 65
+        lblXP.Top = scrollPanel.Height - 35
+
         ' Update lblXP dengan data asli
         Dim xpData = DatabaseModule.GetUserXPAndLevel(_userId)
         lblXP.Text = $"Level {xpData.Item1} | {xpData.Item2:N0} XP"
-        lblXP.Left = (Panel2.Width - lblXP.Width) \ 2 ' Center it below buttons
-        
+        lblXP.Left = (scrollPanel.Width - lblXP.Width) \ 2 ' Center it below buttons
+
         ' Pastikan tombol & XP ada di depan (Z-Order)
         Button1.BringToFront()
         Button2.BringToFront()
@@ -194,7 +196,7 @@ Public Class Form3
         Label6.ForeColor = Color.DarkSlateBlue
         Label6.BackColor = Color.FromArgb(240, 240, 240) ' Latar belakang terang agar kontras
         Label6.AutoSize = True
-        Label6.MaximumSize = New Size(scrollPanel.Width - 30, 0)
+        ' Label6.MaximumSize = New Size(scrollPanel.Width - 30, 0)
     End Sub
 
     Private Sub UpdateFeedbackMessage()
@@ -393,10 +395,10 @@ Public Class Form3
     End Sub
 
     Private Sub CenterCard()
-        If Panel2 IsNot Nothing Then
+        If scrollPanel IsNot Nothing Then
             ' Center Panel2 horizontally and vertically
-            Panel2.Left = (Me.ClientSize.Width - Panel2.Width) \ 2
-            Panel2.Top = (Me.ClientSize.Height - Panel2.Height) \ 2 + 40
+            scrollPanel.Left = (Me.ClientSize.Width - scrollPanel.Width) \ 2
+            scrollPanel.Top = (Me.ClientSize.Height - scrollPanel.Height) \ 2 + 40
         End If
 
         ' Greeting Label5 tetap di kanan atas

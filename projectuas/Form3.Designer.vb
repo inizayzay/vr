@@ -33,13 +33,13 @@ Partial Class Form3
         Panel1 = New Panel()
         Label5 = New Label()
         Label4 = New Label()
-        Panel2 = New Panel()
+        scrollPanel = New Panel()
         btnPlayMyVoice = New Button()
         lblXP = New Label()
         Label6 = New Label()
         PictureBox1 = New PictureBox()
         Panel1.SuspendLayout()
-        Panel2.SuspendLayout()
+        scrollPanel.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
@@ -56,11 +56,11 @@ Partial Class Form3
         ' 
         ' Label2
         ' 
-        Label2.Font = New Font("Segoe UI", 72F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.Font = New Font("Segoe UI", 52F, FontStyle.Bold)
         Label2.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Label2.Location = New Point(0, 129)
+        Label2.Location = New Point(3, 151)
         Label2.Name = "Label2"
-        Label2.Size = New Size(827, 171)
+        Label2.Size = New Size(827, 109)
         Label2.TabIndex = 1
         Label2.Text = "100"
         Label2.TextAlign = ContentAlignment.MiddleCenter
@@ -69,7 +69,7 @@ Partial Class Form3
         ' 
         Label3.Font = New Font("Segoe UI Semibold", 15.75F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
         Label3.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        Label3.Location = New Point(0, 300)
+        Label3.Location = New Point(0, 260)
         Label3.Name = "Label3"
         Label3.Size = New Size(827, 40)
         Label3.TabIndex = 2
@@ -85,7 +85,7 @@ Partial Class Form3
         Button1.ImageAlign = ContentAlignment.MiddleLeft
         Button1.ImageIndex = 1
         Button1.ImageList = ImageList1
-        Button1.Location = New Point(265, 518)
+        Button1.Location = New Point(266, 599)
         Button1.Margin = New Padding(3, 4, 3, 4)
         Button1.Name = "Button1"
         Button1.Size = New Size(135, 31)
@@ -112,7 +112,7 @@ Partial Class Form3
         Button2.ImageAlign = ContentAlignment.MiddleLeft
         Button2.ImageIndex = 0
         Button2.ImageList = ImageList1
-        Button2.Location = New Point(440, 518)
+        Button2.Location = New Point(441, 599)
         Button2.Margin = New Padding(3, 4, 3, 4)
         Button2.Name = "Button2"
         Button2.Size = New Size(111, 31)
@@ -156,24 +156,24 @@ Partial Class Form3
         Label4.TabIndex = 5
         Label4.Text = "ENGLISH VOICE LEARNING"
         ' 
-        ' Panel2
+        ' scrollPanel
         ' 
-        Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        Panel2.BackColor = Color.White
-        Panel2.Controls.Add(btnPlayMyVoice)
-        Panel2.Controls.Add(lblXP)
-        Panel2.Controls.Add(Label6)
-        Panel2.Controls.Add(PictureBox1)
-        Panel2.Controls.Add(Label1)
-        Panel2.Controls.Add(Label2)
-        Panel2.Controls.Add(Button1)
-        Panel2.Controls.Add(Button2)
-        Panel2.Controls.Add(Label3)
-        Panel2.Location = New Point(104, 115)
-        Panel2.Margin = New Padding(3, 4, 3, 4)
-        Panel2.Name = "Panel2"
-        Panel2.Size = New Size(827, 625)
-        Panel2.TabIndex = 6
+        scrollPanel.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        scrollPanel.BackColor = Color.White
+        scrollPanel.Controls.Add(btnPlayMyVoice)
+        scrollPanel.Controls.Add(lblXP)
+        scrollPanel.Controls.Add(Label6)
+        scrollPanel.Controls.Add(PictureBox1)
+        scrollPanel.Controls.Add(Label1)
+        scrollPanel.Controls.Add(Label2)
+        scrollPanel.Controls.Add(Button1)
+        scrollPanel.Controls.Add(Button2)
+        scrollPanel.Controls.Add(Label3)
+        scrollPanel.Location = New Point(104, 115)
+        scrollPanel.Margin = New Padding(3, 4, 3, 4)
+        scrollPanel.Name = "scrollPanel"
+        scrollPanel.Size = New Size(827, 683)
+        scrollPanel.TabIndex = 6
         ' 
         ' btnPlayMyVoice
         ' 
@@ -181,7 +181,7 @@ Partial Class Form3
         btnPlayMyVoice.FlatStyle = FlatStyle.Flat
         btnPlayMyVoice.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         btnPlayMyVoice.ForeColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
-        btnPlayMyVoice.Location = New Point(345, 472)
+        btnPlayMyVoice.Location = New Point(346, 553)
         btnPlayMyVoice.Name = "btnPlayMyVoice"
         btnPlayMyVoice.Size = New Size(140, 35)
         btnPlayMyVoice.TabIndex = 8
@@ -192,7 +192,7 @@ Partial Class Form3
         ' 
         lblXP.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblXP.ForeColor = Color.DarkOrange
-        lblXP.Location = New Point(-1, 565)
+        lblXP.Location = New Point(0, 646)
         lblXP.Name = "lblXP"
         lblXP.Size = New Size(827, 37)
         lblXP.TabIndex = 7
@@ -203,12 +203,12 @@ Partial Class Form3
         ' 
         Label6.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label6.ForeColor = Color.DimGray
-        Label6.Location = New Point(0, 338)
+        Label6.Location = New Point(0, 300)
         Label6.Name = "Label6"
-        Label6.Size = New Size(827, 131)
+        Label6.Size = New Size(827, 250)
         Label6.TabIndex = 6
-        Label6.Text = "Pronunciation is clear and perfect"
-        Label6.TextAlign = ContentAlignment.MiddleCenter
+        Label6.Text = "Evaluating in process.."
+        Label6.TextAlign = ContentAlignment.TopCenter
         ' 
         ' PictureBox1
         ' 
@@ -227,7 +227,7 @@ Partial Class Form3
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(108), CByte(92), CByte(231))
         ClientSize = New Size(1152, 801)
-        Controls.Add(Panel2)
+        Controls.Add(scrollPanel)
         Controls.Add(Panel1)
         Margin = New Padding(3, 4, 3, 4)
         Name = "Form3"
@@ -235,7 +235,7 @@ Partial Class Form3
         Text = "Score Page Results"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
-        Panel2.ResumeLayout(False)
+        scrollPanel.ResumeLayout(False)
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
@@ -246,7 +246,7 @@ Partial Class Form3
     Friend WithEvents Button1 As Button
     Friend WithEvents Button2 As Button
     Friend WithEvents Panel1 As Panel
-    Friend WithEvents Panel2 As Panel
+    Friend WithEvents scrollPanel As Panel
     Friend WithEvents Label4 As Label
     Friend WithEvents Label5 As Label
     Friend WithEvents PictureBox1 As PictureBox
