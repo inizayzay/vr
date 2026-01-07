@@ -1,0 +1,23 @@
+# Visual Studio
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Project specific
+temp_audio/
+python_installer.exe
+*.wav
+*.mp3
+
+# Database
+*.sql
+!add_levels.sql

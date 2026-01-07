@@ -62,9 +62,13 @@ Public Class Form3
         Me.Text = "Pronunciation Test Results"
         Me.StartPosition = FormStartPosition.CenterScreen
 
+
         ' 0. UPDATE HEADER GREETING (Label5) - SEGERA AGAR TIDAK MUNCUL "User"
         Dim xpData = DatabaseModule.GetUserXPAndLevel(_userId)
-        Label5.Text = $"HI, {_namaPengguna} [Lv {xpData.Item1}]"
+        Dim category = DatabaseModule.GetUserCategory(xpData.Item1)
+        Label5.Text = $"HI, {_namaPengguna} ({category}) [Lv {xpData.Item1}]"
+
+        CenterCard() ' Posisi awal
 
         ' Tampilkan status loading sementara (Opsional)
         Label2.Text = "Calculating..."
@@ -102,7 +106,6 @@ Public Class Form3
     Private Sub UpdateDetailedEvaluation()
         ' Tentukan Grade berdasarkan Combined Score
         Dim grade As String = "D"
-        Dim gradeColor As Color = Color.Red
         Dim saran As String = ""
 
         If _combinedScore >= 95 Then
@@ -117,7 +120,25 @@ Public Class Form3
             grade = "D" : gradeColor = Color.Red : saran = "Don't give up! Try listening to the reference more carefully."
         End If
 
-        ' Bangun string detail evaluasi
+        CenterCard() ' Pastikan panel & tombol di posisi yang benar
+
+        ' Atur Posisi Tombol & XP agar Fixed di Bawah Panel2
+        Button1.Top = Panel2.Height - 65
+        Button2.Top = Panel2.Height - 65
+        lblXP.Top = Panel2.Height - 35
+        
+        ' Update lblXP dengan data asli
+        Dim xpData = DatabaseModule.GetUserXPAndLevel(_userId)
+        lblXP.Text = $"Level {xpData.Item1} | {xpData.Item2:N0} XP"
+        lblXP.Left = (Panel2.Width - lblXP.Width) \ 2 ' Center it below buttons
+        
+        ' Pastikan tombol & XP ada di depan (Z-Order)
+        Button1.BringToFront()
+        Button2.BringToFront()
+        lblXP.BringToFront()
+
+
+        ' Bangun string detail evaluasi yang LEBIH RAPI & DETAIL
         Dim detail As New System.Text.StringBuilder()
         detail.AppendLine("--- EVALUATION DETAIL (FORCE ALIGNMENT) ---")
         detail.AppendLine($"Target: {_teksTarget.ToUpper()}")
@@ -142,20 +163,20 @@ Public Class Form3
                 If phonemes IsNot Nothing Then
                     Dim pList As New List(Of String)
                     For Each pItem In phonemes
-                        ' Bersihkan kode teknis (buang angka stress spt EY1 -> EY)
                         Dim p = pItem("phoneme").ToString().Replace("0", "").Replace("1", "").Replace("2", "")
                         Dim pSt = pItem("status").ToString()
 
                         If pSt = "Good" Then
-                            pList.Add(p & " ✅")
+                            pList.Add("[" & p & " ✅]")
+                        ElseIf pSt = "Missing" Then
+                            pList.Add("[" & p & " ❌]")
                         Else
-                            ' Versi "Needs Work" atau "Missing" diberi simbol bintang untuk menyemangati
-                            pList.Add(p & " ✨")
+                            pList.Add("[" & p & " ✨]")
                         End If
                     Next
                     detail.AppendLine($"  Audio: {String.Join("  ", pList)}")
                 End If
-                detail.AppendLine("")
+                detail.AppendLine("----------------------------------------")
             Next
         End If
 
@@ -169,8 +190,11 @@ Public Class Form3
         detail.AppendLine($"ADVICE: {saran}")
 
         Label6.Text = detail.ToString()
-        Label6.Font = New Font("Segoe UI", 10, FontStyle.Regular)
-        Label6.TextAlign = ContentAlignment.TopLeft
+        Label6.Font = New Font("Consolas", 9, FontStyle.Bold)
+        Label6.ForeColor = Color.DarkSlateBlue
+        Label6.BackColor = Color.FromArgb(240, 240, 240) ' Latar belakang terang agar kontras
+        Label6.AutoSize = True
+        Label6.MaximumSize = New Size(scrollPanel.Width - 30, 0)
     End Sub
 
     Private Sub UpdateFeedbackMessage()
@@ -192,6 +216,7 @@ Public Class Form3
         Try
             Debug.WriteLine("=== FA Calculation Start (API Async) ===") ' Diperbarui
 
+
             If String.IsNullOrEmpty(_userWavPath) OrElse Not System.IO.File.Exists(_userWavPath) Then
                 Debug.WriteLine("ERROR: No audio file recorded or file not found")
                 MessageBox.Show("Audio file not found. FA score will be 0.", "Audio Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning) ' Diperbarui
@@ -200,6 +225,7 @@ Public Class Form3
 
             ' CALL THE PYTHON API (Force Alignment)
             Dim resultObj As JObject = Await MFCCExtractor.GetAPIResultAsync(_userWavPath, _teksTarget)
+
 
             _scoreFA = CDbl(resultObj("score"))
             _wordDetails = CType(resultObj("word_details"), JArray)
@@ -215,11 +241,13 @@ Public Class Form3
         Catch ex As Exception
             Debug.WriteLine($"EXCEPTION in CalculateDTWSimilarity (API): {ex.Message}")
 
+
             ' Tampilkan pesan error jika server tidak jalan
             MessageBox.Show($"Failed to connect to Python API for scoring.{vbCrLf}" &
                            $"Make sure 'api_server.py' is running.{vbCrLf}{vbCrLf}" &
                            $"Error Details: {ex.Message}", "API Connection Error",
                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+
 
             Return 0.0
         End Try
@@ -355,8 +383,29 @@ Public Class Form3
         frmUtama.Show()
     End Sub
 
-    ' Tombol Exit (Button2) -> SEKARANG JADI Tombol History
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+    ' Tombol Exit (Button2) -> SEKARANG
+    ' =======================================================
+    ' NEW: RESPONSIVE CENTERING LOGIC
+    ' =======================================================
+    Private Sub Form3_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+        CenterCard()
+        Me.Invalidate()
+    End Sub
+
+    Private Sub CenterCard()
+        If Panel2 IsNot Nothing Then
+            ' Center Panel2 horizontally and vertically
+            Panel2.Left = (Me.ClientSize.Width - Panel2.Width) \ 2
+            Panel2.Top = (Me.ClientSize.Height - Panel2.Height) \ 2 + 40
+        End If
+
+        ' Greeting Label5 tetap di kanan atas
+        Label5.Left = Me.ClientSize.Width - Label5.Width - 30
+        Label5.Top = 30
+    End Sub
+
+    ' Button History Click
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles Button2.Click
         ' NEW: Buka Form4 (History) dengan userId
         Dim frmHistory As New Form4(_userId)
         frmHistory.ShowDialog() ' Gunakan ShowDialog agar fokus ke history

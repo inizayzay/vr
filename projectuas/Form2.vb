@@ -47,9 +47,10 @@ Public Class Form2
     ' 2. FORM LOAD (Mengambil Pertanyaan Baru dan Inisialisasi)
     ' =======================================================
     Private Sub Form2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         ' --- AMBIL PERTANYAAN DARI DATABASE ---
-        currentQuestion = DatabaseModule.GetRandomQuestion()
+        Dim xpDataLoad = DatabaseModule.GetUserXPAndLevel(_userId)
+        Dim categoryLoad = DatabaseModule.GetUserCategory(xpDataLoad.Item1)
+        currentQuestion = DatabaseModule.GetRandomQuestion(categoryLoad)
 
         If currentQuestion.ID <= 0 OrElse String.IsNullOrEmpty(currentQuestion.Text) Then
             MessageBox.Show("Failed to retrieve questions from the database. Make sure the 'questions' table is filled!", "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -61,9 +62,10 @@ Public Class Form2
             Button1.Enabled = False
         End If
 
-        ' Set Judul "Hi, User" (Label3) + LEVEL
+        ' Set Judul "Hi, User" (Label3) + LEVEL + CATEGORY
         Dim xpData = DatabaseModule.GetUserXPAndLevel(_userId)
-        Label3.Text = $"HI, {_namaPengguna} [Lv {xpData.Item1}]"
+        Dim category = DatabaseModule.GetUserCategory(xpData.Item1)
+        Label3.Text = $"HI, {_namaPengguna} ({category}) [Lv {xpData.Item1}]"
 
         ' Inisialisasi PictureBox Waveform
         InitializeWaveform()
@@ -74,7 +76,33 @@ Public Class Form2
 
         Button2.Enabled = False
 
+        CenterCard() ' Posisi awal di tengah
         InitializeSpeechRecognizer()
+    End Sub
+
+    ' =======================================================
+    ' NEW: RESPONSIVE CENTERING LOGIC
+    ' =======================================================
+    Private Sub Form2_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+        CenterCard()
+        Me.Invalidate() ' Trigger OnPaintBackground to redraw gradient
+    End Sub
+
+    Private Sub CenterCard()
+        If Panel3 IsNot Nothing Then
+            ' Center Panel3 horizontally and vertically (slightly above center)
+            Panel3.Left = (Me.ClientSize.Width - Panel3.Width) \ 2
+            Panel3.Top = (Me.ClientSize.Height - Panel3.Height) \ 2 + 30
+        End If
+
+        ' Posisikan Label3 (Greeting) di kanan atas
+        Label3.Left = Me.ClientSize.Width - Label3.Width - 20
+        Label3.Top = 15
+        ' Posisikan PictureBox1 (Icon) di kiri Label3
+        If PictureBox1 IsNot Nothing Then
+            PictureBox1.Left = Label3.Left - PictureBox1.Width - 5
+            PictureBox1.Top = Label3.Top - 5
+        End If
     End Sub
 
     ' =======================================================
@@ -348,7 +376,8 @@ Public Class Form2
         Dim max As Single = 0
         For i As Integer = 0 To bytesRecorded - 2 Step 2
             Dim sample As Short = BitConverter.ToInt16(buffer, i)
-            Dim absSample As Single = Math.Abs(sample) / 32768.0F
+            ' Fix: Cast sample to Single before Math.Abs to avoid overflow with -32768
+            Dim absSample As Single = Math.Abs(CSng(sample)) / 32768.0F
             If absSample > max Then max = absSample
         Next
 
@@ -393,8 +422,10 @@ Public Class Form2
     ' karena kemungkinan sudah dideklarasikan di Form2.Designer.vb.
 
     Private Sub UpdateStatus(ByVal message As String)
-        Dim level As String = If(currentQuestion.Level, "?")
-        Label3.Text = $"Hi, {_namaPengguna} ({level}) | {message}"
+        Dim xpData = DatabaseModule.GetUserXPAndLevel(_userId)
+        Dim category = DatabaseModule.GetUserCategory(xpData.Item1)
+        Label3.Text = $"Hi, {_namaPengguna} ({category}) | {message}"
+        CenterCard() ' Ensure layout updates if text changes length
     End Sub
 
     Private Sub btnHistory_Click_1(sender As Object, e As EventArgs) Handles btnHistory.Click

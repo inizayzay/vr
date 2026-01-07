@@ -1,4 +1,4 @@
-Flask
+flask
 flask-cors
 torch
 torchaudio
@@ -8,3 +8,5 @@ librosa
 g2p-en
 pyttsx3
 nltk
+requests
+matplotlib
